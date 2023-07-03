@@ -1,16 +1,39 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
+import { useNavigate} from "react-router-dom"
+import axios from "axios";
+import { UserApi } from "../../../Store/api";
 
 function Signup() {
-    const [fName,setFname]=useState('')
-    const [lName,setLname]=useState('')
-    const [Mobile,setMobile]=useState('')
-    const [email,setEmail]=useState('')
-    const [password,setPassword]=useState('')
-    const [confPass,setConfPass]=useState('')
+    const navigate = useNavigate()
+  const [fName, setFname] = useState("");
+  const [lName, setLname] = useState("");
+  const [Mobile, setMobile] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confPass, setConfPass] = useState("");
 
-    const submitForm=()=>{
-    console.log(fName,lName,Mobile,email,password,confPass)
+  const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+    try {
+      await axios
+        .post(`${UserApi}postSignup`, {
+          fName,
+          lName,
+          Mobile,
+          email,
+          password,
+          confPass,
+        })
+        .then((response) => {
+          console.log(response);
+          if(response.data?.message ==="Success"){
+            navigate("/userLogin")
+          }
+        });
+    } catch (error) {
+      console.error(error);
     }
+  };
 
   return (
     <div
@@ -32,62 +55,67 @@ function Signup() {
           <h2>Create your free account</h2>
         </div>
         {/* input div */}
-        <div className=" flex flex-col items-center mt-2">
+        <form onSubmit={submitForm}>
+          <div className=" flex flex-col items-center mt-2">
             {/* left */}
-          <div className="left flex flex-row mr-1 gap-2">
-            <input
-              type="text"
-              placeholder="First Name"
-              className="placeholder-gray-500 pl-2 text-xs w-36 h-7 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md mt-5"
-              onChange={(e)=>setFname(e.target.value)}
-              />
-            <input
-              type="text"
-              placeholder="LastName"
-              className="placeholder-gray-500 pl-2 text-xs w-36 h-7 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md mt-5"
-              onChange={(e)=>setLname(e.target.value)}
-            />
-              </div>
-              <div className="second flex flex-row mr-1 gap-2">
-
-            <input
-              type="text"
-              placeholder="Mobile"
-              className="placeholder-gray-500 pl-2 text-xs w-36 h-7 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md mt-5"
-              maxLength={10}
-              onChange={(e)=>setMobile(e.target.value)}
+            <div className="left flex flex-row mr-1 gap-2">
+              <input
+                type="text"
+                placeholder="First Name"
+                className="placeholder-gray-500 pl-2 text-xs w-36 h-7 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md mt-5"
+                onChange={(e) => setFname(e.target.value)}
               />
               <input
-              type="text"
-              placeholder="Email id"
-              className="placeholder-gray-500 pl-2 text-xs w-36 h-7 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md mt-5"
-              onChange={(e)=>setEmail(e.target.value)}
-            />
-              </div>
-          {/* right */}
-          <div className="right flex flex-row mr-1 gap-2">
-            
-            <input
-              type="text"
-              placeholder="Password"
-              minLength={6}
-              className="placeholder-gray-500 pl-2 text-xs w-36 h-7 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md mt-5"
-              onChange={(e)=>setPassword(e.target.value)}
-            />
-            <input
-              type="text"
-              minLength={6}
-              placeholder="confirm Password"
-              className="placeholder-gray-500 pl-2 text-xs w-36 h-7 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md mt-5"
-              onChange={(e)=>setConfPass(e.target.value)}
-            />
+                type="text"
+                placeholder="LastName"
+                className="placeholder-gray-500 pl-2 text-xs w-36 h-7 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md mt-5"
+                onChange={(e) => setLname(e.target.value)}
+              />
+            </div>
+            <div className="second flex flex-row mr-1 gap-2">
+              <input
+                type="text"
+                placeholder="Mobile"
+                className="placeholder-gray-500 pl-2 text-xs w-36 h-7 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md mt-5"
+                maxLength={10}
+                onChange={(e) => setMobile(e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Email id"
+                className="placeholder-gray-500 pl-2 text-xs w-36 h-7 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md mt-5"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            {/* right */}
+            <div className="right flex flex-row mr-1 gap-2">
+              <input
+                type="text"
+                placeholder="Password"
+                minLength={6}
+                className="placeholder-gray-500 pl-2 text-xs w-36 h-7 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md mt-5"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <input
+                type="text"
+                minLength={6}
+                placeholder="confirm Password"
+                className="placeholder-gray-500 pl-2 text-xs w-36 h-7 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md mt-5"
+                onChange={(e) => setConfPass(e.target.value)}
+              />
+            </div>
           </div>
-        </div>
 
-        {/* submit div */}
-        <div>
-          <button className="bg-blue-400 w-20 h-6 rounded-md border-2 mt-2 border-black text-sm" onClick={submitForm}>Signup</button>
-        </div>
+          {/* submit div */}
+          <div className="flex justify-center">
+            <button
+              className="bg-blue-400 w-20 h-6 rounded-md border-2 mt-2 border-black text-sm"
+             
+            >
+              Signup
+            </button>
+          </div>
+        </form>
         <div>
           <h6></h6>
           <p></p>
