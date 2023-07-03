@@ -1,11 +1,10 @@
-import React from 'react'
-import NavNar from '../../components/User/NavBar/NavNar'
+import Navbar from '../../components/User/NavBar/Navbar'
 import Footer from '../../components/User/Footer/Footer'
 
 function Home() {
   return (
     <div>
-        <NavNar/>
+        <Navbar/>
         <Footer/>
     </div>
   )
