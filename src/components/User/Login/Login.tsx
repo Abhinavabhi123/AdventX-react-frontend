@@ -33,13 +33,13 @@ function Login() {
           "url('https://i.pinimg.com/originals/05/b3/1a/05b31a061a39390c2dcb058aded8fa44.jpg')",
       }}
     >
-      <div className="bg-white w-96 h-96 border-2 border-solid border-black rounded-lg m-3">
+      <div className="bg-white bg-opacity-20 w-96 h-96 rounded-lg m-3">
         <div className="bg-transparent flex flex-col items-center justify-center mt-5">
           <h4 className="bg-transparent">Welcome back. </h4>
           <h4 className="bg-transparent">Log in and start exploring.</h4>
         </div>
         <form onSubmit={submitHandler}>
-          <div className="flex flex-col w-full items-center justify-center mt-5">
+          <div className="flex flex-col  items-center justify-center mt-5">
             <input
               type="email"
               placeholder="Enter Email"
@@ -60,7 +60,7 @@ function Login() {
           </div>
           {/* bottom area */}
           <div className="w-full bg-transparent h-36 rounded-lg flex items-center flex-col">
-            <div className="w-60 h-0.5 mt-1 bg-gray-400"></div>
+            <div className="w-60 h-px mt-3 bg-gray-400"></div>
             <button
               className="bg-blue-500 w-60 h-8 rounded-full mt-2"
               onClick={() => navigate("/userSignup")}

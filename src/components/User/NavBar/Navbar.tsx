@@ -1,7 +1,7 @@
 import React from "react";
 import {useNavigate} from "react-router-dom"
 
-function NavNar() {
+function NavBar() {
   const navigate = useNavigate()
   return (
     <div className="navBar  bg-white w-screen h-20 flex flex-row items-center border-2">
@@ -22,10 +22,10 @@ function NavNar() {
             </ul>
           </div>
         </div>
-        <div className="mr-3 flex bg-green-300 justify-between w-18">
-          <div className=" flex justify-between bg-red-600">
+        <div className="mr-3 flex  justify-between w-18">
+          <div className=" flex w-40 justify-between">
            
-            <button className="w-36 h-6 bg-gray-400 text-white rounded-full text-xs">
+            <button className="w-36 h-6 bg-green-500 text-white rounded-full text-xs">
             <img className="w-20 rounded-full"
              src="" alt=""/> 
             
@@ -41,4 +41,4 @@ function NavNar() {
   );
 }
 
-export default NavNar;
+export default NavBar;

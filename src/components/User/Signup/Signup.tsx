@@ -1,10 +1,24 @@
-import React, { useState } from "react";
-import { useNavigate} from "react-router-dom"
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { UserApi } from "../../../Store/api";
+import OTP from "../OTP/OTP";
+import UserEmailContext from "../../../Store/Context/Context";
+type userDataType = {
+  fName: string;
+  lName: string;
+  Mobile: string;
+  email: string;
+  password: string;
+};
 
 function Signup() {
-    const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [showOpt, setShowOtp] = useState(false);
+  useEffect(() => {
+    console.log();
+  }, [showOpt]);
+
   const [fName, setFname] = useState("");
   const [lName, setLname] = useState("");
   const [Mobile, setMobile] = useState("");
@@ -13,37 +27,43 @@ function Signup() {
   const [confPass, setConfPass] = useState("");
 
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
+    e.preventDefault();
     try {
-      await axios
-        .post(`${UserApi}postSignup`, {
-          fName,
-          lName,
-          Mobile,
-          email,
-          password,
-          confPass,
-        })
-        .then((response) => {
-          console.log(response);
-          if(response.data?.message ==="Success"){
-            navigate("/userLogin")
-          }
-        });
+      await axios.post(`${UserApi}sendOpt`, { email }).then((response) => {
+        console.log(response);
+        if (response.data.message) {
+          setShowOtp(true);
+        }
+      });
     } catch (error) {
       console.error(error);
     }
   };
+  const userData: userDataType = {
+    fName,
+    lName,
+    Mobile,
+    email,
+    password,
+  };
+  if (showOpt === true) {
+    return (
+      <UserEmailContext.Provider value={userData}>
+        <OTP />
+      </UserEmailContext.Provider>
+    );
+  }
 
   return (
     <div
       style={{
         height: "50rem",
-        backgroundSize: "100reM 50rem",
+        backgroundSize: "100rem 50rem",
         backgroundImage:
           "url('https://images8.alphacoders.com/109/1092575.jpg')",
+          backgroundRepeat: "no-repeat"
       }}
-      className="flex justify-center items-center"
+      className="flex justify-center items-center w-screen "
     >
       <div className=" bg-white rounded-md w-96 h-96 flex flex-col items-center">
         <div className="flex flex-col items-center">
@@ -108,10 +128,7 @@ function Signup() {
 
           {/* submit div */}
           <div className="flex justify-center">
-            <button
-              className="bg-blue-400 w-20 h-6 rounded-md border-2 mt-2 border-black text-sm"
-             
-            >
+            <button className="bg-blue-400 w-20 h-6 rounded-md border-2 mt-2 border-black text-sm">
               Signup
             </button>
           </div>
