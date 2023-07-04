@@ -15,8 +15,8 @@ function Login() {
     .post(`${UserApi}getUsers`, { email, password })
     .then((response) => {
       console.log(response);
-      if (response.data?.message === "success") {
-        navigate("/login");
+      if (response.data?.message === "Access granted") {
+        navigate("/");
       }
     });
    } catch (error) {
@@ -41,7 +41,7 @@ function Login() {
         <form onSubmit={submitHandler}>
           <div className="flex flex-col w-full items-center justify-center mt-5">
             <input
-              type="text"
+              type="email"
               placeholder="Enter Email"
               className="placeholder-gray-500 pl-2 text-xs w-60 h-7 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md mt-5"
               onChange={(e) => setEmail(e.target.value)}

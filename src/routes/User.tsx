@@ -10,6 +10,7 @@ function User() {
         <Route path="/" element={<Home/>}/>
         <Route path="/userLogin"  element={<UserLogin/>}/>
         <Route path="/userSignup"  element={<UserSignup/>}/>
+        <Route path="/OTP"  element={<UserSignup/>}/>
       </Routes>
     </div>
   )

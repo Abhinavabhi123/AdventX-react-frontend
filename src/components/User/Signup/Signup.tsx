@@ -74,9 +74,9 @@ function Signup() {
             </div>
             <div className="second flex flex-row mr-1 gap-2">
               <input
-                type="text"
+                type="number"
                 placeholder="Mobile"
-                className="placeholder-gray-500 pl-2 text-xs w-36 h-7 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md mt-5"
+                className="placeholder-gray-500 pl-2 text-xs w-36 h-7 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md mt-5 spin-button-none"
                 maxLength={10}
                 onChange={(e) => setMobile(e.target.value)}
               />
