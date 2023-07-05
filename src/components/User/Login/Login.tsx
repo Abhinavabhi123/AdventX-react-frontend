@@ -12,7 +12,7 @@ function Login() {
       e.preventDefault()
    try {
     await axios
-    .post(`${UserApi}getUsers`, { email, password })
+    .post(`${UserApi}userLogin`, { email, password },{withCredentials:true})
     .then((response) => {
       console.log(response);
       if (response.data?.message === "Access granted") {
