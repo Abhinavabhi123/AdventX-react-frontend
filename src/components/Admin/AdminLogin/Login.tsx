@@ -15,7 +15,7 @@ function Login() {
       console.log(response.data);
       
       if(response.data?.access === true){
-        navigate("/dashboard")
+        navigate("/admin/dashboard")
       }
       
      })

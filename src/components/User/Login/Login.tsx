@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserApi } from "../../../Store/api";
 import axios from "axios";
-
+import { useDispatch } from "react-redux/es/exports";
+import { userActions } from "../../../Store/redux/UserAuth";
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch()
 
   const submitHandler = async (e:React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
@@ -14,8 +16,12 @@ function Login() {
     await axios
     .post(`${UserApi}userLogin`, { email, password },{withCredentials:true})
     .then((response) => {
-      console.log(response);
-      if (response.data?.message === "Access granted") {
+      const result =response?.data
+      if (result.message === "Access granted" && result.status ===200) {
+       console.log(result,"it is the result of the response");
+       const userName = `${result.userData?.firstName} ${result.userData?.lastName}`
+       dispatch(userActions.userAddDetails({userName:userName,email:result?.userData?.email,userToken:result?.jwtToken,loggedIn:result?.loggedIn}))
+       
         navigate("/");
       }
     });
