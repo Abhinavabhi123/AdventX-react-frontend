@@ -1,0 +1,10 @@
+.communityBody{
+    width: 100vw;
+    height: 100vh;
+    background-color: red;
+}
+.communityBody .communitySide{
+    width: 18rem;
+    height: 100vh;
+    background-color: greenyellow;
+}

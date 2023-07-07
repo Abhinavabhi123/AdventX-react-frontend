@@ -11,10 +11,11 @@ import { userActions } from "../Store/redux/UserAuth";
 function User() {
   const dispatch = useDispatch()
   
-  // const [cookies] = useCookies(['jwtToken']);
+  // const [cookies,setcookie] = useCookies(['jwtToken']);
   // console.log(cookies['jwtToken']);
+  // console.log(cookies);
   useEffect(()=>{
-    // console.log(cookies);
+    console.log();
     
   },[])
   return (

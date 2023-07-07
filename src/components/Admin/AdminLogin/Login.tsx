@@ -11,7 +11,7 @@ function Login() {
   const formSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-     await axios.post(`${AdminApi}AdminLogin`,{email,password}).then((response)=>{
+     await axios.post(`${AdminApi}AdminLogin`,{email,password},{withCredentials:true}).then((response)=>{
       console.log(response.data);
       
       if(response.data?.access === true){

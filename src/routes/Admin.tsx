@@ -3,7 +3,21 @@ import AdminLogin from "../pages/Admin/AdminLogin"
 import AdminDashboard from "../pages/Admin/AdminDashboard"
 import Community from "../pages/Admin/Community"
 import UserManagement from "../pages/Admin/UserManagement"
+
+// import {useCookies} from "react-cookie"
 function Admin() {
+  // const [cookies, setcookies] = useCookies(['AdminJwt'])
+  // console.log(cookies);
+
+  
+  const cookie = document.cookie.match(/AdminJwt=([^;]+)/);
+  console.log(cookie);
+  
+  if (cookie) {
+    const token = cookie[1];
+    // Do something with the token
+  }
+  
   return (
     <div>
         <Routes>

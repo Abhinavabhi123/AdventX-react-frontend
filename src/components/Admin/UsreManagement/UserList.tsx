@@ -5,6 +5,7 @@ import TableRow from "./TableRow";
 
 function UserList() {
   const [users, setUsers] = useState([]);
+ 
 
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
@@ -13,7 +14,7 @@ function UserList() {
       });
     };
     fetchData();
-  }, [users]);
+  }, []);
 
   return (
     <div className="w-[71rem] h-[76rem] rounded-md bg-gray-500 bg-opacity-20">
@@ -30,7 +31,7 @@ function UserList() {
         </thead>
         <tbody>
           {users.map((data,i) => {
-            return <TableRow key={i} value={data} />;
+            return <TableRow key={i} value={data}/>;
           })}
         </tbody>
       </table>

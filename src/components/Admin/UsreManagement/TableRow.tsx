@@ -1,26 +1,63 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { AdminApi } from "../../../Store/api";
+import { useRowState } from "react-table";
 
-interface Value {
+interface TableRowProps {
   value: any;
+
+}
+interface User {
+  name: string;
+  email: string;
+  mobile: string;
+  primeMember: undefined;
+  status: undefined;
 }
 
-function TableRow({ value }: Value) {
-  const { _id, firstName, lastName, mobile, email, primeMember, status } =
-    value;
+const TableRow: React.FC<TableRowProps> = ({ value}) => {
+  const { _id } = value;
+  const [user, setUser] = useState<User>({
+    name: "",
+    email: "",
+    mobile: "",
+    primeMember: undefined,
+    status: undefined,
+  });
 
-  const name = firstName + " " + lastName;
+  
+  const id = _id;
+
+  
+  useEffect(() => {
+
+    
+    const fetchSingleUser = async () => {
+      await axios
+        .get(`${AdminApi}singleUser`, {
+          params: { id },
+        })
+        .then((response) => {
+          setUser(response.data);
+        });
+    };
+    fetchSingleUser();
+  },[]);
+
+  const { name, email, mobile, primeMember, status } = user;
 
   const blockUser = async () => {
     try {
-        console.log("Clicked");
+      console.log("Clicked");
+      await axios.post(`${AdminApi}blockUser`, { _id }).then((response)=>{
+        setUser(response.data)
         
-        await axios.post(`${AdminApi}blockUser`,{_id})
+      })
     } catch (error) {
       console.error(error);
     }
   };
+
   return (
     <tr className="h-10 border-2 border-gray-600">
       <td className="text-center">{_id} </td>
@@ -43,13 +80,16 @@ function TableRow({ value }: Value) {
         </td>
       ) : (
         <td className="text-center ">
-          <button className="text-xs bg-red-600 w-20 h-5 rounded-md text-white" onClick={blockUser}>
+          <button
+            className="text-xs bg-red-600 w-20 h-5 rounded-md text-white"
+            onClick={blockUser}
+          >
             UnBlock
           </button>
         </td>
       )}
     </tr>
   );
-}
+};
 
 export default TableRow;
