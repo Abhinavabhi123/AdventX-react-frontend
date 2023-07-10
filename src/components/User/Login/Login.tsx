@@ -34,14 +34,14 @@ function Login() {
       className=" flex flex-col items-center justify-center w-screen"
       style={{
         height: "50rem",
-        backgroundSize: "100reM 50rem",
+        backgroundSize: "99rem 50rem",
         backgroundImage:
           "url('https://i.pinimg.com/originals/05/b3/1a/05b31a061a39390c2dcb058aded8fa44.jpg')",
       }}
     >
       <div className="bg-white bg-opacity-20 w-96 h-96 rounded-lg m-3">
         <div className="bg-transparent flex flex-col items-center justify-center mt-5">
-          <h4 className="bg-transparent">Welcome back. </h4>
+          <h4 className="bg-transparent font-bold">Welcome back. </h4>
           <h4 className="bg-transparent">Log in and start exploring.</h4>
         </div>
         <form onSubmit={submitHandler}>
@@ -59,11 +59,12 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
             />
             <button
-              className="bg-green-700 w-60 h-8 rounded-full mt-5 border-2 border-gray-700"
+              className="bg-green-500 w-60 h-8 rounded-full mt-5 border-2 border-gray-700"
             >
               Log in
             </button>
           </div>
+          
           {/* bottom area */}
           <div className="w-full bg-transparent h-36 rounded-lg flex items-center flex-col">
             <div className="w-60 h-px mt-3 bg-gray-400"></div>
@@ -73,6 +74,7 @@ function Login() {
             >
               Signup
             </button>
+          <p className="text-black font-bold cursor-pointer">Forget the password</p>
           </div>
         </form>
       </div>

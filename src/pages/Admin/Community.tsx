@@ -3,8 +3,11 @@ import "./Community.css";
 import SideBar from "../../components/Admin/AdminSideBar/SideBar";
 import TopBar from "../../components/Admin/AdminTopBar/TopBar";
 import CommunityList from "../../components/Admin/ComunityList/CommunityList";
+import { useNavigate } from "react-router-dom"; "react-router-dom"
+import CreateCommunity from "../../components/Admin/CreateCommunity/CreateCommunity";
 
 function Community() {
+  const navigate = useNavigate();
   const [openAdd, setOpenAdd] = useState(false);
 
   return (
@@ -18,12 +21,13 @@ function Community() {
         </div>
         <div className="communityMain flex justify-center items-center">
           <div className="communityMain_inner w-[98%] h-[98%] rounded-md bg-opacity-20 border-dashed border-[2px] border-blue-800">
-            {!openAdd ? (
-              <>
+            {/* {!openAdd ? (
+              <> */}
                 <div className="w-full h-20 border-b-[2px] flex justify-end items-center">
                   <button
                     onClick={() =>
-                      openAdd == false ? setOpenAdd(true) : setOpenAdd(false)
+                      navigate("/admin/createCommunity")
+                      // openAdd == false ? setOpenAdd(true) : setOpenAdd(false)
                     }
                     className="mr-5 bg-blue-500 w-36 h-9 rounded-md"
                   >
@@ -36,15 +40,10 @@ function Community() {
                     <CommunityList />
                   </div>
                 </div>
-              </>
-            ) : (
-              <div className="w-[98%] h-[98%] flex flex-col justify-center items-center">
-                <div>
-                  <p>Create Community</p>
-                </div>
-                <div className="w-[95%] h-[90%] mt-4 border-2 border-dotted border-red-500"></div>
-              </div>
-            )}
+              {/* </>
+            ) : ( */}
+             {/* <CreateCommunity/> */}
+            {/* )} */}
           </div>
         </div>
       </div>

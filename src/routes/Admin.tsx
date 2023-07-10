@@ -3,6 +3,7 @@ import AdminLogin from "../pages/Admin/AdminLogin"
 import AdminDashboard from "../pages/Admin/AdminDashboard"
 import Community from "../pages/Admin/Community"
 import UserManagement from "../pages/Admin/UserManagement"
+import CreateCommunity from "../pages/Admin/CreateCommunity"
 
 // import {useCookies} from "react-cookie"
 function Admin() {
@@ -25,7 +26,7 @@ function Admin() {
             <Route path="/dashboard" element={<AdminDashboard/>}/>
             <Route path="/community" element={<Community/>}/>
             <Route path="/userManagement" element={<UserManagement/>}/>
-
+            <Route path="/createCommunity" element={<CreateCommunity/>}/>
         </Routes>
       
     </div>

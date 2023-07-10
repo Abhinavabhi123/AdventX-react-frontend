@@ -65,10 +65,10 @@ function Signup() {
       }}
       className="flex justify-center items-center w-screen "
     >
-      <div className=" bg-white rounded-md w-96 h-96 flex flex-col items-center">
+      <div className=" bg-white bg-opacity-30 rounded-md w-96 h-96 flex flex-col items-center">
         <div className="flex flex-col items-center">
           <img
-            className="w-20 ml-5"
+            className="w-20 ml-5 "
             src="/An Off-road logo bw4 .png"
             alt="logo"
           />
