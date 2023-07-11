@@ -1,0 +1,6 @@
+.subImage {
+  background-image: url("/public//bg//sub-bg.jpg");
+  display: flex;
+  background-size: cover;
+  background-position: center;
+}

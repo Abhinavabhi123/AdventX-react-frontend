@@ -21,11 +21,13 @@ const CommunityRow = (props: Values) => {
   return (
     <tr className="h-12 border-y-2 border-gray-600">
       <td className="text-center p-0 m-0">{i}</td>
-      <td className="text-center p-0 m-0">5</td>
+      <td className="text-center p-0 m-0 w-full h-full flex justify-center items-center">
+        <div className="w-10 h-10 rounded-full bg-red-400"></div>
+      </td>
       <td className="text-center p-0 m-0">{communityName}</td>
       <td className="text-center p-0 m-0">{memberCount}</td>
       <td className="text-center p-0 m-0">{status}</td>
-      <td className="text-center p-0 m-0">{createdAt.toLocaleString()}</td>
+      <td className="text-center p-0 m-0">{createdAt}</td>
       <td className="text-center">
         <button className=" w-5 h-5 mr-3 ">
           <img src="/icons/edit.png" alt="edit" />

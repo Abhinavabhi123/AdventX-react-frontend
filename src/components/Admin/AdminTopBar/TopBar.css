@@ -9,7 +9,7 @@
     height: 2.5rem;
     /* background-color: red; */
     display: flex;
-    justify-content: end;
+    /* justify-content: end;  */
     align-items: center;
 }
 .topBarAdmin .topBarAdmin_main .topBarAdmin_main_top{

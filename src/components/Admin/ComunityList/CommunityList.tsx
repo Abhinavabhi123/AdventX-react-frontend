@@ -20,13 +20,13 @@ function CommunityList() {
       <table className="w-full h-full">
         <thead className="h-10">
           <tr>
-            <th>Si.No</th>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Members</th>
-            <th>Status</th>
-            <th>CreatedAt</th>
-            <th>Actions</th>
+            <th className="w-[4rem]">Si.No</th>
+            <th className="w-[10.51rem]">Image</th>
+            <th className="w-[10.51rem]">Name</th>
+            <th className="w-[10.51rem]">Members</th>
+            <th className="w-[10.51rem]">Status</th>
+            <th className="w-[10.51rem]">CreatedAt</th>
+            <th className="w-[10.51rem]">Actions</th>
           </tr>
         </thead>
         {/* <div className="w-full h-full bg-red-400"> */}

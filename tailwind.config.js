@@ -5,7 +5,9 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {backgroundImage: {
+      'sub-bg': "url('./public/bg/sub-bg.jpg')",
+    }},
   },
   plugins: [], 
 }

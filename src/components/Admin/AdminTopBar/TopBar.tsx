@@ -8,7 +8,7 @@ function TopBar(props:TopBarProps) {
   
   return (
     <div className="topBarAdmin">
-      <div className="topBarAdmin_main">
+      <div className="topBarAdmin_main flex justify-end">
         <div className="topBarAdmin_main_top">
           <img
             className="w-4 h-4 "

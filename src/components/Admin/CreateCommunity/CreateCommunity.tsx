@@ -1,7 +1,7 @@
 import axios from "axios";
 import "./CreateCommunity.css";
-import {useNavigate} from "react-router-dom"
-import { useEffect, useState,ChangeEvent } from "react";
+import {  useNavigate } from "react-router-dom";
+import { useEffect, useState, ChangeEvent } from "react";
 import { AdminApi } from "../../../Store/api";
 // import UsersRow from "./UsersRow";
 
@@ -11,14 +11,15 @@ type User = {
 };
 
 function CreateCommunity() {
-  const navigate =useNavigate()
+  const navigate = useNavigate();
   const [user, setUser] = useState<User[]>([]);
   const [cName, setCname] = useState("");
   const [status, setStatus] = useState("");
   const [cMembers, setCMembers] = useState<{ _id: string }[]>([]);
-  const [image, setImage] = useState<File | string>("")
+  const [image, setImage] = useState<File | string>("");
+  const [imageUrl,setImageUrl]=useState("")
 
-  const handleCheckboxChange = (event:ChangeEvent<HTMLInputElement>) => {
+  const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
     const selectedValue = event.target.value;
 
     // Check if the checkbox is checked
@@ -38,14 +39,13 @@ function CreateCommunity() {
     }
   };
 
-  const onImageChange = (event:ChangeEvent<HTMLInputElement>) => {
+  const onImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
-      const file = event.target.files?.[0]; 
+      const file = event.target.files?.[0];
       setImage(file);
+      setImageUrl(URL.createObjectURL(file));
     }
-   }
-
-  
+  };
 
   useEffect(() => {
     try {
@@ -59,23 +59,32 @@ function CreateCommunity() {
       console.error(error);
     }
   }, []);
-  console.log(cName, status,cMembers,image);
+  console.log(cName, status, cMembers, image);
 
-  const submitCommunity=async()=>{
+  const submitCommunity = async () => {
     try {
       console.log("submitting");
       const formData = new FormData();
-       formData.append("image", image);
-        await axios.post(`${AdminApi}createCommunity`,{cName, status,cMembers},{
-          withCredentials: true,
-        }).then((response)=>{
-          console.log(response,"response Here");
-          navigate("/admin/community")
-        })
+      formData.append("image", image);
+
+      //  const images = formData.get("image")
+
+      await axios
+        .post(
+          `${AdminApi}createCommunity`,
+          { cName, status, cMembers },
+          {
+            withCredentials: true,
+          }
+        )
+        .then((response) => {
+          console.log(response, "response Here");
+          navigate("/admin/community");
+        });
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   return (
     <div>
@@ -96,8 +105,22 @@ function CreateCommunity() {
                     <p className="text-xs text-red-800">*</p>
                   </div>
                   <div className="w-full h-full flex items-center pl-5 ">
-                    <div className="community_img w-28 h-28 bg-blue-500  rounded-full"></div>
-                    <input type="file" className="custom-file-input"   onChange={onImageChange} />
+                    {imageUrl===""?(
+                      <div className="community_img w-28 h-28 bg-blue-500  rounded-full">
+                      
+                    </div>
+                    ):(
+                      <div className="community_img w-28 h-28  rounded-full">
+                      <img className="community_img w-28 h-28  rounded-full" src={imageUrl} alt="image" />
+                    </div>
+                    )
+                    }
+                    
+                    <input
+                      type="file"
+                      className="custom-file-input"
+                      onChange={onImageChange}
+                    />
                   </div>
                 </div>
                 <div className="h-1/2 w-full flex flex-col items-center">
@@ -135,7 +158,7 @@ function CreateCommunity() {
               </div>
             </div>
             <div className="w-1/2 h-full flex items-center justify-center">
-              <div className="w-[90%] h-[90%] border-2 border-black rounded-md rounded-md">
+              <div className="w-[90%] h-[90%] border-2 border-black rounded-md">
                 <table className="w-full overflow-y-scroll">
                   <thead className="h-8">
                     <tr className="">
@@ -144,10 +167,10 @@ function CreateCommunity() {
                       <th>No.comm </th>
                     </tr>
                   </thead>
-                  <tbody className="bg-gray-300 h-20">
+                  <tbody className="bg-gray-300 ">
                     {user.map((item, i) => {
                       return (
-                        <tr key={i} className="border-y-2 border-black">
+                        <tr key={i} className="border-y-2 border-black h-10">
                           <td className="flex justify-center mt-2">
                             <input
                               type="checkbox"
@@ -168,19 +191,25 @@ function CreateCommunity() {
           </div>
           <div className="w-full h-36 flex justify-center">
             <div className="mt-5 w-44 flex justify-between">
-              <button className="w-20 rounded-md text-sm h-8 bg-red-400" onClick={()=>{
-                navigate("/admin/community")
-              }}>
+              <button
+                className="w-20 rounded-md text-sm h-8 bg-red-400"
+                onClick={() => {
+                  navigate("/admin/community");
+                }}
+              >
                 Cancel
               </button>
-              <button type="submit" onClick={submitCommunity} className="w-20 rounded-md text-sm h-8  bg-green-400"  >
+              <button
+                type="submit"
+                onClick={submitCommunity}
+                className="w-20 rounded-md text-sm h-8  bg-green-400"
+              >
                 Save
               </button>
             </div>
           </div>
         </div>
       </div>
-
     </div>
   );
 }

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"
 import { AdminApi } from "../../../Store/api";
+import Cookies from "js-cookie"
 
 function Login() {
   const navigate =useNavigate()
@@ -13,7 +14,7 @@ function Login() {
     try {
      await axios.post(`${AdminApi}AdminLogin`,{email,password},{withCredentials:true}).then((response)=>{
       console.log(response.data);
-      
+      // Cookies.set("adminJwt",response.data.token)
       if(response.data?.access === true){
         navigate("/admin/dashboard")
       }

@@ -1,8 +1,9 @@
 import React from "react";
+import "./NavBar.css"
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux/es/hooks/useSelector";
-import { UserState } from "../../../Store/redux/UserAuth";
-import rootReducer from "../../../Store/redux/RootReducer";
+// import { UserState } from "../../../Store/redux/UserAuth";
+// import rootReducer from "../../../Store/redux/RootReducer";
 function NavBar() {
   const navigate = useNavigate();
   const userLogin: boolean = useSelector((state: any): boolean => {
@@ -29,8 +30,8 @@ function NavBar() {
         </div>
         <div className="mr-3 flex items-center justify-between w-18">
           <div className=" flex w-40 justify-between">
-            <button className="w-36 h-6 bg-green-500 text-white rounded-full text-xs">
-              <img className="w-20 rounded-full" src="" alt="" />
+            <button className="w-36 h-6 bg-green-500 text-white rounded-full text-xs flex justify-evenly items-center" onClick={()=>navigate("/subscribe")}>
+              <img className="crownImage rounded-full " src="/icons/crown.png" alt="prime"/>
               GetMembership
             </button>
           </div>

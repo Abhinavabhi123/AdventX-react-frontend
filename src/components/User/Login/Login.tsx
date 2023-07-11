@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserApi } from "../../../Store/api";
 import axios from "axios";
+import Cookies from "js-cookie";
+import { UserApi } from "../../../Store/api";
 import { useDispatch } from "react-redux/es/exports";
 import { userActions } from "../../../Store/redux/UserAuth";
 function Login() {
@@ -23,6 +24,7 @@ function Login() {
           const result = response?.data;
           if (result.message === "Access granted" && result.status === 200) {
             console.log(result, "it is the result of the response");
+            Cookies.set("jwtToken",result.jwtToken)
             const userName = `${result.userData?.firstName} ${result.userData?.lastName}`;
             dispatch(
               userActions.userAddDetails({

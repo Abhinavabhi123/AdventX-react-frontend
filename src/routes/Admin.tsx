@@ -1,23 +1,17 @@
 import {Routes,Route} from "react-router-dom"
+import Cookies from "js-cookie"
+import { useDispatch,useSelector } from "react-redux"
+
 import AdminLogin from "../pages/Admin/AdminLogin"
 import AdminDashboard from "../pages/Admin/AdminDashboard"
 import Community from "../pages/Admin/Community"
 import UserManagement from "../pages/Admin/UserManagement"
 import CreateCommunity from "../pages/Admin/CreateCommunity"
 
-// import {useCookies} from "react-cookie"
 function Admin() {
-  // const [cookies, setcookies] = useCookies(['AdminJwt'])
-  // console.log(cookies);
-
-  
-  const cookie = document.cookie.match(/AdminJwt=([^;]+)/);
-  console.log(cookie);
-  
-  if (cookie) {
-    const token = cookie[1];
-    // Do something with the token
-  }
+  const dispatch = useDispatch()
+ const cookie = Cookies.get("AdminJwt")
+  console.log(cookie,"this is the cookie");
   
   return (
     <div>

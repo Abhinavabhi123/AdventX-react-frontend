@@ -8,7 +8,7 @@ function AdminDashboard() {
       <div>
       <SideBar/>
       </div>
-      <div className='flex justify-end'>
+      <div className=''>
       <TopBar value="Dashboard"/>
       </div>
     </div>
