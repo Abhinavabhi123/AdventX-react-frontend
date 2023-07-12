@@ -9,9 +9,9 @@ import UserSignup from "../pages/User/userSignup";
 import ForgetPass from "../pages/User/ForgetPass";
 import Subscription from "../pages/User/Subscription";
 import Cookies from "js-cookie";
+import Authentication from "../Middleware/AuthMiddleware";
 
 import { userActions } from "../Store/redux/UserAuth";
-
 
 interface DecodedToken {
   _id: string;
@@ -33,7 +33,7 @@ function User() {
     if (cookie) {
       cookieData = jwtDecode(cookie) as DecodedToken;
       console.log(cookieData);
-      
+
       dispatch(
         userActions.userAddDetails({
           userName: cookieData?.name,
@@ -45,18 +45,20 @@ function User() {
       );
     }
   }, [cookie, dispatch]);
-  const userToken = useSelector((state: any) => state.User.userToken);
+  // const userToken = useSelector((state: any) => state.User.userToken);
   return (
     <div>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/userLogin" element={<UserLogin />} />
-        <Route path="/userSignup" element={<UserSignup />} />
-        <Route path="/forgetPass" element={<ForgetPass />} />
-        <Route path="/subscribe" element={<Subscription />} />
+      <Authentication CookieName="jwtToken" Type="user">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/userLogin" element={<UserLogin />} />
+          <Route path="/userSignup" element={<UserSignup />} />
+          <Route path="/forgetPass" element={<ForgetPass />} />
+          <Route path="/subscribe" element={<Subscription />} />
 
-        {/* <Route path="/OTP" element={<UserOPT />} /> */}
-      </Routes>
+          {/* <Route path="/OTP" element={<UserOPT />} /> */}
+        </Routes>
+      </Authentication>
     </div>
   );
 }

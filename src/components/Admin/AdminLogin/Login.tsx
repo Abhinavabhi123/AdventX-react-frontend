@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"
 import { AdminApi } from "../../../Store/api";
-import Cookies from "js-cookie"
+import Cookies from "js-cookie";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Login() {
   const navigate =useNavigate()
@@ -12,6 +14,12 @@ function Login() {
   const formSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      
+
+      const emailFormat = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,3}$/;
+      // if(!email ||email.length===0||email[0]===""||emailFormat.test(email)){
+      
+      // }
      await axios.post(`${AdminApi}AdminLogin`,{email,password},{withCredentials:true}).then((response)=>{
       console.log(response.data);
       // Cookies.set("adminJwt",response.data.token)

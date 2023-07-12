@@ -9,36 +9,38 @@ import Community from "../pages/Admin/Community";
 import UserManagement from "../pages/Admin/UserManagement";
 import CreateCommunity from "../pages/Admin/CreateCommunity";
 import { useEffect } from "react";
-import { AdminAction } from "../Store/redux/AdminAuth";
+// import { AdminAction } from "../Store/redux/AdminAuth";
+import Authentication from "../Middleware/AuthMiddleware";
 
 interface Admin {
   email: string;
 }
 
 function Admin() {
-  const dispatch = useDispatch();
-  const cookie = Cookies.get("adminJwt");
+  // const dispatch = useDispatch();
+  // const cookie = Cookies.get("adminJwt");
 
-  useEffect(() => {
-    if (cookie) {
-      const adminData = jwtDecode(cookie) as Admin;
+  // useEffect(() => {
+  //   if (cookie) {
+  //     const adminData = jwtDecode(cookie) as Admin;
 
-      dispatch(AdminAction.AdminLogin({ email: adminData.email }));
-    }
-  }, [cookie, dispatch]);
+  //     dispatch(AdminAction.AdminLogin({ email: adminData.email }));
+  //   }
+  // }, []);
 
-  const adminAuth = useSelector((state:any)=>state.admin.AdminEmail)
+  // const adminAuth = useSelector((state:any)=>state.admin.AdminEmail)
 
-  
   return (
     <div>
-      <Routes>
-        <Route path="/login" element={<AdminLogin />} />
-        <Route path="/dashboard" element={adminAuth ?<AdminDashboard /> : <AdminLogin /> } />
-        <Route path="/community" element={adminAuth ?<Community /> : <AdminLogin />} />
-        <Route path="/userManagement" element={ adminAuth ? <UserManagement />: <AdminLogin />} />
-        <Route path="/createCommunity" element={ adminAuth ? <CreateCommunity /> : <AdminLogin />} />
-      </Routes>
+      <Authentication CookieName="adminJwt" Type="Admin">
+        <Routes>
+          <Route path="/login" element={<AdminLogin />} />
+          <Route path="/dashboard" element={<AdminDashboard />} />
+          <Route path="/community" element={<Community />} />
+          <Route path="/userManagement" element={<UserManagement />} />
+          <Route path="/createCommunity" element={<CreateCommunity />} />
+        </Routes>
+      </Authentication>
     </div>
   );
 }

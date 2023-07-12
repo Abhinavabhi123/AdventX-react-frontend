@@ -27,7 +27,7 @@ const CommunityRow = (props: Values) => {
       <td className="text-center p-0 m-0">{communityName}</td>
       <td className="text-center p-0 m-0">{memberCount}</td>
       <td className="text-center p-0 m-0">{status}</td>
-      <td className="text-center p-0 m-0">{createdAt}</td>
+      <td className="text-center p-0 m-0 text-sm">{createdAt}</td>
       <td className="text-center">
         <button className=" w-5 h-5 mr-3 ">
           <img src="/icons/edit.png" alt="edit" />

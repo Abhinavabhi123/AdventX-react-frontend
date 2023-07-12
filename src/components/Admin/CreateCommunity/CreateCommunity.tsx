@@ -1,6 +1,6 @@
 import axios from "axios";
 import "./CreateCommunity.css";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState, ChangeEvent } from "react";
 import { AdminApi } from "../../../Store/api";
 // import UsersRow from "./UsersRow";
@@ -17,7 +17,13 @@ function CreateCommunity() {
   const [status, setStatus] = useState("");
   const [cMembers, setCMembers] = useState<{ _id: string }[]>([]);
   const [image, setImage] = useState<File | string>("");
-  const [imageUrl,setImageUrl]=useState("")
+  const [imageUrl, setImageUrl] = useState("");
+  const [openError, setErrorOpen] = useState<boolean>(false);
+  const [error, setError] = useState("");
+  const [imageSuccess, setImageSuccess] = useState<string>("");
+  const [succOpen, setSuccOpen] = useState<boolean>(false);
+  const [liseError, setListError] = useState<string>("");
+  const [openListErr, setOpenList] = useState<boolean>(false);
 
   const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
     const selectedValue = event.target.value;
@@ -41,9 +47,37 @@ function CreateCommunity() {
 
   const onImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
+      setImage("");
+      setImageUrl("");
       const file = event.target.files?.[0];
+      const allowedType = ["image/jpeg", "image/jpeg", "image/png"];
+      if (!allowedType.includes(file.type)) {
+        setError("Please select a JPG, JPEG, or PNG image file.");
+        setErrorOpen(true);
+        setTimeout(() => {
+          setErrorOpen(false);
+          setError("");
+        }, 1500);
+        return;
+      }
+      const maxSize = 5 * 1024 * 1024;
+      if (file.size > maxSize) {
+        setError("Please select an image file smaller than 5MB.");
+        setErrorOpen(true);
+        setTimeout(() => {
+          setErrorOpen(false);
+          setError("");
+        }, 1500);
+        return;
+      }
       setImage(file);
       setImageUrl(URL.createObjectURL(file));
+      setImageSuccess("Image added successfully");
+      setSuccOpen(true);
+      setTimeout(() => {
+        setSuccOpen(false);
+        setImageSuccess("");
+      }, 1500);
     }
   };
 
@@ -63,6 +97,60 @@ function CreateCommunity() {
 
   const submitCommunity = async () => {
     try {
+      if (!image) {
+        setError("Please select an image");
+        setErrorOpen(true);
+        setTimeout(() => {
+          setErrorOpen(false);
+          setError("");
+        }, 1500);
+        return;
+      }
+      const firstChar = cName[0];
+      if (firstChar === " ") {
+        setError("Please Remove the space before the text");
+        setErrorOpen(true);
+        setTimeout(() => {
+          setErrorOpen(false);
+          setError("");
+        }, 1500);
+        return;
+        return false;
+      }
+      if (
+        cName.trim() === "" ||
+        cName.length <= 0 ||
+        typeof cName !== "string"
+      ) {
+        setError("Please enter the Community name");
+        setErrorOpen(true);
+        setTimeout(() => {
+          setErrorOpen(false);
+          setError("");
+        }, 1500);
+        return;
+      }
+
+      if (status === "") {
+        setError("Please Select the status of the community");
+        setErrorOpen(true);
+        setTimeout(() => {
+          setErrorOpen(false);
+          setError("");
+        }, 1500);
+        return;
+      }
+
+      if (cMembers.length === 0) {
+        setListError("Select at least one member for the community");
+        setOpenList(true);
+        setTimeout(() => {
+          setOpenList(false);
+          setListError("");
+        }, 1500);
+        return;
+      }
+
       console.log("submitting");
       const formData = new FormData();
       formData.append("image", image);
@@ -104,22 +192,27 @@ function CreateCommunity() {
                     <p className="text-xs">Community Icon</p>
                     <p className="text-xs text-red-800">*</p>
                   </div>
+                  {succOpen && (
+                    <p className="text-xs text-green-600">{imageSuccess}</p>
+                  )}
                   <div className="w-full h-full flex items-center pl-5 ">
-                    {imageUrl===""?(
-                      <div className="community_img w-28 h-28 bg-blue-500  rounded-full">
-                      
-                    </div>
-                    ):(
+                    {imageUrl === "" ? (
+                      <div className="community_img w-28 h-28 bg-blue-500  rounded-full"></div>
+                    ) : (
                       <div className="community_img w-28 h-28  rounded-full">
-                      <img className="community_img w-28 h-28  rounded-full" src={imageUrl} alt="image" />
-                    </div>
-                    )
-                    }
-                    
+                        <img
+                          className="community_img w-28 h-28  rounded-full"
+                          src={imageUrl}
+                          alt="image"
+                        />
+                      </div>
+                    )}
+
                     <input
                       type="file"
                       className="custom-file-input"
                       onChange={onImageChange}
+                      accept="image/jpg,image/jpeg,image/png"
                     />
                   </div>
                 </div>
@@ -154,6 +247,9 @@ function CreateCommunity() {
                       </option>
                     </select>
                   </div>
+                  {openError && (
+                    <p className="text-xs my-3 text-red-600">{error} </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -188,6 +284,9 @@ function CreateCommunity() {
                 </table>
               </div>
             </div>
+          </div>
+          <div className="w-full h-5 flex justify-center">
+            {openListErr && <p className="text-xs text-red-500">{liseError}</p>}
           </div>
           <div className="w-full h-36 flex justify-center">
             <div className="mt-5 w-44 flex justify-between">
