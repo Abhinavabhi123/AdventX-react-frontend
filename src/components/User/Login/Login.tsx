@@ -26,15 +26,6 @@ function Login() {
             console.log(result, "it is the result of the response");
             Cookies.set("jwtToken",result.jwtToken)
             const userName = `${result.userData?.firstName} ${result.userData?.lastName}`;
-            dispatch(
-              userActions.userAddDetails({
-                userName: userName,
-                email: result?.userData?.email,
-                userToken: result?.jwtToken,
-                loggedIn: result?.loggedIn,
-              })
-            );
-
             navigate("/");
           }
         });

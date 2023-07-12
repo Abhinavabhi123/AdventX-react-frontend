@@ -16,6 +16,7 @@ function Login() {
       console.log(response.data);
       // Cookies.set("adminJwt",response.data.token)
       if(response.data?.access === true){
+        Cookies.set("adminJwt",response?.data?.token)
         navigate("/admin/dashboard")
       }
       
