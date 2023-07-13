@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
-import jwtDecode from "jwt-decode"
+import jwtDecode from "jwt-decode";
 
 import { userActions } from "../Store/redux/UserAuth";
 import { AdminAction } from "../Store/redux/AdminAuth";
@@ -31,22 +31,25 @@ const Authentication = ({
   children,
   Type,
 }: AuthenticationProps) => {
-  const cookie:string|undefined= Cookies.get(CookieName);
+  const cookie: string | undefined = Cookies.get(CookieName);
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!cookie) {
       if (Type === "user") {
-      navigate("/userLogin")
+        navigate("/userLogin");
+        return;
+      }
+      if (Type === "Admin") {
+        navigate("/admin/login");
+        return;
+      }
       return
     }
-    navigate("/admin/login");
-    return
-  }
-    if(Type ==="user"){
-      const cookieData = jwtDecode(cookie) as DecodedToken 
-      console.log(cookieData ,"user Cookie");
+    if (Type === "user") {
+      const cookieData = jwtDecode(cookie) as DecodedToken;
+      console.log(cookieData, "user Cookie");
       dispatch(
         userActions.userAddDetails({
           userName: cookieData?.name,
@@ -56,14 +59,13 @@ const Authentication = ({
           status: cookieData?.status,
         })
       );
-    }else{
-      const adminData = jwtDecode(cookie) as Admin
-      console.log(adminData,"Admin cookie");
-      
+    } else {
+      const adminData = jwtDecode(cookie) as Admin;
+      console.log(adminData, "Admin cookie");
+
       dispatch(AdminAction.AdminLogin({ email: adminData.email }));
     }
-
-  },[cookie,navigate]);
+  }, [cookie, navigate,Type,dispatch]);
 
   return <>{children}</>;
 };

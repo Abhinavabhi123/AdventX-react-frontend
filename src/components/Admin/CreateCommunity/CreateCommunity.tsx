@@ -22,7 +22,7 @@ function CreateCommunity() {
   const [error, setError] = useState("");
   const [imageSuccess, setImageSuccess] = useState<string>("");
   const [succOpen, setSuccOpen] = useState<boolean>(false);
-  const [liseError, setListError] = useState<string>("");
+  const [listError, setListError] = useState<string>("");
   const [openListErr, setOpenList] = useState<boolean>(false);
 
   const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -150,18 +150,17 @@ function CreateCommunity() {
         }, 1500);
         return;
       }
-
-      console.log("submitting");
-      const formData = new FormData();
-      formData.append("image", image);
-
-      //  const images = formData.get("image")
-
-      await axios
-        .post(
-          `${AdminApi}createCommunity`,
-          { cName, status, cMembers },
+      await axios.post(`${AdminApi}createCommunity`,
           {
+            image,
+            cName,
+            cMembers,
+            status,
+          },
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
             withCredentials: true,
           }
         )
@@ -169,6 +168,7 @@ function CreateCommunity() {
           console.log(response, "response Here");
           navigate("/admin/community");
         });
+      ``;
     } catch (error) {
       console.error(error);
     }
@@ -212,7 +212,7 @@ function CreateCommunity() {
                       type="file"
                       className="custom-file-input"
                       onChange={onImageChange}
-                      accept="image/jpg,image/jpeg,image/png"
+                      accept=".jpg,.jpeg,.png"
                     />
                   </div>
                 </div>
@@ -286,7 +286,7 @@ function CreateCommunity() {
             </div>
           </div>
           <div className="w-full h-5 flex justify-center">
-            {openListErr && <p className="text-xs text-red-500">{liseError}</p>}
+            {openListErr && <p className="text-xs text-red-500">{listError}</p>}
           </div>
           <div className="w-full h-36 flex justify-center">
             <div className="mt-5 w-44 flex justify-between">

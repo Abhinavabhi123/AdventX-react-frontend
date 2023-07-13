@@ -9,7 +9,7 @@ function Subscription() {
         <NavBar />
       </div>
       <div className="subImage w-screen h-screen">
-        <div className="w-[50%] h-full  flex justify-center">
+        <div className="w-[50%] h-full  flex justify-center items-center">
           <div className="w-[80%] h-96 bg-white rounded-md bg-opacity-30 mt-[5rem]">
           <div className="w-full h-24 flex justify-center items-center">
             <img className="w-20 h-20" src="/An Off-road logo bw4 .png" alt="logo" />
@@ -21,7 +21,7 @@ function Subscription() {
           </div>
         </div>
         <div className="w-[50%] h-full  flex justify-center items-center ">
-          <div className="h-[35rem] w-80 bg-white rounded-md">
+          <div className="h-[60%] w-80 bg-white rounded-md">
 
           </div>
         </div>
