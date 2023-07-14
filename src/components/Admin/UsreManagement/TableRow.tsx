@@ -8,7 +8,7 @@ interface TableRowProps {
 
 }
 interface User {
-  name: string;
+  firstName: string;
   email: string;
   mobile: string;
   primeMember: undefined;
@@ -18,7 +18,7 @@ interface User {
 const TableRow: React.FC<TableRowProps> = ({ value}) => {
   const { _id } = value;
   const [user, setUser] = useState<User>({
-    name: "",
+    firstName: "",
     email: "",
     mobile: "",
     primeMember: undefined,
@@ -44,7 +44,8 @@ const TableRow: React.FC<TableRowProps> = ({ value}) => {
     fetchSingleUser();
   },[]);
 
-  const { name, email, mobile, primeMember, status } = user;
+  
+  const { firstName, email, mobile, primeMember, status } = user;
 
   const blockUser = async () => {
     try {
@@ -61,11 +62,11 @@ const TableRow: React.FC<TableRowProps> = ({ value}) => {
   return (
     <tr className="h-10 border-2 border-gray-600">
       <td className="text-center">{_id} </td>
-      <td className="text-center text-sm overflow-clip">{name} </td>
+      <td className="text-center text-sm overflow-clip">{firstName} </td>
       <td className="text-center ">{email} </td>
       <td className="text-center ">{mobile} </td>
       {primeMember == true ? (
-        <td className="text-center ">Yes </td>
+        <td className="text-center">Yes </td>
       ) : (
         <td className="text-center ">No</td>
       )}

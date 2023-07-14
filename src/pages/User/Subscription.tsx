@@ -1,8 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./Subscription.css"
 import NavBar from "../../components/User/NavBar/Navbar";
 
 function Subscription() {
+  const navigate =useNavigate()
   return (
     <div>
       <div>
@@ -16,7 +18,7 @@ function Subscription() {
           </div>
           <div className="w-full h-40  flex flex-col justify-evenly items-center">
            <h1 className="text-xl">Then only $24.38 for Membership</h1>
-           <button className="w-36 h-8 bg-green-500 rounded-lg text-xs">Get Membership</button>
+           <button className="w-36 h-8 bg-green-500 rounded-lg text-xs" onClick={()=>navigate("/subscribe/payment")}>Get Membership</button>
           </div>
           </div>
         </div>

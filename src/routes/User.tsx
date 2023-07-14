@@ -12,6 +12,8 @@ import Cookies from "js-cookie";
 import Authentication from "../Middleware/AuthMiddleware";
 
 import { userActions } from "../Store/redux/UserAuth";
+import CheckOut from "../components/User/SubscribePayment/CheckOut";
+import PaymentSuccess from "../components/User/SubscribePayment/PaymentSuccess/PaymentSuccess";
 
 interface DecodedToken {
   _id: string;
@@ -48,15 +50,15 @@ function User() {
   // const userToken = useSelector((state: any) => state.User.userToken);
   return (
     <div>
-      <Authentication CookieName="jwtToken" Type="user">
+      <Authentication CookieName="jwtToken" Type=" b">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/userLogin" element={<UserLogin />} />
           <Route path="/userSignup" element={<UserSignup />} />
           <Route path="/forgetPass" element={<ForgetPass />} />
           <Route path="/subscribe" element={<Subscription />} />
-
-          {/* <Route path="/OTP" element={<UserOPT />} /> */}
+          <Route path="/subscribe/payment" element={<CheckOut/>}/>
+          <Route path="/subscribe/success" element={<PaymentSuccess/>} />
         </Routes>
       </Authentication>
     </div>

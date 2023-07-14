@@ -9,7 +9,6 @@ function CommunityList() {
   useEffect(() => {
     (async () => {
       await axios.get(`${AdminApi}communities`).then((response) => {
-        console.log(response.data);
         setData(response.data.community);
       });
     })();
@@ -33,8 +32,6 @@ function CommunityList() {
           <tbody className="">
         {data.length > 0 ? 
             data.map((item, i) => {
-              console.log(item, "items");
-
               return <CommunityRow key={i} value={item} i={++i} />;
             })
         :(

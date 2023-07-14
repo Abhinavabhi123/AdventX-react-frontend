@@ -25,7 +25,7 @@ function UserList() {
             <th className="w-40">Name</th>
             <th className="w-40">Email</th>
             <th className="w-40">Mobile</th>
-            <th className="w-40">Prime</th>
+            <th className="w-14">Prime</th>
             <th className="w-40">Status</th>
           </tr>
         </thead>

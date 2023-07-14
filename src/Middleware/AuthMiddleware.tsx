@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import jwtDecode from "jwt-decode";
+import { useLocation } from "react-router-dom";
 
 import { userActions } from "../Store/redux/UserAuth";
 import { AdminAction } from "../Store/redux/AdminAuth";
@@ -26,7 +27,7 @@ interface Admin {
   email: string;
 }
 
-const Authentication = ({
+const  Authentication = ({
   CookieName,
   children,
   Type,
@@ -34,6 +35,7 @@ const Authentication = ({
   const cookie: string | undefined = Cookies.get(CookieName);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation()
 
   useEffect(() => {
     if (!cookie) {
@@ -42,6 +44,8 @@ const Authentication = ({
         return;
       }
       if (Type === "Admin") {
+        console.log("here");
+        
         navigate("/admin/login");
         return;
       }
@@ -61,9 +65,13 @@ const Authentication = ({
       );
     } else {
       const adminData = jwtDecode(cookie) as Admin;
+      console.log("nddddd");
       console.log(adminData, "Admin cookie");
-
       dispatch(AdminAction.AdminLogin({ email: adminData.email }));
+      console.log(typeof location.pathname);
+      if(location.pathname ==="/admin/login"){
+        navigate("/admin/dashboard")
+      }
     }
   }, [cookie, navigate,Type,dispatch]);
 

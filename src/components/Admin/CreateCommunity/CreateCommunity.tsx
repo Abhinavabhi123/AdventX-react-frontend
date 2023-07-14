@@ -212,7 +212,7 @@ function CreateCommunity() {
                       type="file"
                       className="custom-file-input"
                       onChange={onImageChange}
-                      accept=".jpg,.jpeg,.png"
+                      accept="image/*"
                     />
                   </div>
                 </div>
@@ -224,7 +224,7 @@ function CreateCommunity() {
                     </p>
                     <input
                       type="text"
-                      placeholder="First Name"
+                      placeholder="Community Name"
                       className="placeholder-gray-500 ml-5 pl-2 text-xs w-[15rem] h-7 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
                       onChange={(e) => setCname(e.target.value)}
                     />

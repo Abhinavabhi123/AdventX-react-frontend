@@ -11,6 +11,7 @@ import CreateCommunity from "../pages/Admin/CreateCommunity";
 import { useEffect } from "react";
 import { AdminAction } from "../Store/redux/AdminAuth";
 import Authentication from "../Middleware/AuthMiddleware";
+import EditCommunity from "../pages/Admin/EditCommunity";
 
 interface Admin {
   email: string;
@@ -40,6 +41,7 @@ function Admin() {
           <Route path="/community" element={<Community />} />
           <Route path="/userManagement" element={<UserManagement />} />
           <Route path="/createCommunity" element={<CreateCommunity />} />
+          <Route path="/community/edit-community/:id" element={<EditCommunity />} />
         </Routes>
       </Authentication>
     </div>
