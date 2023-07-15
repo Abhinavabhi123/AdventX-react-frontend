@@ -235,10 +235,11 @@ function CreateCommunity() {
                       <span className="text-red-500">*</span>{" "}
                     </p>
                     <select
+                      placeholder="Select Status"
                       className="w-[15rem] ml-5  text-xs h-6 pl-3 rounded-md"
                       onChange={(e) => setStatus(e.target.value)}
                     >
-                      <option className="">Select Status</option>
+                     
                       <option value="Active" className="">
                         Active
                       </option>

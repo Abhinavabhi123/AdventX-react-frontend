@@ -25,40 +25,42 @@ interface DecodedToken {
 }
 
 function User() {
-  const dispatch = useDispatch();
-  const cookie = Cookies.get("jwtToken");
+  // const dispatch = useDispatch();
+  // const cookie = Cookies.get("jwtToken");
 
-  useEffect(() => {
-    console.log(cookie, "Cookie");
+  // useEffect(() => {
+  //   console.log(cookie, "Cookie");
 
-    let cookieData: DecodedToken;
-    if (cookie) {
-      cookieData = jwtDecode(cookie) as DecodedToken;
-      console.log(cookieData);
+  //   let cookieData: DecodedToken;
+  //   if (cookie) {
+  //     cookieData = jwtDecode(cookie) as DecodedToken;
+  //     console.log(cookieData);
 
-      dispatch(
-        userActions.userAddDetails({
-          userName: cookieData?.name,
-          email: cookieData?.email,
-          _id: cookieData?._id,
-          is_prime: cookieData?.is_prime,
-          status: cookieData?.status,
-        })
-      );
-    }
-  }, [cookie, dispatch]);
+  //     dispatch(
+  //       userActions.userAddDetails({
+  //         userName: cookieData?.name,
+  //         email: cookieData?.email,
+  //         _id: cookieData?._id,
+  //         is_prime: cookieData?.is_prime,
+  //         status: cookieData?.status,
+  //       })
+  //     );
+  //   }
+  // }, [cookie, dispatch]);
   // const userToken = useSelector((state: any) => state.User.userToken);
   return (
     <div>
-      <Authentication CookieName="jwtToken" Type=" b">
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/userLogin" element={<UserLogin />} />
+        <Route path="/userSignup" element={<UserSignup />} />
+        <Route path="/forgetPass" element={<ForgetPass />} />
+      </Routes>
+      <Authentication CookieName="jwtToken" Type="user">
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/userLogin" element={<UserLogin />} />
-          <Route path="/userSignup" element={<UserSignup />} />
-          <Route path="/forgetPass" element={<ForgetPass />} />
           <Route path="/subscribe" element={<Subscription />} />
-          <Route path="/subscribe/payment" element={<CheckOut/>}/>
-          <Route path="/subscribe/success" element={<PaymentSuccess/>} />
+          <Route path="/subscribe/payment" element={<CheckOut />} />
+          <Route path="/subscribe/success" element={<PaymentSuccess />} />
         </Routes>
       </Authentication>
     </div>

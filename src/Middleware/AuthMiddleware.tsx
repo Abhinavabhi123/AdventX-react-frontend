@@ -40,12 +40,15 @@ const  Authentication = ({
   useEffect(() => {
     if (!cookie) {
       if (Type === "user") {
+        console.log("hello");
+        if(location.pathname ==="/userSignup"){
+          navigate("/userSignup")
+          return
+        }
         navigate("/userLogin");
         return;
       }
       if (Type === "Admin") {
-        console.log("here");
-        
         navigate("/admin/login");
         return;
       }
@@ -65,7 +68,6 @@ const  Authentication = ({
       );
     } else {
       const adminData = jwtDecode(cookie) as Admin;
-      console.log("nddddd");
       console.log(adminData, "Admin cookie");
       dispatch(AdminAction.AdminLogin({ email: adminData.email }));
       console.log(typeof location.pathname);
@@ -73,7 +75,7 @@ const  Authentication = ({
         navigate("/admin/dashboard")
       }
     }
-  }, [cookie, navigate,Type,dispatch]);
+  }, [cookie, navigate,Type,dispatch,location.pathname]);
 
   return <>{children}</>;
 };

@@ -5,7 +5,7 @@ function SideBar() {
 
   const navigate = useNavigate()
   return (
-    <div className='bg-gray-400 bg-opacity-10 w-64 shadow-lg  shadow-slate-500 border-black h-screen flex justify-start rounded-md'>
+    <div className='bg-gray-400 bg-opacity-10 w-64 h-[30rem] shadow-lg  shadow-slate-500 border-black  flex justify-start rounded-md'>
       <div className='w-full h-[30rem] '>
         <div className='w-full h-16  flex justify-center items-center border-b border-gray-500'>
           <h1 className='text-2xl font-bold italic'>Hello Admin</h1>

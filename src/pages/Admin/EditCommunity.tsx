@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ChangeEvent,useRef } from "react";
 import { useParams } from "react-router-dom";
 import "./Community.css";
+import { useNavigate } from "react-router-dom";
 
 import SideBar from "../../components/Admin/AdminSideBar/SideBar";
 import TopBar from "../../components/Admin/AdminTopBar/TopBar";
@@ -17,10 +18,26 @@ interface Community {
 interface ActMembers {
   [key: string]: any;
 }
+interface UserData {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  community: string[];
+}
 
 function EditCommunity() {
+  const navigate = useNavigate();
+  const inputRef =useRef<HTMLInputElement>(null)
+  const selectRef =useRef<HTMLSelectElement>(null)
   const { id } = useParams();
   const [change, setChange] = useState(false);
+  const [imgOpen, setImgOpen] = useState(false);
+  const [actMembers, setActMember] = useState({}) as ActMembers | any;
+  const [allMember, setAllMember] = useState<UserData[]>([]);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [commName, setCommName] = useState("");
+  const [cMembers, setCMembers] = useState<{ _id: string }[]>([]);
+
   useEffect(() => {
     try {
       (async () => {
@@ -33,10 +50,22 @@ function EditCommunity() {
             setActMember(response?.data?.commData?.members);
           });
       })();
+
+      (async () => {
+        await axios
+          .get(`${AdminApi}addUserECommunity`, {
+            params: { id: id || "" },
+            withCredentials: true,
+          })
+          .then((response) => {
+            setAllMember(response.data.userData);
+          });
+      })();
     } catch (error) {
       console.log(error);
     }
   }, [change, id]);
+
   const [community, setCommunity] = useState<Community>({
     communityName: "",
     createdAt: "",
@@ -54,9 +83,6 @@ function EditCommunity() {
     logo: string;
     status: string;
   } = community;
-  const [imgOpen, setImgOpen] = useState(false);
-  const [actMembers, setActMember] = useState({}) as any;
-  const [selectedOption, setSelectedOption] = useState("");
 
   if (logo === "" && logo.length > 0) {
     setImgOpen(true);
@@ -79,9 +105,6 @@ function EditCommunity() {
 
   const changeStatus = async (userId: string): Promise<void> => {
     try {
-      console.log(id);
-      console.log(status);
-
       await axios
         .post(
           `${AdminApi}changeComStatus`,
@@ -97,6 +120,60 @@ function EditCommunity() {
             setChange(false);
           }
         });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
+  const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const selectedValue = event.target.value;
+
+    if (event.target.checked) {
+      const newItem = {
+        _id: selectedValue,
+      };
+
+      setCMembers((prevMembers) => [...prevMembers, newItem]);
+    } else {
+      setCMembers((prevMembers) =>
+        prevMembers.filter((member) => member._id !== selectedValue)
+      );
+    }
+  };
+
+  const submitChanges = async () => {
+    try {
+      let selectedValue  ="";
+      let inputValue = "";
+      if (inputRef.current) {
+         inputValue = inputRef.current.value;
+        console.log('Current Value:', inputValue);
+        console.log(inputValue);
+      }
+      if(selectedOption.length === 0){
+        if (selectRef.current) {
+           selectedValue = selectRef.current.value
+        }
+      }else{
+        inputValue = selectedOption
+      }
+    console.log(inputValue,selectedValue,"oooo");
+    console.log(commName,selectedOption,"ppp");
+    
+    
+    
+      // if (commName.length === 0) {
+      //   setCommName(communityName);
+      // }
+      // if (selectedOption.length === 0) {
+      //   setSelectedOption(status);
+      // }
+      // console.log(commName.length,selectedOption.length,"oooo");
+      // await axios.post(`${AdminApi}changeCommunity`, {
+      //   commName,
+      //   selectedOption,
+      // });
     } catch (error) {
       console.error(error);
     }
@@ -140,7 +217,9 @@ function EditCommunity() {
                         type="text"
                         placeholder="Community Name"
                         defaultValue={communityName}
+                        ref={inputRef}
                         className="placeholder-gray-500 ml-5 pl-2 text-xs w-[15rem] h-7 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
+                        onChange={(e) => setCommName(e.target.value)}
                       />
                     </div>
                     <div className="w-[18rem] flex flex-col pt-2">
@@ -149,11 +228,13 @@ function EditCommunity() {
                         <span className="text-red-500">*</span>{" "}
                       </p>
                       <select
+                        placeholder="Select Status"
                         value={status}
+                        ref={selectRef}
                         onChange={(e) => setSelectedOption(e.target.value)}
                         className="w-[15rem] ml-5  text-xs h-6 pl-3 rounded-md "
                       >
-                        <option className="">Select Status</option>
+                        <option>select</option>
                         <option value="Active" className="">
                           Active
                         </option>
@@ -190,16 +271,10 @@ function EditCommunity() {
                                 className="border-y-2 border-black h-10"
                               >
                                 <td className="flex justify-center mt-2  h-6">
-                                  {/* <input
-                                    type="checkbox"
-                                    className="cyberpunk-checkbox"
-                                    // onChange={handleCheckboxChange}
-                                    value={item?.userId._id}
-                                  /> */}
                                   <img src="/icons/checked.png" alt="checked" />
                                 </td>
                                 <td className="text-center text-sm h-2">
-                                  {item?.userId?.firstName}
+                                  {`${item?.userId?.firstName} ${item?.userId?.lastName}`}
                                 </td>
                                 <td className="text-center  h-2">
                                   {item?.access === true ? (
@@ -219,7 +294,6 @@ function EditCommunity() {
                                       onClick={async () =>
                                         await changeStatus(item?.userId._id)
                                       }
-
                                     >
                                       blocked
                                     </button>
@@ -238,25 +312,60 @@ function EditCommunity() {
                     <div className=" w-full h-8 flex justify-center items-center">
                       <p>Add Members</p>
                     </div>
-                    <table className="w-full h-full bg-gray-400 bg-opacity-30 rounded-md">
-                      <thead className=" h-8 rounded-md">
-                        <tr className=" h-2 w-full bg-blue-400 rounded-md">
-                          <th className="cursor-default">Selected</th>
-                          <th className="cursor-default">Name</th>
-                          <th className="cursor-default">Comm.No</th>
-                        </tr>
-                      </thead>
-                      <tbody>{/* .......................... */}</tbody>
-                    </table>
+                    {/* Second Table  */}
+                    <div className="w-full h-full bg-gray-400 bg-opacity-30 rounded-md overflow-y-scroll over border border-black">
+                      <table className="w-full">
+                        <thead className=" h-8 rounded-md">
+                          <tr className=" h-2 w-full bg-blue-400 rounded-md">
+                            <th className="cursor-default">Selected</th>
+                            <th className="cursor-default">Name</th>
+                            <th className="cursor-default"> Comm.No</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {allMember.map((member, i) => {
+                            const count = member?.community?.length;
+                            return (
+                              <tr
+                                key={i}
+                                className="border-y-2 border-black h-10"
+                              >
+                                <td className="flex justify-center mt-2  h-6">
+                                  <input
+                                    type="checkbox"
+                                    className="cyberpunk-checkbox"
+                                    onChange={handleCheckboxChange}
+                                    value={member?._id}
+                                  />
+                                  {/* <img src="/icons/checked.png" alt="checked" /> */}
+                                </td>
+                                <td className="text-center text-sm h-2">
+                                  {`${member?.firstName} ${member?.lastName}`}
+                                </td>
+                                <td className="text-center text-sm h-2">
+                                  {count}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
               <div className="w-full h-[8.1rem] flex justify-center items-center">
                 <div className="w-36 h-9 flex justify-between items-center">
-                  <button className="w-16 h-8 bg-red-500 hover:bg-red-600 rounded-md">
+                  <button
+                    className="w-16 h-8 bg-red-500 hover:bg-red-600 rounded-md"
+                    onClick={() => navigate("/admin/community")}
+                  >
                     Cancel
                   </button>
-                  <button className="w-16 h-8 bg-green-500 hover:bg-green-600 rounded-md">
+                  <button
+                    className="w-16 h-8 bg-green-500 hover:bg-green-600 rounded-md"
+                    onClick={submitChanges}
+                  >
                     Save
                   </button>
                 </div>
