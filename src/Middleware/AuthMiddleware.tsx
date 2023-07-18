@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector} from "react-redux";
 import jwtDecode from "jwt-decode";
 import { useLocation } from "react-router-dom";
 
@@ -36,12 +36,24 @@ const  Authentication = ({
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation()
+  const userData = useSelector((state:any)=>state.user)// this also
+
+
+  
 
   useEffect(() => {
     if (!cookie) {
+    
       if (Type === "user") {
         console.log("hello");
-        if(location.pathname ==="/userSignup"){
+        if(location.pathname ==="/"){
+          navigate("/")
+          return
+        }
+        
+        if(location.pathname ==="/userSignup" && userData._id ===""){
+           console.log("ooooooo");
+           
           navigate("/userSignup")
           return
         }

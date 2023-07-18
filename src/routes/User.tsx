@@ -53,11 +53,11 @@ function User() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/userLogin" element={<UserLogin />} />
-        <Route path="/userSignup" element={<UserSignup />} />
         <Route path="/forgetPass" element={<ForgetPass />} />
       </Routes>
       <Authentication CookieName="jwtToken" Type="user">
         <Routes>
+        <Route path="/userSignup" element={<UserSignup />} />
           <Route path="/subscribe" element={<Subscription />} />
           <Route path="/subscribe/payment" element={<CheckOut />} />
           <Route path="/subscribe/success" element={<PaymentSuccess />} />

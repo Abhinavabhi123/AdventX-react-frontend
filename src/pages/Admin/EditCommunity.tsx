@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent,useRef } from "react";
+import React, { useState, useEffect, ChangeEvent, useRef } from "react";
 import { useParams } from "react-router-dom";
 import "./Community.css";
 import { useNavigate } from "react-router-dom";
@@ -27,8 +27,8 @@ interface UserData {
 
 function EditCommunity() {
   const navigate = useNavigate();
-  const inputRef =useRef<HTMLInputElement>(null)
-  const selectRef =useRef<HTMLSelectElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null);
+  const selectRef = useRef<HTMLSelectElement>(null);
   const { id } = useParams();
   const [change, setChange] = useState(false);
   const [imgOpen, setImgOpen] = useState(false);
@@ -36,6 +36,8 @@ function EditCommunity() {
   const [allMember, setAllMember] = useState<UserData[]>([]);
   const [selectedOption, setSelectedOption] = useState("");
   const [commName, setCommName] = useState("");
+  const [errorOpen, setErrorOpen] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
   const [cMembers, setCMembers] = useState<{ _id: string }[]>([]);
 
   useEffect(() => {
@@ -76,7 +78,6 @@ function EditCommunity() {
     communityName,
     createdAt,
     logo,
-    status,
   }: {
     communityName: string;
     createdAt: string;
@@ -125,7 +126,6 @@ function EditCommunity() {
     }
   };
 
-
   const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
     const selectedValue = event.target.value;
 
@@ -144,36 +144,45 @@ function EditCommunity() {
 
   const submitChanges = async () => {
     try {
-      let selectedValue  ="";
+      // let selectedValue  ="";
       let inputValue = "";
       if (inputRef.current) {
-         inputValue = inputRef.current.value;
-        console.log('Current Value:', inputValue);
+        inputValue = inputRef.current.value;
+        console.log("Current Value:", inputValue);
         console.log(inputValue);
       }
-      if(selectedOption.length === 0){
-        if (selectRef.current) {
-           selectedValue = selectRef.current.value
-        }
-      }else{
-        inputValue = selectedOption
+      if (inputValue.length <= 0) {
+        setErrorOpen(true);
+        setError("Please Enter the Community Name");
+        setTimeout(() => {
+          setErrorOpen(false);
+          setError("");
+        }, 1500);
+        return;
       }
-    console.log(inputValue,selectedValue,"oooo");
-    console.log(commName,selectedOption,"ppp");
-    
-    
-    
-      // if (commName.length === 0) {
-      //   setCommName(communityName);
-      // }
-      // if (selectedOption.length === 0) {
-      //   setSelectedOption(status);
-      // }
-      // console.log(commName.length,selectedOption.length,"oooo");
-      // await axios.post(`${AdminApi}changeCommunity`, {
-      //   commName,
-      //   selectedOption,
-      // });
+      if (selectedOption === "") {
+        setErrorOpen(true);
+        setError("Please Select the status of Community");
+        setTimeout(() => {
+          setErrorOpen(false);
+          setError("");
+        }, 1500);
+        return;
+      }
+      console.log(inputValue, selectedOption, "ppp");
+      console.log(cMembers);
+
+      await axios.post(`${AdminApi}changeCommunity/${id}`, {
+        inputValue,
+        cMembers,
+        selectedOption,
+      }).then((response)=>{
+        if(response.data.status === 200){
+          navigate("/admin/community")
+        }
+      }).catch((error)=>{
+        console.error(error);
+      })
     } catch (error) {
       console.error(error);
     }
@@ -229,8 +238,8 @@ function EditCommunity() {
                       </p>
                       <select
                         placeholder="Select Status"
-                        value={status}
-                        ref={selectRef}
+                        // value={status}
+                        // ref={selectRef}
                         onChange={(e) => setSelectedOption(e.target.value)}
                         className="w-[15rem] ml-5  text-xs h-6 pl-3 rounded-md "
                       >
@@ -354,7 +363,10 @@ function EditCommunity() {
                   </div>
                 </div>
               </div>
-              <div className="w-full h-[8.1rem] flex justify-center items-center">
+              <div className="w-full h-8 flex justify-center items-center">
+                {errorOpen && <p className="text-xs text-red-600">{error}</p>}
+              </div>
+              <div className="w-full h-[5rem] flex justify-center items-center">
                 <div className="w-36 h-9 flex justify-between items-center">
                   <button
                     className="w-16 h-8 bg-red-500 hover:bg-red-600 rounded-md"

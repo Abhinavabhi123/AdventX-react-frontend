@@ -15,6 +15,8 @@ function TopBar(props:TopBarProps) {
   const AdminLogout=()=>{
     console.log();
     Cookies.remove('adminJwt')
+    console.log("logging out");
+    
     dispatch(AdminAction.AdminLogout)
     navigate("/admin/login")
   }

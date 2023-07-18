@@ -5,14 +5,14 @@ import { AdminApi } from "../../../Store/api";
 
 function CommunityList() {
   const [data, setData] = useState([]);
-
+  const [deleted,setDeleted] =useState<boolean>(false)
   useEffect(() => {
     (async () => {
       await axios.get(`${AdminApi}communities`).then((response) => {
         setData(response.data.community);
       });
     })();
-  }, []);
+  }, [deleted]);
 
   return (
     <div className="">
@@ -32,7 +32,7 @@ function CommunityList() {
           <tbody className="">
         {data.length > 0 ? 
             data.map((item, i) => {
-              return <CommunityRow key={i} value={item} i={++i} />;
+              return <CommunityRow key={i} value={item} i={++i} setDeleted={setDeleted} deleted={deleted}/>;
             })
         :(
             <>

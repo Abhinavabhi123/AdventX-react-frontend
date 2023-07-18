@@ -42,6 +42,7 @@ function Admin() {
           <Route path="/userManagement" element={<UserManagement />} />
           <Route path="/createCommunity" element={<CreateCommunity />} />
           <Route path="/community/edit-community/:id" element={<EditCommunity />} />
+         
         </Routes>
       </Authentication>
     </div>

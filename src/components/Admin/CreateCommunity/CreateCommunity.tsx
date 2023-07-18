@@ -239,7 +239,7 @@ function CreateCommunity() {
                       className="w-[15rem] ml-5  text-xs h-6 pl-3 rounded-md"
                       onChange={(e) => setStatus(e.target.value)}
                     >
-                     
+                     <option> select</option>
                       <option value="Active" className="">
                         Active
                       </option>
