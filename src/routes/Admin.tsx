@@ -12,6 +12,8 @@ import { useEffect } from "react";
 import { AdminAction } from "../Store/redux/AdminAuth";
 import Authentication from "../Middleware/AuthMiddleware";
 import EditCommunity from "../pages/Admin/EditCommunity";
+import EventManagement from "../pages/Admin/EventManagement";
+import AddEvent from "../pages/Admin/AddEvent";
 
 interface Admin {
   email: string;
@@ -42,7 +44,8 @@ function Admin() {
           <Route path="/userManagement" element={<UserManagement />} />
           <Route path="/createCommunity" element={<CreateCommunity />} />
           <Route path="/community/edit-community/:id" element={<EditCommunity />} />
-         
+          <Route path="/eventManagement" element={<EventManagement/>}/>
+          <Route path="/addEvent" element={<AddEvent/>}/>
         </Routes>
       </Authentication>
     </div>

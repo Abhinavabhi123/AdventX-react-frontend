@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { AdminAction } from "../../../Store/redux/AdminAuth";
 interface TopBarProps {
-  value: "Community"|"Dashboard"|"Users"|"Edit Community"
+  value: "Community"|"Dashboard"|"Users"|"Edit Community" |"Event" |"Create Event"
 }
 
 function TopBar(props:TopBarProps) {

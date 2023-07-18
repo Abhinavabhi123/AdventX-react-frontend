@@ -115,7 +115,6 @@ function CreateCommunity() {
           setError("");
         }, 1500);
         return;
-        return false;
       }
       if (
         cName.trim() === "" ||

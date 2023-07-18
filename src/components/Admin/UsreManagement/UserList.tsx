@@ -17,7 +17,7 @@ function UserList() {
   }, []);
 
   return (
-    <div className="w-[71rem] h-[76rem] rounded-md bg-gray-500 bg-opacity-20 border border-black overflow-y-scroll">
+    <div className="w-[71rem] h-[76rem] rounded-md bg-gray-500 bg-opacity-20 border border-black over overflow-y-scroll">
       <table className="w-full rounded-md table-auto inline-table ">
         <thead className="h-10">
           <tr>

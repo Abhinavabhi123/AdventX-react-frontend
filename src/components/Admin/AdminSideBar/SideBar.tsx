@@ -18,7 +18,7 @@ function SideBar() {
         <div className='w-full  h-6 bg-gray-500 bg-opacity-40 flex justify-center items-center cursor-default'>
           <p className="text-xs font-semibold">Layout and Pages</p>
         </div>
-        <div className='w-full h-12 border-b border-gray-500 flex justify-start items-center cursor-pointer' onClick={()=>navigate("/admin/events")}>
+        <div className='w-full h-12 border-b border-gray-500 flex justify-start items-center cursor-pointer' onClick={()=>navigate("/admin/eventManagement")}>
           <img src="/icons/events.png" alt="Dashboard Image" className='w-6 h-6 ml-3' />
           <h1 className='ml-3 text-sm'>Events</h1>
         </div>
