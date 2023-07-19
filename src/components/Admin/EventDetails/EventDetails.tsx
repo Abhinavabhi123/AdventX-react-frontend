@@ -1,6 +1,9 @@
 import React, { useState, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import "./EventDetails.css";
+import { AdminApi } from "../../../Store/api";
+import axios from "axios";
+import { uploadImage } from "../../../Store/Firebase/Firebase";
 
 function EventDetails() {
   const navigate = useNavigate();
@@ -16,13 +19,36 @@ function EventDetails() {
   const [description, setDescription] = useState<string>("");
   const [about, setAbout] = useState<string>("");
   const [status, setStatus] = useState<string>("");
-  const [image, setImage] = useState<File | string>("");
+  const [image, setImage] = useState<File | undefined>();
+  const [imageUrl,setImageUrl] =useState<string>("")
   const [preview, setPreview] = useState<string>("");
   const [imgOpen, setImgOpen] = useState<boolean>(false);
 
   const imageHandle = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
+    if (event.target.files && event.target.files?.[0]) {
       const file = event.target.files[0];
+      const allowedType = ["image/jpeg", "image/jpeg", "image/png"];
+      if (!allowedType.includes(file.type)) {
+        // setError("Please select a JPG, JPEG, or PNG image file.");
+        // setErrorOpen(true);
+        // setTimeout(() => {
+        //   setErrorOpen(false);
+        //   setError("");
+        // }, 1500);
+        return;
+      }
+      const maxSize = 20 * 1024 * 1024;
+      if (file.size > maxSize) {
+        // setError("Please select an image file smaller than 5MB.");
+        // setErrorOpen(true);
+        // setTimeout(() => {
+        //   setErrorOpen(false);
+        //   setError("");
+        // }, 1500);
+        return;
+      }
+      // setImage(file);
+      // setImageUrl(URL.createObjectURL(file));
       setImage(file);
       setPreview(URL.createObjectURL(file));
       setImgOpen(true);
@@ -31,20 +57,8 @@ function EventDetails() {
 
   const submitDetails = async () => {
     try {
-      console.log(eventName,"eventName");
-      console.log(subTitle,"subTitle");
-      console.log(location,"location");
-      console.log(date,"date");
-      console.log(type,"type");
-      console.log(fee,"fee");
-      console.log(firstPrice,'firstPrice');
-      console.log(secondPrice,"secondPrice");
-      console.log(thirdPrice,"thirdPrice");
-      console.log(description,"description");
-      console.log(about,"about");
-      console.log(status,"status"); 
-      console.log(image,"image"); 
-      
+      console.log(image);
+
       if (
         eventName.length > 0 &&
         subTitle.length > 0 &&
@@ -60,10 +74,99 @@ function EventDetails() {
         status.length > 0 &&
         image
       ) {
-      //  check event name 
-      if(eventName[0]===""){
-        alert('Please enter Event Name')
-      }
+        //  check event name
+        if (eventName[0] === " ") {
+          alert("please Enter name properly");
+          return;
+        }
+        const symbols = /[-!"#$%&'()*+,./:;<=>?@[\\\]^_`{|}~]/;
+        if (symbols.test(eventName)) {
+          alert("Please enter valid Event ....Name");
+          return;
+        }
+        // Checking sub title
+        if (subTitle[0] === " ") {
+          alert("please Enter name properly");
+          return;
+        }
+        if (symbols.test(subTitle)) {
+          alert("Please enter valid Event ....Name");
+          return;
+        }
+        // Checking location
+        if (subTitle[0] === " ") {
+          alert("please Enter name properly");
+          return;
+        }
+        if (/[!"#$%&'()*+./:;<=>?[\\\]^_`{|}~]/.test(location)) {
+          alert("Please enter valid Event ....Name");
+          return;
+        }
+        // Checking Date field
+        const today = new Date().getTime();
+        const result = new Date(date).getTime();
+
+        if (result < today) {
+          alert("Date error");
+          return;
+        }
+        if (fee <= 0) {
+          alert("please Enter the fee more than 0");
+          return;
+        }
+        if (firstPrice <= 0) {
+          alert("please Enter the first price more than 0");
+          return;
+        }
+        if (secondPrice <= 0) {
+          alert("please Enter the second price more than 0");
+          return;
+        }
+        if (thirdPrice <= 0) {
+          alert("please Enter the third price more than 0");
+          return;
+        }
+        if (status === "Select Status") {
+          alert("Please select status");
+          return;
+        }
+        await uploadImage(image).then((data) => {
+          setImageUrl(data) 
+        }).then(async()=>{
+
+          await axios
+          .post(
+            `${AdminApi}addEvent`,
+            {
+              eventName,
+              subTitle,
+              location,
+              date,
+              type,
+              fee,
+              firstPrice,
+              secondPrice,
+              thirdPrice,
+              description,
+              about,
+              imageUrl
+            },
+            {
+              withCredentials: true,
+            }
+          )
+          .then((response) => {
+            console.log(response.data);
+            const result = response.data;
+            if (
+              result.status === 200 &&
+              result.message === "Data stored successfully"
+            ) {
+              console.log("Event Created");
+              navigate("/admin/eventManagement")
+            }
+          });
+        })
       } else {
         console.error("error");
       }
@@ -88,7 +191,8 @@ function EventDetails() {
             type="text"
             placeholder="Community Name"
             className="placeholder-gray-500 ml-5 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
-            onChange={(e) => setEventName(e.target.value)}
+            onChange={(e) => setEventName(e.target.value.toUpperCase())}
+            value={eventName.toUpperCase()}
           />
         </div>
         {/* input div 2 */}
@@ -124,9 +228,12 @@ function EventDetails() {
             <span className="text-red-500">*</span>{" "}
           </p>
           <input
-            type="Date"
+            type="date"
+            pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}"
             formAction="dd-mm-yyyy"
-            placeholder="DD-MM-YYYY"
+            min={Date.now()}
+            value={date.toString()}
+            // placeholder="DD-MM-YYYY"
             className="placeholder-gray-500 ml-5 pl-2 pr-3 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
             onChange={(e) => setDate(e.target.value)}
           />
@@ -234,7 +341,7 @@ function EventDetails() {
         {/* select Status */}
         <div className="w-[18rem] flex flex-col h-14  m-0 justify-center mb-2 mt-[3rem]">
           <p className="text-xs ml-5">
-            Third Price
+            Select Status
             <span className="text-red-500">*</span>{" "}
           </p>
           <select
@@ -247,7 +354,7 @@ function EventDetails() {
             <option value="Deactivate">Deactivate</option>
           </select>
         </div>
-        {/* drag and drop  start*/}  
+        {/* drag and drop  start*/}
         {/* <div id="form-file-upload">
           <input type="file" id="input-file-upload" multiple={false} />
           <label id="label-file-upload" htmlFor="input-file-upload">
@@ -257,7 +364,7 @@ function EventDetails() {
             </div>
           </label>
         </div> */}
-      
+
         {/* end */}
         <div className="w-[18rem] flex flex-col h-14  m-0 justify-center mb-2">
           <p className="text-xs ml-5">

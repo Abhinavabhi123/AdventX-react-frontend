@@ -45,7 +45,6 @@ const  Authentication = ({
     if (!cookie) {
     
       if (Type === "user") {
-        console.log("hello");
         if(location.pathname ==="/"){
           navigate("/")
           return
@@ -80,9 +79,7 @@ const  Authentication = ({
       );
     } else {
       const adminData = jwtDecode(cookie) as Admin;
-      console.log(adminData, "Admin cookie");
       dispatch(AdminAction.AdminLogin({ email: adminData.email }));
-      console.log(typeof location.pathname);
       if(location.pathname ==="/admin/login"){
         navigate("/admin/dashboard")
       }

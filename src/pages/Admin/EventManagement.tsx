@@ -17,8 +17,8 @@ function EventManagement() {
         </div>
         <div className="h-full w-full flex justify-center items-center">
           <div className="w-[96%] h-[50rem]  rounded-md border border-dashed border-blue-600 flex flex-col">
-            <div className="w-full h-12  flex items-center justify-end" onClick={()=>{navigate("/admin/addEvent")}}>
-              <button className="w-32 h-8 text-sm  bg-blue-300 mr-5 rounded-md flex items-center justify-evenly">
+            <div className="w-full h-12  flex items-center justify-end">
+              <button className="w-32 h-8 text-sm  bg-blue-300 mr-5 rounded-md flex items-center justify-evenly" onClick={()=>{navigate("/admin/addEvent")}}>
                 <img className="w-7 h-7" src="/icons/add.png" alt="add" /> Add
                 Event
               </button>
