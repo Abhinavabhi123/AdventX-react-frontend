@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AdminApi, ImgApi } from "../../../Store/api";
 import Swal from 'sweetalert2';
 import axios from "axios";
+import AdminAxios from "../../../Store/Axios/AdminConfig";
 interface Values {
   value: any;
   i: number;
@@ -50,7 +51,7 @@ const CommunityRow = (props: Values) => {
     }).then(async(result)=>{
       if(result.isConfirmed){
 
-        await axios.delete(`${AdminApi}deleteCommunity/${_id}`).then((response)=>{
+        await AdminAxios.delete(`deleteCommunity/${_id}`).then((response)=>{
           if(response.data.status ===200){
             Swal.fire(
               'Deleted!',

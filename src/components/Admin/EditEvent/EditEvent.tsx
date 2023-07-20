@@ -1,19 +1,32 @@
-import React, { useState, ChangeEvent } from "react";
-import { useNavigate } from "react-router-dom";
-import "./EventDetails.css";
-import { AdminApi } from "../../../Store/api";
 import axios from "axios";
-import ImageCompressor from "compressorjs";
-import { uploadImage } from "../../../Store/Firebase/Firebase";
+import React, { useState, useEffect, ChangeEvent,useRef } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { AdminApi } from "../../../Store/api";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
 
+interface DataState {
+  eventName: string;
+  subName: string;
+  location: string;
+  date: string;
+  eventType: string;
+  fee: number;
+  firstPrice: number;
+  secondPrice: number;
+  thirdPrice: number;
+  description: string;
+  about: string;
+  status: string;
+  primaryImage: string;
+}
 
-function EventDetails() {
+function EditEvent() {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [eventName, setEventName] = useState<string>("");
   const [subTitle, setSubTitle] = useState<string>("");
   const [location, setLocation] = useState<string>("");
-  const [date, setDate] = useState<Date | string>("");
+  const [date, setDate] = useState<string>("");
   const [type, setType] = useState<string>("");
   const [fee, setFee] = useState<number>(0);
   const [firstPrice, setFirstPrice] = useState<number>(0);
@@ -26,6 +39,37 @@ function EventDetails() {
   const [imageUrl, setImageUrl] = useState<string>("");
   const [preview, setPreview] = useState<string>("");
   const [imgOpen, setImgOpen] = useState<boolean>(false);
+  const [data, setData] = useState<DataState | undefined>();
+
+  const inputName = useRef<HTMLInputElement>(null)
+  const inputSub = useRef<HTMLInputElement>(null)
+  const inputLocation = useRef<HTMLInputElement>(null)
+  const inputDate = useRef<HTMLSelectElement>(null)
+  const inputType = useRef<HTMLSelectElement>(null)
+  const inputFee = useRef<HTMLSelectElement>(null)
+  const inputFirst = useRef<HTMLSelectElement>(null)
+  const inputSecond = useRef<HTMLSelectElement>(null)
+  const inputThird = useRef<HTMLSelectElement>(null)
+  const inputAbout = useRef<HTMLSelectElement>(null)
+  const inputStatus = useRef<HTMLSelectElement>(null)
+
+
+  useEffect(() => {
+    (async () => {
+      await AdminAxios
+        .get(`getEventData`, {
+          params: {
+            id,
+          },
+        })
+        .then((response) => {
+          setData(response?.data?.eventData);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    })();
+  }, []);
 
   const imageHandle = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files?.[0]) {
@@ -58,141 +102,13 @@ function EventDetails() {
     }
   };
 
-  const submitDetails = async () => {
+  const submitDetails = () => {
+    console.log("submitting");
     try {
-      console.log(image);
-
-      if (
-        eventName.length > 0 &&
-        subTitle.length > 0 &&
-        location.length > 0 &&
-        date &&
-        type.length > 0 &&
-        fee > 0 &&
-        firstPrice > 0 &&
-        secondPrice > 0 &&
-        thirdPrice > 0 &&
-        description.length > 0 &&
-        about.length > 0 &&
-        status.length > 0 &&
-        image
-      ) {
-        //  check event name
-        if (eventName[0] === " ") {
-          alert("please Enter name properly");
-          return;
-        }
-        const symbols = /[-!"#$%&'()*+,./:;<=>?@[\\\]^_`{|}~]/;
-        if (symbols.test(eventName)) {
-          alert("Please enter valid Event ....Name");
-          return;
-        }
-        // Checking sub title
-        if (subTitle[0] === " ") {
-          alert("please Enter name properly");
-          return;
-        }
-        if (symbols.test(subTitle)) {
-          alert("Please enter valid Event ....Name");
-          return;
-        }
-        // Checking location
-        if (subTitle[0] === " ") {
-          alert("please Enter name properly");
-          return;
-        }
-        if (/[!"#$%&'()*+./:;<=>?[\\\]^_`{|}~]/.test(location)) {
-          alert("Please enter valid Event ....Name");
-          return;
-        }
-        // Checking Date field
-        const today = new Date().getTime();
-        const result = new Date(date).getTime();
-
-        if (result < today) {
-          alert("Date error");
-          return;
-        }
-        if (fee <= 0) {
-          alert("please Enter the fee more than 0");
-          return;
-        }
-        if (firstPrice <= 0) {
-          alert("please Enter the first price more than 0");
-          return;
-        }
-        if (secondPrice <= 0) {
-          alert("please Enter the second price more than 0");
-          return;
-        }
-        if (thirdPrice <= 0) {
-          alert("please Enter the third price more than 0");
-          return;
-        }
-        if (status === "Select Status") {
-          alert("Please select status");
-          return;
-        }
-        const compressImage = (image: File): Promise<File> => {
-          return new Promise((resolve, reject) => {
-            new ImageCompressor(image, {
-              quality: 0.5,
-              success(result: any) {
-                resolve(result);
-              },
-              error(error: any) {
-                reject(error);
-              },
-            });
-          });
-        };
-        // await compressImage(image).then(async(response) => {
-        //   console.log(response, "jjj");
-
-          await uploadImage(image).then(async(data) => {
-            setImageUrl(data)
-            console.log(data,"kitty");
-            if(imageUrl){
-            await AdminAxios
-            .post(
-              `addEvent`,
-              {
-                eventName,
-                subTitle,
-                location,
-                date,
-                type,
-                fee,
-                firstPrice,
-                secondPrice,
-                thirdPrice,
-                description,
-                about,
-                status,
-                imageUrl
-              },
-              {
-                withCredentials: true,
-              }
-            )
-            .then((response) => {
-              console.log(response.data);
-              const result = response.data;
-              if (
-                result.status === 200 &&
-                result.message === "Data stored successfully"
-              ) {
-                console.log("Event Created");
-                navigate("/admin/eventManagement")
-              }
-            });
-          }
-          })
+        console.log(eventName,"daaf");
         
-        // });
-      } else {
-        console.error("error");
-      }
+     console.log("hello");
+     
     } catch (error) {
       console.error(error);
     }
@@ -213,9 +129,10 @@ function EventDetails() {
           <input
             type="text"
             placeholder="Event Name"
+            ref={inputName}
             className="placeholder-gray-500 ml-5 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
             onChange={(e) => setEventName(e.target.value.toUpperCase())}
-            value={eventName.toUpperCase()}
+            defaultValue={data?.eventName}
           />
         </div>
         {/* input div 2 */}
@@ -229,6 +146,7 @@ function EventDetails() {
             placeholder="Enter sub title"
             className="placeholder-gray-500 ml-5 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
             onChange={(e) => setSubTitle(e.target.value)}
+            defaultValue={data?.subName}
           />
         </div>
         {/* input div 3 */}
@@ -242,6 +160,7 @@ function EventDetails() {
             placeholder="Enter Location"
             className="placeholder-gray-500 ml-5 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
             onChange={(e) => setLocation(e.target.value)}
+            defaultValue={data?.location}
           />
         </div>
         {/* input div 4 */}
@@ -255,7 +174,7 @@ function EventDetails() {
             pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}"
             formAction="dd-mm-yyyy"
             min={Date.now()}
-            value={date.toString()}
+            defaultValue={data?.date}
             // placeholder="DD-MM-YYYY"
             className="placeholder-gray-500 ml-5 pl-2 pr-3 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
             onChange={(e) => setDate(e.target.value)}
@@ -272,6 +191,7 @@ function EventDetails() {
             placeholder="Enter event type"
             className="placeholder-gray-500 ml-5 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
             onChange={(e) => setType(e.target.value)}
+            defaultValue={data?.eventType}
           />
         </div>
         {/* input div 6 */}
@@ -285,6 +205,7 @@ function EventDetails() {
             placeholder="Enter event fees"
             className="placeholder-gray-500 ml-5 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md spin-button-none"
             onChange={(e) => setFee(parseInt(e.target.value, 10))}
+            defaultValue={data?.fee}
           />
         </div>
         {/* input div 7 */}
@@ -298,6 +219,7 @@ function EventDetails() {
             placeholder="First price amount"
             className="placeholder-gray-500 ml-5 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md spin-button-none"
             onChange={(e) => setFirstPrice(parseInt(e.target.value, 10))}
+            defaultValue={data?.firstPrice}
           />
         </div>
         {/* input div 8 */}
@@ -311,6 +233,7 @@ function EventDetails() {
             placeholder="Second price amount"
             className="placeholder-gray-500 ml-5 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md spin-button-none"
             onChange={(e) => setSecondPrice(parseInt(e.target.value, 10))}
+            defaultValue={data?.secondPrice}
           />
         </div>
         {/* input div 9*/}
@@ -324,6 +247,7 @@ function EventDetails() {
             placeholder="Third price amount"
             className="placeholder-gray-500 ml-5 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
             onChange={(e) => setThirdPrice(parseInt(e.target.value, 10))}
+            defaultValue={data?.thirdPrice}
           />
         </div>
       </div>
@@ -337,11 +261,12 @@ function EventDetails() {
           </p>
           <textarea
             placeholder="Enter event description"
-            className="placeholder-gray-500 ml-5 pt-3 pl-2 text-xs w-[18rem] flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
+            className="placeholder-gray-500 over ml-5 pt-3 pl-2 text-xs w-[18rem] flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
             style={{
               maxHeight: "8rem",
               minHeight: "8rem",
             }}
+            defaultValue={data?.description}
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>
@@ -353,11 +278,12 @@ function EventDetails() {
           </p>
           <textarea
             placeholder="Enter something about event"
-            className="placeholder-gray-500 ml-5 pt-3 pl-2 text-xs w-[18rem] flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
+            className="placeholder-gray-500 ml-5 pt-3 pl-2 text-xs w-[18rem] flex-shrink-0 border-2 border-solid border-gray-500 rounded-md over"
             style={{
               maxHeight: "8rem",
               minHeight: "8rem",
             }}
+            defaultValue={data?.about}
             onChange={(e) => setAbout(e.target.value)}
           />
         </div>
@@ -371,50 +297,36 @@ function EventDetails() {
             placeholder="Third price amount"
             className="placeholder-gray-500 ml-5 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
             onChange={(e) => setStatus(e.target.value)}
+            defaultValue={data?.status}
           >
             <option>Select Status</option>
             <option value="Active">Active</option>
             <option value="Deactivate">Deactivate</option>
           </select>
         </div>
-        {/* drag and drop  start*/}
-        {/* <div id="form-file-upload">
-          <input type="file" id="input-file-upload" multiple={false} />
-          <label id="label-file-upload" htmlFor="input-file-upload">
-            <div>
-              <p>Drag and drop your file here or</p>
-              <button className="upload-button">Upload a file</button>
-            </div>
-          </label>
-        </div> */}
 
-        {/* end */}
         <div className="w-[18rem] flex flex-col h-14  m-0 justify-center mb-2">
-          <p className="text-xs ml-5">
-            Select primary image
-            <span className="text-red-500">*</span>
-          </p>
+          <p className="text-xs ml-5">click to change primary image</p>
           <input
             type="file"
             accept="image/*"
             multiple={false}
             className="placeholder-gray-500 ml-5 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
-            onChange={imageHandle}
+            //   onChange={imageHandle}
           />
         </div>
-        {imgOpen && (
-          <div>
-            <img
-              className="w-56 rounded-md"
-              src={preview}
-              alt="image"
-              style={{
-                boxShadow:
-                  "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
-              }}
-            />
-          </div>
-        )}
+
+        <div>
+          <img
+            className="w-56 rounded-md"
+            src={data?.primaryImage}
+            alt="image"
+            style={{
+              boxShadow:
+                "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
+            }}
+          />
+        </div>
       </div>
 
       <div className=" w-[33.6%] h-full flex bg-transparent justify-center items-end">
@@ -437,4 +349,4 @@ function EventDetails() {
   );
 }
 
-export default EventDetails;
+export default EditEvent;

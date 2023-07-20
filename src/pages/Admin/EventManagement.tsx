@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import SideBar from "../../components/Admin/AdminSideBar/SideBar";
 import TopBar from "../../components/Admin/AdminTopBar/TopBar";
-import EventDetails from "../../components/Admin/EventDetails/EventDetails";
+import EventList from "../../components/Admin/EventList/EventList";
 
 function EventManagement() {
     const navigate = useNavigate()
@@ -24,9 +24,7 @@ function EventManagement() {
               </button>
             </div>
           <div className="w-full h-full flex justify-center items-center">
-            <div className=" w-[97%] h-[97%] bg-green-400">
-                
-            </div>
+            <EventList/>
           </div>
           </div>
         </div>

@@ -8,6 +8,7 @@ import TopBar from "../../components/Admin/AdminTopBar/TopBar";
 import axios from "axios";
 import { AdminApi } from "../../Store/api";
 import { ImgApi } from "../../Store/api";
+import AdminAxios from "../../Store/Axios/AdminConfig";
 
 interface Community {
   communityName: string;
@@ -43,8 +44,8 @@ function EditCommunity() {
   useEffect(() => {
     try {
       (async () => {
-        await axios
-          .get(`${AdminApi}getCommunityDetails/${id}`, {
+        await AdminAxios
+          .get(`getCommunityDetails/${id}`, {
             withCredentials: true,
           })
           .then((response) => {
@@ -54,8 +55,8 @@ function EditCommunity() {
       })();
 
       (async () => {
-        await axios
-          .get(`${AdminApi}addUserECommunity`, {
+        await AdminAxios
+          .get(`addUserECommunity`, {
             params: { id: id || "" },
             withCredentials: true,
           })
@@ -106,9 +107,9 @@ function EditCommunity() {
 
   const changeStatus = async (userId: string): Promise<void> => {
     try {
-      await axios
+      await AdminAxios
         .post(
-          `${AdminApi}changeComStatus`,
+          `changeComStatus`,
           { id, userId },
           { withCredentials: true }
         )
@@ -172,7 +173,7 @@ function EditCommunity() {
       console.log(inputValue, selectedOption, "ppp");
       console.log(cMembers);
 
-      await axios.post(`${AdminApi}changeCommunity/${id}`, {
+      await AdminAxios.post(`changeCommunity/${id}`, {
         inputValue,
         cMembers,
         selectedOption,

@@ -14,6 +14,7 @@ import Authentication from "../Middleware/AuthMiddleware";
 import EditCommunity from "../pages/Admin/EditCommunity";
 import EventManagement from "../pages/Admin/EventManagement";
 import AddEvent from "../pages/Admin/AddEvent";
+import EditEvents from "../pages/Admin/EditEventDetails";
 
 interface Admin {
   email: string;
@@ -46,6 +47,7 @@ function Admin() {
           <Route path="/community/edit-community/:id" element={<EditCommunity />} />
           <Route path="/eventManagement" element={<EventManagement/>}/>
           <Route path="/addEvent" element={<AddEvent/>}/>
+          <Route path="/editEvent/:id" element={<EditEvents/>}/>
         </Routes>
       </Authentication>
     </div>

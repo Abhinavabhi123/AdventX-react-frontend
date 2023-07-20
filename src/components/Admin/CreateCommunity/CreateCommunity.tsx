@@ -3,6 +3,7 @@ import "./CreateCommunity.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState, ChangeEvent } from "react";
 import { AdminApi } from "../../../Store/api";
+import AdminAxios from "../../../Store/Axios/AdminConfig";
 // import UsersRow from "./UsersRow";
 
 type User = {
@@ -84,7 +85,7 @@ function CreateCommunity() {
   useEffect(() => {
     try {
       const fetchData = async () => {
-        await axios.get(`${AdminApi}getCommunityUsers`).then((response) => {
+        await AdminAxios.get(`getCommunityUsers`).then((response) => {
           setUser(response.data);
         });
       };
@@ -149,7 +150,7 @@ function CreateCommunity() {
         }, 1500);
         return;
       }
-      await axios.post(`${AdminApi}createCommunity`,
+      await AdminAxios.post(`createCommunity`,
           {
             image,
             cName,

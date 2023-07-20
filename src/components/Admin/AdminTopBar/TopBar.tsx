@@ -1,26 +1,33 @@
 import React from "react";
-import "./TopBar.css"
+import "./TopBar.css";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { AdminAction } from "../../../Store/redux/AdminAuth";
 interface TopBarProps {
-  value: "Community"|"Dashboard"|"Users"|"Edit Community" |"Event" |"Create Event"
+  value:
+    | "Community"
+    | "Dashboard"
+    | "Users"
+    | "Edit Community"
+    | "Event"
+    | "Create Event"
+    | "Edit Event";
 }
 
-function TopBar(props:TopBarProps) {
-  const dispatch =useDispatch()
-  const navigate =useNavigate()
+function TopBar(props: TopBarProps) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const AdminLogout=()=>{
+  const AdminLogout = () => {
     console.log();
-    Cookies.remove('adminJwt')
+    Cookies.remove("adminJwt");
     console.log("logging out");
-    
-    dispatch(AdminAction.AdminLogout)
-    navigate("/admin/login")
-  }
-  
+
+    dispatch(AdminAction.AdminLogout);
+    navigate("/admin/login");
+  };
+
   return (
     <div className="topBarAdmin">
       <div className="topBarAdmin_main flex justify-end">
@@ -38,8 +45,11 @@ function TopBar(props:TopBarProps) {
             <h1 className="text-white text-2xl">{props.value} </h1>
           </div>
           <div className="">
-            <div className="mr-5 w-20 h-7 bg-white flex justify-center items-center rounded-md cursor-pointer" onClick={AdminLogout}>
-              <button  className="flex text-sm">
+            <div
+              className="mr-5 w-20 h-7 bg-white flex justify-center items-center rounded-md cursor-pointer"
+              onClick={AdminLogout}
+            >
+              <button className="flex text-sm">
                 <img className="w-5 h-5" src="/icons/logout.png" alt="Logout" />
                 Logout
               </button>

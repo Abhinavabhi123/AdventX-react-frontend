@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import CommunityRow from "./CommunityRow";
 import axios from "axios";
 import { AdminApi } from "../../../Store/api";
+import AdminAxios from "../../../Store/Axios/AdminConfig";
 
 function CommunityList() {
   const [data, setData] = useState([]);
   const [deleted,setDeleted] =useState<boolean>(false)
   useEffect(() => {
     (async () => {
-      await axios.get(`${AdminApi}communities`).then((response) => {
+      await AdminAxios.get(`communities`).then((response) => {
         setData(response.data.community);
       });
     })();

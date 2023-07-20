@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { AdminApi } from "../../../Store/api";
+import AdminAxios from "../../../Store/Axios/AdminConfig";
 
 
 interface TableRowProps {
@@ -33,8 +34,8 @@ const TableRow: React.FC<TableRowProps> = ({ value}) => {
 
     
     const fetchSingleUser = async () => {
-      await axios
-        .get(`${AdminApi}singleUser`, {
+      await AdminAxios
+        .get(`singleUser`, {
           params: { id },
         })
         .then((response) => {
@@ -50,7 +51,7 @@ const TableRow: React.FC<TableRowProps> = ({ value}) => {
   const blockUser = async () => {
     try {
       console.log("Clicked");
-      await axios.post(`${AdminApi}blockUser`, { _id }).then((response)=>{
+      await AdminAxios.post(`blockUser`, { _id }).then((response)=>{
         setUser(response.data)
         
       })

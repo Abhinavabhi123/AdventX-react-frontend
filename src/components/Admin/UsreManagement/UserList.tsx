@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { AdminApi } from "../../../Store/api";
 import TableRow from "./TableRow";
+import AdminAxios from "../../../Store/Axios/AdminConfig";
 
 function UserList() {
   const [users, setUsers] = useState([]);
@@ -9,7 +10,7 @@ function UserList() {
 
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
-      await axios.get(`${AdminApi}getAllUser`).then((response) => {
+      await AdminAxios.get(`getAllUser`).then((response) => {
         setUsers(response.data);
       });
     };
