@@ -3,8 +3,12 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AdminApi } from "../../../Store/api";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
+import Swal from 'sweetalert2';
+import { deleteImage } from "../../../Store/Firebase/Firebase";
 interface Props {
   value: string;
+  setDeleted:React.Dispatch<React.SetStateAction<boolean>>;
+  deleted:boolean
 }
 interface Value {
   eventName: string;
@@ -18,7 +22,7 @@ interface Value {
   status: string;
 }
 
-function EventCard({ value }: Props) {
+function EventCard({ value,deleted,setDeleted }: Props) {
     const navigate =useNavigate()
 
   const [data, setData] = useState<Value>({
@@ -41,14 +45,13 @@ function EventCard({ value }: Props) {
           },
         })
         .then((response) => {
-          console.log(response.data);
           setData(response?.data?.data);
         })
         .catch((error) => {
           console.log(error);
         });
     })();
-  }, []);
+  },[]);
   const {
     eventName,
     date,
@@ -62,6 +65,46 @@ function EventCard({ value }: Props) {
   console.log(data);
 
   const count = participants.length;
+
+  const deleteEvent=async()=>{
+    try {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't to delete this community",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(async(result)=>{
+        if(result.isConfirmed){
+      await AdminAxios.delete(`deleteEvent`,{params:{
+        id:value
+      }}).then(async(response)=>{
+        console.log(response);
+
+        if(response.data.status === 200){
+          await deleteImage(response?.data?.image)
+          Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          ).then(()=>{
+            deleted? setDeleted(false):setDeleted(true)
+          })
+        }
+        
+      }).catch((error)=>{
+        console.error(error);
+      })
+    }else if (result.isDismissed && result.dismiss === Swal.DismissReason.cancel) {
+      Swal.fire('Cancelled', 'Your file is safe :)', 'error');
+    }
+    })
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
 
   return (
@@ -99,6 +142,7 @@ function EventCard({ value }: Props) {
               src="/icons/delete1.png"
               alt="deleteBtn"
               className="w-5 mb-1 cursor-pointer"
+              onClick={deleteEvent}
             />
           </div>
         </div>
