@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import jwtDecode from "jwt-decode";
 
@@ -47,17 +47,19 @@ function User() {
   //     );
   //   }
   // }, [cookie, dispatch]);
-  // const userToken = useSelector((state: any) => state.User.userToken);
+  const userData = useSelector((state: any) => state.user.email);
+ 
+  
   return (
     <div>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/userLogin" element={<UserLogin />} />
-        <Route path="/forgetPass" element={<ForgetPass />} />
+        <Route path="/userLogin" element={userData ? <Navigate to={"/"}/>:<UserLogin />} />
+        <Route path="/forgetPass" element={userData ? <Navigate to={"/"}/>:<ForgetPass />} />
       </Routes>
       <Authentication CookieName="jwtToken" Type="user">
         <Routes>
-        <Route path="/userSignup" element={<UserSignup />} />
+        <Route path="/userSignup" element={userData ? <Navigate to={"/"}/>:<UserSignup />} />
           <Route path="/subscribe" element={<Subscription />} />
           <Route path="/subscribe/payment" element={<CheckOut />} />
           <Route path="/subscribe/success" element={<PaymentSuccess />} />

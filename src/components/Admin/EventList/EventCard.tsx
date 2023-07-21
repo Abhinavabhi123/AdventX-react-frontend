@@ -137,11 +137,11 @@ function EventCard({ value,deleted,setDeleted }: Props) {
             <img 
             src="/icons/edit.1.png" 
             alt="editBtn" 
-            className="w-6 mt-1 cursor-pointer" onClick={()=>navigate(`/admin/editEvent/${value}`)} />
+            className="w-5 mt-1 cursor-pointer" onClick={()=>navigate(`/admin/editEvent/${value}`)} />
             <img
               src="/icons/delete1.png"
               alt="deleteBtn"
-              className="w-5 mb-1 cursor-pointer"
+              className="w-4 mb-1 cursor-pointer"
               onClick={deleteEvent}
             />
           </div>

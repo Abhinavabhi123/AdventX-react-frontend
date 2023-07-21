@@ -15,7 +15,7 @@ function EventList() {
     })();
   }, [deleted]);
   return (
-    <div className=" w-[72rem] h-[46rem] bg-green-400 flex flex-col items-center overflow-y-scroll over">
+    <div className=" w-[72rem] h-[46rem] flex flex-col items-center overflow-y-scroll over">
       {events.map((event, i) => {
         return <EventCard value={event} key={i} deleted={deleted} setDeleted={setDeleted}/>;
       })}
