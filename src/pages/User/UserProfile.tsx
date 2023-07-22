@@ -13,7 +13,7 @@ function UserProfile() {
       <div className=" w-full h-20">
         <NavBar />
       </div>
-      <div className="w-screen h-[50rem] bg-white flex flex-col items-center">
+      <div className="w-screen h-fit bg-white flex flex-col items-center">
         <div className="w-[90%] h-16  flex justify-end items-center">
           <HomeBtn />
         </div>
