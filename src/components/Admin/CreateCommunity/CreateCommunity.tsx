@@ -168,7 +168,7 @@ function CreateCommunity() {
           console.log(response, "response Here");
           navigate("/admin/community");
         });
-      ``;
+      
     } catch (error) {
       console.error(error);
     }
