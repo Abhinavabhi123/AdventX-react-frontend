@@ -29,7 +29,7 @@ function UpcomingEvent() {
         </div>
         <div className="w-[5%] h-full flex  justify-center items-center">
           <div
-            className="w-8 h-8 rounded-full flex justify-center items-center cursor-pointer"
+            className="w-8 h-8 rounded-full flex justify-center items-center cursor-pointer mb-5 bg-white"
             style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
           >
             <img className="w-4" src="/icons/right_arrow.png" alt="right arrow" />

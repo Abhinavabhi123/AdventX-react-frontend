@@ -14,6 +14,8 @@ import Authentication from "../Middleware/AuthMiddleware";
 import { userActions } from "../Store/redux/UserAuth";
 import CheckOut from "../components/User/SubscribePayment/CheckOut";
 import PaymentSuccess from "../components/User/SubscribePayment/PaymentSuccess/PaymentSuccess";
+import UserProfile from "../pages/User/UserProfile";
+import UserIdContext from "../Store/Context/UserContext";
 
 interface DecodedToken {
   _id: string;
@@ -48,21 +50,30 @@ function User() {
   //   }
   // }, [cookie, dispatch]);
   const userData = useSelector((state: any) => state.user.email);
- 
-  
+
   return (
     <div>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/userLogin" element={userData ? <Navigate to={"/"}/>:<UserLogin />} />
-        <Route path="/forgetPass" element={userData ? <Navigate to={"/"}/>:<ForgetPass />} />
+        <Route
+          path="/userLogin"
+          element={userData ? <Navigate to={"/"} /> : <UserLogin />}
+        />
+        <Route
+          path="/forgetPass"
+          element={userData ? <Navigate to={"/"} /> : <ForgetPass />}
+        />
       </Routes>
       <Authentication CookieName="jwtToken" Type="user">
         <Routes>
-        <Route path="/userSignup" element={userData ? <Navigate to={"/"}/>:<UserSignup />} />
+          <Route
+            path="/userSignup"
+            element={userData ? <Navigate to={"/"} /> : <UserSignup />}
+          />
           <Route path="/subscribe" element={<Subscription />} />
           <Route path="/subscribe/payment" element={<CheckOut />} />
           <Route path="/subscribe/success" element={<PaymentSuccess />} />
+          <Route path="/profile" element={<UserProfile />} />
         </Routes>
       </Authentication>
     </div>
