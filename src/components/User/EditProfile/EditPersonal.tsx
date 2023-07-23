@@ -1,9 +1,4 @@
-import React, {
-  useEffect,
-  useContext,
-  useState,
-  useRef,
-} from "react";
+import React, { useEffect, useContext, useState, useRef } from "react";
 import UserIdContext from "../../../Store/Context/UserContext";
 import axios from "axios";
 import { UserApi } from "../../../Store/api";
@@ -18,10 +13,15 @@ function EditPersonal() {
   const heightRef = useRef<HTMLInputElement>(null);
   const weightRef = useRef<HTMLInputElement>(null);
   const dateRef = useRef<HTMLInputElement>(null);
+  const [changed,setChanged]= useState<boolean>(false)
   const [data, setData] = useState({
     firstName: "",
     lastName: "",
     mobile: "",
+    about:"",
+    height:"",
+    weight:"",
+    date_of_birth:""
   });
   useEffect(() => {
     if (userId) {
@@ -33,12 +33,11 @@ function EditPersonal() {
           });
       })();
     }
-  }, [userId]);
+  }, [userId,changed]);
 
-  const submitUserEdit = async(event: React.FormEvent<HTMLFormElement>) => {
+  const submitUserEdit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-        console.log("starting");
       const firstName: string | undefined = firstNameRef.current?.value;
       const lastName = lastNameRef.current?.value;
       const number = numberRef.current?.value;
@@ -57,64 +56,66 @@ function EditPersonal() {
       ) {
         return;
       } else {
-        if(firstName.length<=0){
-            return
+        if (firstName.length <= 0) {
+          return;
         }
-        if(firstName.trim()===""){  
-            return
+        if (firstName.trim() === "") {
+          return;
         }
-        if (firstName[0] ===" ") {
-            return
+        if (firstName[0] === " ") {
+          return;
         }
-        const symbols =/[-!"#$%&'()*+,./:;<=>?@[\\\]^_`{|}~]/;
-        if(symbols.test(firstName)){
-            return
+        const symbols = /[-!"#$%&'()*+,./:;<=>?@[\\\]^_`{|}~]/;
+        if (symbols.test(firstName)) {
+          return;
         }
-        if(lastName.length<=0){
-            return
+        if (lastName.length <= 0) {
+          return;
         }
-        if(lastName.trim()===""){  
-            return
+        if (lastName.trim() === "") {
+          return;
         }
-        if (lastName[0] ===" ") {
-            return
+        if (lastName[0] === " ") {
+          return;
         }
-        if(symbols.test(lastName)){
-            return
+        if (symbols.test(lastName)) {
+          return;
         }
-        if(number.length!==10){
-            return
+        if (number.length !== 10) {
+          return;
         }
-        if(about.length<=0){
-            return
-        }if(height.length<=0){
-            return
+        if (about.length <= 0 ) {
+          return;
         }
-        if(weight.length<=0){
-            return
+        if (height.length <= 0 && height.length>3) {
+          return;
         }
-        if(!date){
-            return
+        if (weight.length <=0 &&weight.length>3) {
+          return;
         }
-        const today = new Date().getTime()
-        const result=new Date(date).getTime()
-        if(result>today){
-            return
+        if (!date) {
+          return;
         }
-        const formData = new FormData()
-        formData.append("firstName",firstName)
-        formData.append("lastName",lastName)
-        formData.append("number",number)
-        formData.append("about",about)
-        formData.append("height",height)
-        formData.append("weight",weight)
-        formData.append("date",date)
-        await axios.post(`${UserApi}postUserDetails`,formData,{withCredentials:true
-          }).then((response)=>{
-            console.log(response);
-            
-        })
+        const today = new Date().getTime();
+        const result = new Date(date).getTime();
+        if (result > today) {
+          return;
+        }
+        console.log("starting");
+        console.log(firstName,lastName,number,about,height,weight,date);
         
+        const formData ={
+          userId,firstName,lastName,number,about,height,weight,date
+        }
+        
+        await axios
+          .post(`${UserApi}postUserDetails`, formData)
+          .then((response) => {
+            console.log(response);
+            if(response?.data?.status===200){
+              changed ?setChanged(false):setChanged(true)
+            }
+          });
       }
     } catch (error) {
       console.error(error);
@@ -188,6 +189,7 @@ function EditPersonal() {
               name="about"
               ref={aboutRef}
               //   onChange={handleChange}
+              defaultValue={data?.about}
               className="placeholder-gray-500 pl-2 text-xs w-[18rem] min-h-[5rem] max-h-[5rem] flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
             />
           </div>
@@ -204,6 +206,7 @@ function EditPersonal() {
                 placeholder="Height"
                 maxLength={3}
                 ref={heightRef}
+                defaultValue={data?.height}
                 className="placeholder-gray-500 pl-2 text-xs w-[10rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
                 // onChange={handleChange}
               />
@@ -219,6 +222,7 @@ function EditPersonal() {
                 ref={weightRef}
                 maxLength={3}
                 placeholder="Weight"
+                defaultValue={data?.weight}
                 className="placeholder-gray-500 pl-2 text-xs w-[10rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
                 // onChange={handleChange}
               />
@@ -234,6 +238,7 @@ function EditPersonal() {
               name="date"
               ref={dateRef}
               placeholder="Enter First Name"
+              defaultValue={data?.date_of_birth}
               className="placeholder-gray-500 pl-2 pr-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
               //   onChange={handleChange}
             />

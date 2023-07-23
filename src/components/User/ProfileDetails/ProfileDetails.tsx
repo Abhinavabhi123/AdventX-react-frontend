@@ -46,7 +46,7 @@ function ProfileDetails() {
             className={active === "edit" ? "btnActive" : ""}
             onClick={handleActive.bind(null, "edit")}
           >
-            Edit Profile
+            Edit Details
           </button>
           <button
             className={active === "vehicles" ? "btnActive" : ""}
