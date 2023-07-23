@@ -243,7 +243,7 @@ function EditAddress() {
               ref={stateRef}
               defaultValue={data?.state}
               placeholder="Select state"
-              className="placeholder-gray-500 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
+              className="placeholder-gray-500 pl-2  text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
             >
               <option>{data?.state?data?.state :"Select state"}</option>
               <option value="Kerala">Kerala</option>

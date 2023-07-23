@@ -49,7 +49,7 @@ function EventCard({ value }: Props) {
       <div className="w-[12rem] h-full  flex flex-col items-center ">
         <div className="w-[11.3rem] h-[60%] mt-1">
           <img
-            className="w-[11.6rem] h-[full] rounded-md"
+            className="w-[11.6rem] h-[7rem] rounded-md bg-center bg-no-repeat"
             src={data?.primaryImage}
             alt=""
           />

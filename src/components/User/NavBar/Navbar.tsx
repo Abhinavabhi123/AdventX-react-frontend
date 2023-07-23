@@ -41,7 +41,7 @@ function NavBar() {
               onClick={() => navigate("/")}
             />
             <ul className="flex flex-row bg-white space-x-6">
-              <li className="bg-white cursor-pointer">Community</li>
+              <li className="bg-white cursor-pointer" onClick={()=>navigate("/communities")}>Community</li>
               <li className="bg-white cursor-pointer">Activities</li>
               <li className="bg-white cursor-pointer">About</li>
             </ul>

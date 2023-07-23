@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AdminApi } from "../../../Store/api";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import { deleteImage } from "../../../Store/Firebase/Firebase";
 interface Props {
   value: string;
-  setDeleted:React.Dispatch<React.SetStateAction<boolean>>;
-  deleted:boolean
+  setDeleted: React.Dispatch<React.SetStateAction<boolean>>;
+  deleted: boolean;
 }
 interface Value {
   eventName: string;
@@ -20,10 +20,11 @@ interface Value {
   primaryImage: string;
   location: string;
   status: string;
+  is_completed: boolean;
 }
 
-function EventCard({ value,deleted,setDeleted }: Props) {
-    const navigate =useNavigate()
+function EventCard({ value, deleted, setDeleted }: Props) {
+  const navigate = useNavigate();
 
   const [data, setData] = useState<Value>({
     eventName: "",
@@ -35,15 +36,15 @@ function EventCard({ value,deleted,setDeleted }: Props) {
     primaryImage: "",
     location: "",
     status: "",
+    is_completed: false,
   });
   useEffect(() => {
     (async () => {
-      await AdminAxios
-        .get(`getEventDetails`, {
-          params: {
-            id: value,
-          },
-        })
+      await AdminAxios.get(`getEventDetails`, {
+        params: {
+          id: value,
+        },
+      })
         .then((response) => {
           setData(response?.data?.data);
         })
@@ -51,7 +52,7 @@ function EventCard({ value,deleted,setDeleted }: Props) {
           console.log(error);
         });
     })();
-  },[]);
+  }, []);
   const {
     eventName,
     date,
@@ -61,54 +62,59 @@ function EventCard({ value,deleted,setDeleted }: Props) {
     primaryImage,
     location,
     status,
+    is_completed,
   } = data;
-  console.log(data);
-
+  
   const count = participants.length;
 
-  const deleteEvent=async()=>{
+  const deleteEvent = async () => {
     try {
       Swal.fire({
-        title: 'Are you sure?',
+        title: "Are you sure?",
         text: "You won't to delete this community",
-        icon: 'warning',
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-      }).then(async(result)=>{
-        if(result.isConfirmed){
-      await AdminAxios.delete(`deleteEvent`,{params:{
-        id:value
-      }}).then(async(response)=>{
-        console.log(response);
-
-        if(response.data.status === 200){
-          await deleteImage(response?.data?.image)
-          Swal.fire(
-            'Deleted!',
-            'Your file has been deleted.',
-            'success'
-          ).then(()=>{
-            deleted? setDeleted(false):setDeleted(true)
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await AdminAxios.delete(`deleteEvent`, {
+            params: {
+              id: value,
+            },
           })
+            .then(async (response) => {
+              console.log(response);
+
+              if (response.data.status === 200) {
+                await deleteImage(response?.data?.image);
+                Swal.fire(
+                  "Deleted!",
+                  "Your file has been deleted.",
+                  "success"
+                ).then(() => {
+                  deleted ? setDeleted(false) : setDeleted(true);
+                });
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        } else if (
+          result.isDismissed &&
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          Swal.fire("Cancelled", "Your file is safe :)", "error");
         }
-        
-      }).catch((error)=>{
-        console.error(error);
-      })
-    }else if (result.isDismissed && result.dismiss === Swal.DismissReason.cancel) {
-      Swal.fire('Cancelled', 'Your file is safe :)', 'error');
-    }
-    })
+      });
     } catch (error) {
       console.error(error);
     }
-  }
-
+  };
 
   return (
-    <div className="w-[95%] h-36 mb-4 flex bg-slate-300 rounded-md mt-3">
+    <div className="w-[95%] h-36 flex bg-slate-300 rounded-md mt-3">
       <div className="w-[20%] h-full flex justify-center items-center ">
         <div className="w-[90%] h-[90%]  rounded-md flex justify-center items-center">
           <img
@@ -131,13 +137,16 @@ function EventCard({ value,deleted,setDeleted }: Props) {
         <div className="w-[95%] h-[90%]  flex">
           <div className="w-[85%] h-full ">
             <p className="text-sm ms-2">Amount:- {fee}</p>
+            <p className="text-sm ms-2">Completed:- {is_completed ?"Yes":"No"}</p>
             <p className="text-sm ms-2">Status:- {status}</p>
           </div>
           <div className="w-[15%] h-full flex  flex-col justify-between items-end">
-            <img 
-            src="/icons/edit.1.png" 
-            alt="editBtn" 
-            className="w-5 mt-1 cursor-pointer" onClick={()=>navigate(`/admin/editEvent/${value}`)} />
+            <img
+              src="/icons/edit.1.png"
+              alt="editBtn"
+              className="w-5 mt-1 cursor-pointer"
+              onClick={() => navigate(`/admin/editEvent/${value}`)}
+            />
             <img
               src="/icons/delete1.png"
               alt="deleteBtn"

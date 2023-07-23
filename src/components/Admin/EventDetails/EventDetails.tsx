@@ -7,7 +7,6 @@ import ImageCompressor from "compressorjs";
 import { uploadImage } from "../../../Store/Firebase/Firebase";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
 
-
 function EventDetails() {
   const navigate = useNavigate();
   const [eventName, setEventName] = useState<string>("");
@@ -149,46 +148,46 @@ function EventDetails() {
         // await compressImage(image).then(async(response) => {
         //   console.log(response, "jjj");
 
-          await uploadImage(image).then(async(data) => {
-            setImageUrl(data)
-            console.log(data,"kitty");
-            if(imageUrl){
-            await AdminAxios
-            .post(
-              `addEvent`,
-              {
-                eventName,
-                subTitle,
-                location,
-                date,
-                type,
-                fee,
-                firstPrice,
-                secondPrice,
-                thirdPrice,
-                description,
-                about,
-                status,
-                imageUrl
-              },
-              {
-                withCredentials: true,
-              }
-            )
-            .then((response) => {
-              console.log(response.data);
-              const result = response.data;
-              if (
-                result.status === 200 &&
-                result.message === "Data stored successfully"
-              ) {
-                console.log("Event Created");
-                navigate("/admin/eventManagement")
-              }
-            });
+        await uploadImage(image).then(async (data) => {
+          // setImageUrl(data);
+          console.log(data, "kitty");
+          if (data) {
+            setTimeout(async() => {
+              await AdminAxios.post(
+                `addEvent`,
+                {
+                  eventName,
+                  subTitle,
+                  location,
+                  date,
+                  type,
+                  fee,
+                  firstPrice,
+                  secondPrice,
+                  thirdPrice,
+                  description,
+                  about,
+                  status,
+                  imageUrl:data,
+                },
+                {
+                  withCredentials: true,
+                }
+              ).then((response) => {
+                console.log(response.data);
+                const result = response.data;
+                if (
+                  result.status === 200 &&
+                  result.message === "Data stored successfully"
+                ) {
+                  console.log("Event Created");
+                  navigate("/admin/eventManagement");
+                }
+              });
+            }, 1500);
           }
-          })
-        
+        });
+
         // });
       } else {
         console.error("error");

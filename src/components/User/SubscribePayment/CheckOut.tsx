@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import StripePayment from "./StripePayment";
@@ -6,12 +7,15 @@ import axios from "axios";
 import "./checkout.css";
 import { UserApi } from "../../../Store/api";
 
+
 const PUBLIC_KEY =
   "pk_test_51NT72pSFtSANDa8MD6oI1cAVSubxBF0yQ6Rdvd3EWN2Ej7LgKdcsZ9ahemnaSKhwMfGVOxgWYs6S749kE18NSB9X00XetGwxlg";
 const stripePromise = loadStripe(PUBLIC_KEY);
 
 function CheckOut() {
   const [clientSecret, setClientSecret] = useState("");
+  const userId = useSelector((state:any)=>state.user._id)
+  
 
   useEffect(() => {
     const fetchClientSecret = async () => {
@@ -19,7 +23,7 @@ function CheckOut() {
         const amount = 2000;
         const response = await axios.post(
           `${UserApi}addPayment`,
-          { id: 123, amount },
+          { id: userId, amount },
           {
             headers: { "Content-Type": "application/json" },
           }

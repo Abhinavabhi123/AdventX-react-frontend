@@ -15,6 +15,8 @@ import EditCommunity from "../pages/Admin/EditCommunity";
 import EventManagement from "../pages/Admin/EventManagement";
 import AddEvent from "../pages/Admin/AddEvent";
 import EditEvents from "../pages/Admin/EditEventDetails";
+import BannerManagement from "../pages/Admin/BannerManagement";
+import AddBanner from "../pages/Admin/AddBanner";
 
 interface Admin {
   email: string;
@@ -42,6 +44,8 @@ function Admin() {
           <Route path="/login" element={<AdminLogin />} />
           <Route path="/dashboard" element={<AdminDashboard />} />
           <Route path="/community" element={<Community />} />
+          <Route path="/bannerManagement" element={<BannerManagement/>}/>
+          <Route path="/bannerManagement/addBanner" element={<AddBanner/>}/>
           <Route path="/userManagement" element={<UserManagement />} />
           <Route path="/createCommunity" element={<CreateCommunity />} />
           <Route path="/community/edit-community/:id" element={<EditCommunity />} />

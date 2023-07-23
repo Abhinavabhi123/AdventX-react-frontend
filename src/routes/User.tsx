@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import jwtDecode from "jwt-decode";
 
@@ -16,6 +16,7 @@ import CheckOut from "../components/User/SubscribePayment/CheckOut";
 import PaymentSuccess from "../components/User/SubscribePayment/PaymentSuccess/PaymentSuccess";
 import UserProfile from "../pages/User/UserProfile";
 import UserIdContext from "../Store/Context/UserContext";
+import Communities from "../pages/User/Communities";
 
 interface DecodedToken {
   _id: string;
@@ -50,6 +51,7 @@ function User() {
   //   }
   // }, [cookie, dispatch]);
   const userData = useSelector((state: any) => state.user.email);
+  const isPrime = useSelector((state: any) => state.user.is_prime);
 
   return (
     <div>
@@ -74,6 +76,7 @@ function User() {
           <Route path="/subscribe/payment" element={<CheckOut />} />
           <Route path="/subscribe/success" element={<PaymentSuccess />} />
           <Route path="/profile" element={<UserProfile />} />
+          <Route path="/communities" element={isPrime ? <Communities /> : <Navigate to={"/subscribe"}/>} />
         </Routes>
       </Authentication>
     </div>

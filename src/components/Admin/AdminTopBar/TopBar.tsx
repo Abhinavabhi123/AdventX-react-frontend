@@ -12,7 +12,8 @@ interface TopBarProps {
     | "Edit Community"
     | "Event"
     | "Create Event"
-    | "Edit Event";
+    | "Edit Event"
+    | "Banners";
 }
 
 function TopBar(props: TopBarProps) {
@@ -24,7 +25,7 @@ function TopBar(props: TopBarProps) {
     Cookies.remove("adminJwt");
     console.log("logging out");
 
-    dispatch(AdminAction.AdminLogout({ email:"" }))
+    dispatch(AdminAction.AdminLogout({ email: "" }));
     navigate("/admin/login");
   };
 
