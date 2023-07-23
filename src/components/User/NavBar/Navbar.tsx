@@ -1,19 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import "./NavBar.css";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import Cookies from "js-cookie";
 import { cookies } from "next/dist/client/components/headers";
+import axios from "axios";
+import { UserApi, userImgApi } from "../../../Store/api";
+import { response } from "express";
 // import { UserState } from "../../../Store/redux/UserAuth";
 // import rootReducer from "../../../Store/redux/RootReducer";
 function NavBar() {
   const [open, setOpen] = useState(false);
+  const [userImage, setUserImage] = useState<string>("");
   const navigate = useNavigate();
   const cookie = Cookies.get("jwtToken");
-  const userLogin: boolean = useSelector((state: any): boolean => {
-    return state.user.loggedIn;
+  const userId: boolean = useSelector((state: any): boolean => {
+    return state.user._id;
   });
+
+  useEffect(() => {
+    (async () => {
+      await axios.get(`${UserApi}getUserProfile/${userId}`).then((response) => {
+        if (response?.data?.status === 200) {
+          setUserImage(response?.data?.userData?.image);
+        }
+      });
+    })();
+  }, [userId]);
 
   return (
     <div className="navBar absolute  bg-white w-screen h-20 flex flex-row items-center border-2">
@@ -54,12 +68,18 @@ function NavBar() {
             >
               Login
             </button>
+          ) : userImage ? (
+            <div
+              className=" w-10 h-10 rounded-full cursor-pointer flex items-center"
+              onClick={() => navigate("/profile")}
+            >
+              <img src={`${userImgApi}${userImage}`} className="w-[2rem] h-[2rem] rounded-full" alt="userImage" />
+            </div>
           ) : (
             <div
               style={{
                 backgroundSize: "2rem 2rem",
-                backgroundImage:
-                  "url('/icons/person.png')",
+                backgroundImage: "url('/icons/person.png')",
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center center",
               }}

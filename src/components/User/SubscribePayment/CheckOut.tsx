@@ -43,7 +43,7 @@ function CheckOut() {
   };
 
   return (
-    <div className=" w-screen h-screen flex justify-center items-center">
+    <div className=" w-screen h-screen flex justify-center items-center bg-white">
       <div className="checkOut">
         {clientSecret && (
           <Elements options={options} stripe={stripePromise}>

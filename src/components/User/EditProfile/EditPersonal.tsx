@@ -1,8 +1,8 @@
-import React, { useEffect, useContext, useState, useRef } from "react";
+import React, { useEffect, useContext, useState, useRef, SetStateAction } from "react";
 import UserIdContext from "../../../Store/Context/UserContext";
 import axios from "axios";
 import { UserApi } from "../../../Store/api";
-import { response } from "express";
+
 
 function EditPersonal() {
   const userId = useContext(UserIdContext);
@@ -194,7 +194,7 @@ function EditPersonal() {
             />
           </div>
           {/* physical details */}
-          <div className="w-full mt-3 flex justify-center items-center">
+          <div className="w-full mt-3 flex justify-center pl-5 pr-5 items-center">
             <div className="w-[18rem] flex flex-col h-14  m-0 justify-center items-center">
               <p className="text-sm">
                 Height

@@ -184,7 +184,7 @@ function Profile() {
           </div>
         </div>
         <div className="w-full h-[10%] flex justify-start items-center">
-          <button className="w-16 ms-[2.5rem] h-7 bg-blue-300  hover:bg-gray-300 text-center  rounded-md text-sm flex items-center justify-evenly" onClick={logOut}>
+          <button className="w-16 ms-[2.5rem] h-7 bg-blue-200  hover:bg-gray-300 text-center  rounded-md text-sm flex items-center justify-evenly" onClick={logOut}>
             <img className="w-4 rotate-180" src="/icons/exit.png" alt="exit" />
             Exit
           </button>
@@ -199,7 +199,7 @@ function Profile() {
               <p className="text-xs text-gray-500">Only $24.38</p>
               <button
                 className="w-36 h-10 flex justify-evenly items-center text-xs  bg-green-400 rounded-2xl"
-                onClick={() => navigate("")}
+                onClick={() => navigate("/subscribe")}
               >
                 Get Membership
                 <img className="w-5" src="/icons/right_arrow.png" alt="arrow" />

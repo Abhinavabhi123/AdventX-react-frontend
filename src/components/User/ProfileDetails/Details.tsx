@@ -6,12 +6,20 @@ function Details({ data }: any) {
     firstName,
     lastName,
     mobile,
+    date_of_birth,
+    height,
+    weight,
+    about,
     address,
   }: {
     email: string;
     firstName: string;
     lastName: string;
     mobile: number;
+    date_of_birth:string;
+    height:number;
+    weight:number;
+    about:string;
     address: { [key: string]: any } | undefined;
   } = data;
   console.log(data,"data");
@@ -21,19 +29,26 @@ function Details({ data }: any) {
   return (
     <div className="w-[95%] h-[85%]">
       {/* top section */}
-      <div className="w-full h-36  border-b border-gray-400">
+      <div className="w-full h-48 border-b border-gray-400">
         <div className="w-full h-10 flex items-center ps-5">
           <p>Personal Details:- </p>
         </div>
         <div className="flex justify-between h-[6.5rem]">
           <div className="w-[50%] h-full bg-transparent flex flex-col ps-5 pt-5">
-            <p>Name:- {`${firstName} ${lastName}`}</p>
-            <p className="mt-2">Mobile No:- {mobile}</p>
+            <p className="text-sm">Name:- {`${firstName} ${lastName}`}</p>
+            <p className=" text-sm">Mobile No:- {mobile}</p>
+            <p className=" text-sm">Height:- {height?height:"______"}</p>
+            <p className=" text-sm">About :- {about?about:"______"}</p>
+
           </div>
           <div className="w-[50%]  h-full bg-transparent">
-            <p className="pt-5 ps-5">Email:- {email}</p>
+            <p className="pt-5 ps-5 text-sm">Email:- {email}</p>
+            <p className="ps-5 text-sm">DOB:- {date_of_birth ?date_of_birth:'______'}</p>
+            <p className="ps-5 text-sm">Weight:- {weight ?weight:'______'}</p>
           </div>
         </div>
+          <div className="w-full h-fit  ">
+          </div>
       </div>
       {/* bottom section */}
       <div className="w-full h-[23.5rem] flex ">
