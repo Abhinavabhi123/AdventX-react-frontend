@@ -2,6 +2,7 @@ import React, { useEffect, useContext, useState, useRef, SetStateAction } from "
 import UserIdContext from "../../../Store/Context/UserContext";
 import axios from "axios";
 import { UserApi } from "../../../Store/api";
+import UserAxios from "../../../Store/Axios/UserConfig";
 
 
 function EditPersonal() {
@@ -26,8 +27,8 @@ function EditPersonal() {
   useEffect(() => {
     if (userId) {
       (async () => {
-        await axios
-          .get(`${UserApi}getUserProfile/${userId?.id}`)
+        await UserAxios
+          .get(`getUserProfile/${userId?.id}`)
           .then((response) => {
             setData(response?.data?.userData);
           });
@@ -108,8 +109,8 @@ function EditPersonal() {
           userId,firstName,lastName,number,about,height,weight,date
         }
         
-        await axios
-          .post(`${UserApi}postUserDetails`, formData)
+        await UserAxios
+          .post(`postUserDetails`, formData)
           .then((response) => {
             console.log(response);
             if(response?.data?.status===200){

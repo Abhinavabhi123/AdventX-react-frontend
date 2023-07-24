@@ -6,6 +6,7 @@ import axios from "axios";
 import { UserApi } from "../../../Store/api";
 import EditProfile from "../EditProfile/EditProfile";
 import { useSelector } from "react-redux";
+import UserAxios from "../../../Store/Axios/UserConfig";
 
 function ProfileDetails() {
   const userId = useContext(UserIdContext);
@@ -16,8 +17,8 @@ function ProfileDetails() {
   useEffect(() => {
     (async () => {
       if (userId) {
-        await axios
-          .get(`${UserApi}getUserProfile/${userId?.id}`)
+        await UserAxios
+          .get(`getUserProfile/${userId?.id}`)
           .then((response) => {
             if (response?.data?.status === 200) {
               setData(response?.data?.userData);

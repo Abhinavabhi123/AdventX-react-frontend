@@ -7,6 +7,7 @@ import UserIdContext from "../../../Store/Context/UserContext";
 import { UserApi, userImgApi } from "../../../Store/api";
 import ProfileDetails from "../ProfileDetails/ProfileDetails";
 import { userActions } from "../../../Store/redux/UserAuth";
+import UserAxios from "../../../Store/Axios/UserConfig";
 
 interface User {
   firstName: string;
@@ -37,8 +38,8 @@ function Profile() {
 
   useEffect(() => {
     (async () => {
-      if (id) {
-        await axios.get(`${UserApi}getUserProfile/${id}`).then((response) => {
+      if (id) {        
+        await UserAxios.get(`getUserProfile/${id}`).then((response) => {
           console.log(response);
           if (response?.data?.status === 200) {
             setUserData(response?.data?.userData);
@@ -83,9 +84,9 @@ function Profile() {
 
   const saveImage = async () => {
     try {
-      await axios
+      await UserAxios
         .post(
-          `${UserApi}userImage`,
+          `userImage`,
           { images, id },
           {
             headers: {

@@ -8,6 +8,7 @@ import { cookies } from "next/dist/client/components/headers";
 import axios from "axios";
 import { UserApi, userImgApi } from "../../../Store/api";
 import { response } from "express";
+import UserAxios from "../../../Store/Axios/UserConfig";
 // import { UserState } from "../../../Store/redux/UserAuth";
 // import rootReducer from "../../../Store/redux/RootReducer";
 function NavBar() {
@@ -29,7 +30,7 @@ function NavBar() {
 
   useEffect(() => {
     (async () => {
-      await axios.get(`${UserApi}getUserProfile/${userId}`).then((response) => {
+      await UserAxios.get(`getUserProfile/${userId}`).then((response) => {
         if (response?.data?.status === 200) {
           setUserImage(response?.data?.userData?.image);
         }

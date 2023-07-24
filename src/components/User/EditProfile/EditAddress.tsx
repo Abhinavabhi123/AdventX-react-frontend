@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useRef, useEffect, useContext, useState, Dispatch, SetStateAction } from "react";
 import { UserApi } from "../../../Store/api";
 import UserIdContext from "../../../Store/Context/UserContext";
+import UserAxios from "../../../Store/Axios/UserConfig";
 
 interface Data{
     area:string;
@@ -29,7 +30,7 @@ function EditAddress() {
     (async()=>{
         if(userId){
 
-            await axios.get(`${UserApi}getUserProfile/${userId?.id}`).then((response)=>{
+            await UserAxios.get(`getUserProfile/${userId?.id}`).then((response)=>{
                 if(response?.data?.status===200){
                     console.log(response,"details");
                 
@@ -126,8 +127,8 @@ function EditAddress() {
           };
           console.log("success");
           
-          await axios
-            .post(`${UserApi}postAddress`, formData)
+          await UserAxios
+            .post(`postAddress`, formData)
             .then((response) => {
               console.log(response);
 
