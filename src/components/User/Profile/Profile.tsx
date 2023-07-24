@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext, ChangeEvent } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import UserIdContext from "../../../Store/Context/UserContext";
 import { UserApi, userImgApi } from "../../../Store/api";
 import ProfileDetails from "../ProfileDetails/ProfileDetails";
@@ -20,6 +20,7 @@ function Profile() {
   const navigate = useNavigate();
   const value = useContext(UserIdContext);
   console.log(useContext(UserIdContext), "helloo");
+  const isPrime = useSelector((state:any)=>state.user.is_prime)
   const id = value?.id;
   const dispatch = useDispatch()
   const [userData, setUserData] = useState<User>({
@@ -177,7 +178,14 @@ function Profile() {
           )}
           <div className="w-full h-[40%] bg-transparent flex justify-center items-center">
             <div className="flex  flex-col items-center">
-              <p>Name: {`${userData?.firstName} ${userData?.lastName}`}</p>
+              <p className=" flex">Name: {`${userData?.firstName} ${userData?.lastName}`} 
+               {
+                isPrime&& (
+                  <img className="w-5 ml-3 h-5" src="/icons/vip.png" alt="prime" />
+                  
+                )
+               } 
+              </p>
               <p>Email: {userData?.email}</p>
               <p>Mobile: {userData?.mobile}</p>
             </div>

@@ -154,7 +154,7 @@ function EditAddress() {
         className=" border-s border-black w-full h-[36rem] flex justify-center"
         onSubmit={submitForm}
       >
-        <div className="flex flex-col h-fit gap-4 items-center">
+        <div className="flex flex-col h-[36rem]  gap-4 items-center">
           {/* first input field */}
           <div className="w-[18rem] flex flex-col h-14 mt-5 m-0 justify-center">
             <p className="text-sm">
@@ -264,8 +264,8 @@ function EditAddress() {
               className="placeholder-gray-500 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md spin-button-none"
             />
           </div>
-          <div className="w-full h-[2rem] flex justify-center items-center ">
-            <div className="w-40 h-6  flex justify-between">
+          <div className="w-full h-[10rem] flex justify-center items-end ">
+            <div className="w-40 h-6 mb-5  flex justify-between">
               <button
                 type="reset"
                 className="bg-red-400 bg-opacity-60 w-16 rounded-md text-sm"

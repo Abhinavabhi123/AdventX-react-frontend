@@ -18,6 +18,11 @@ function NavBar() {
   const userId: boolean = useSelector((state: any): boolean => {
     return state.user._id;
   });
+  const isPrime: boolean = useSelector((state: any): boolean => {
+    return state.user.is_prime;
+  });
+  console.log(isPrime);
+  
 
   useEffect(() => {
     (async () => {
@@ -49,17 +54,20 @@ function NavBar() {
         </div>
         <div className="mr-3 flex items-center justify-between w-18">
           <div className=" flex w-40 justify-between">
-            <button
-              className="w-36 h-6 bg-green-500 text-white rounded-full text-xs flex justify-evenly items-center"
-              onClick={() => navigate("/subscribe")}
-            >
-              <img
-                className="crownImage rounded-full "
-                src="/icons/crown.png"
-                alt="prime"
-              />
-              GetMembership
-            </button>
+           {
+            !isPrime && <button
+            className="w-36 h-6 bg-green-500 text-white rounded-full text-xs flex justify-evenly items-center"
+            onClick={() => navigate("/subscribe")}
+          >
+            <img
+              className="crownImage rounded-full "
+              src="/icons/crown.png"
+              alt="prime"
+            />
+            GetMembership
+          </button>
+           }
+           
           </div>
           {!cookie ? (
             <button

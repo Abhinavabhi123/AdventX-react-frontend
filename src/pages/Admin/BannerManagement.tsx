@@ -17,7 +17,8 @@ function BannerManagement() {
       <div  className="w-full h-full flex justify-center items-center">
         <div className="w-[97%] h-[95%] bg-violet-500">
             <div className="w-full h-12 flex justify-end items-center pr-5">
-                <button className=" w-24 h-8 text-xs font-bold bg-yellow-300 flex justify-evenly items-center rounded-md" onClick={()=>navigate("/bannerManagement/addBanner")  }>
+                <button className=" w-24 h-8 text-xs font-bold bg-yellow-300 flex justify-evenly items-center rounded-md" 
+                onClick={()=>{navigate("/bannerManagement/addBanner")}}>
                     <img className="w-5" src="/icons/banner1.png" alt="banner logo" />
                     Add Banner
                 </button>

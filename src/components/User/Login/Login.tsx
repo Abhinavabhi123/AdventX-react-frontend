@@ -21,6 +21,8 @@ function Login() {
           { withCredentials: true }
         )
         .then((response) => {
+          console.log(response);
+          
           const result = response?.data;
           if (result.message === "Access granted" && result.status === 200) {
             console.log(result, "it is the result of the response");
