@@ -18,6 +18,7 @@ import EditEvents from "../pages/Admin/EditEventDetails";
 import BannerManagement from "../pages/Admin/BannerManagement";
 import AddBanner from "../pages/Admin/AddBanner";
 
+
 interface Admin {
   email: string;
 }

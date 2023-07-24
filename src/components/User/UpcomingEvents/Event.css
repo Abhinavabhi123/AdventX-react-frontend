@@ -5,7 +5,7 @@
   }
   
   /* Tooltip text */
-  .tooltip span {
+  .tooltip .tooltiptext {
     visibility: hidden;
     width: 60px;
     background-color: rgb(87, 87, 87);
@@ -14,7 +14,7 @@
     padding: 5px 0;
     margin-top: 80px;
     border-radius: 6px;
-   font-size: 10px;
+    font-size: 10px;
     /* Position the tooltip text - see examples below! */
     position: absolute;
     z-index: 5;

@@ -381,7 +381,7 @@ function EventDetails() {
           <input type="file" id="input-file-upload" multiple={false} />
           <label id="label-file-upload" htmlFor="input-file-upload">
             <div>
-              <p>Drag and drop your file here or</p>
+              <p>Drag and drop your file chere or</p>
               <button className="upload-button">Upload a file</button>
             </div>
           </label>

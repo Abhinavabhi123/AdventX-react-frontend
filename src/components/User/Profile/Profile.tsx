@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext, ChangeEvent } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import UserIdContext from "../../../Store/Context/UserContext";
 import { UserApi, userImgApi } from "../../../Store/api";
 import ProfileDetails from "../ProfileDetails/ProfileDetails";
@@ -20,9 +20,9 @@ function Profile() {
   const navigate = useNavigate();
   const value = useContext(UserIdContext);
   console.log(useContext(UserIdContext), "helloo");
-  const isPrime = useSelector((state:any)=>state.user.is_prime)
+  const isPrime = useSelector((state: any) => state.user.is_prime);
   const id = value?.id;
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [userData, setUserData] = useState<User>({
     firstName: "",
     lastName: "",
@@ -104,21 +104,20 @@ function Profile() {
       console.error(error);
     }
   };
-  const logOut=()=>{
-    Cookies.remove("jwtToken")
+  const logOut = () => {
+    Cookies.remove("jwtToken");
     dispatch(
       userActions.userLogout({
         userName: "",
         email: "",
         _id: "",
-        is_prime:false,
-        status:false,
+        is_prime: false,
+        status: false,
       })
     );
 
-    navigate("/userLogin")
-    
-  }
+    navigate("/userLogin");
+  };
 
   return (
     <div className="w-[95%] h-[95%]  flex justify-around">
@@ -178,13 +177,15 @@ function Profile() {
           )}
           <div className="w-full h-[40%] bg-transparent flex justify-center items-center">
             <div className="flex  flex-col items-center">
-              <p className=" flex">Name: {`${userData?.firstName} ${userData?.lastName}`} 
-               {
-                isPrime&& (
-                  <img className="w-5 ml-3 h-5" src="/icons/vip.png" alt="prime" />
-                  
-                )
-               } 
+              <p className=" flex">
+                Name: {`${userData?.firstName} ${userData?.lastName}`}
+                {isPrime && (
+                  <img
+                    className="w-5 ml-3 h-5"
+                    src="/icons/vip.png"
+                    alt="prime"
+                  />
+                )}
               </p>
               <p>Email: {userData?.email}</p>
               <p>Mobile: {userData?.mobile}</p>
@@ -192,28 +193,37 @@ function Profile() {
           </div>
         </div>
         <div className="w-full h-[10%] flex justify-start items-center">
-          <button className="w-16 ms-[2.5rem] h-7 bg-blue-200  hover:bg-gray-300 text-center  rounded-md text-sm flex items-center justify-evenly" onClick={logOut}>
+          <button
+            className="w-16 ms-[2.5rem] h-7 bg-blue-200  hover:bg-gray-300 text-center  rounded-md text-sm flex items-center justify-evenly"
+            onClick={logOut}
+          >
             <img className="w-4 rotate-180" src="/icons/exit.png" alt="exit" />
             Exit
           </button>
         </div>
         <div className="w-full h-[28%] bg-transparent flex justify-center items-center">
-          <div className="w-[80%] h-[80%] bg-red-200 flex bg-opacity-50 rounded-lg">
-            <div className="w-[20%] h-full flex justify-center items-center">
-              <img className="w-10" src="/icons/crown.png" alt="" />
+          {!isPrime && (
+            <div className="w-[80%] h-[80%] bg-red-200 flex bg-opacity-50 rounded-lg">
+              <div className="w-[20%] h-full flex justify-center items-center">
+                <img className="w-10" src="/icons/crown.png" alt="" />
+              </div>
+              <div className=" w-[80%] h-full flex flex-col justify-evenly items-center">
+                <p className="text-sm">Plus Membership Now Available</p>
+                <p className="text-xs text-gray-500">Only $24.38</p>
+                <button
+                  className="w-36 h-10 flex justify-evenly items-center text-xs  bg-green-400 rounded-2xl"
+                  onClick={() => navigate("/subscribe")}
+                >
+                  Get Membership
+                  <img
+                    className="w-5"
+                    src="/icons/right_arrow.png"
+                    alt="arrow"
+                  />
+                </button>
+              </div>
             </div>
-            <div className=" w-[80%] h-full flex flex-col justify-evenly items-center">
-              <p className="text-sm">Plus Membership Now Available</p>
-              <p className="text-xs text-gray-500">Only $24.38</p>
-              <button
-                className="w-36 h-10 flex justify-evenly items-center text-xs  bg-green-400 rounded-2xl"
-                onClick={() => navigate("/subscribe")}
-              >
-                Get Membership
-                <img className="w-5" src="/icons/right_arrow.png" alt="arrow" />
-              </button>
-            </div>
-          </div>
+          )}
         </div>
       </div>
       <div className="w-[68%] h-fit rounded-md bg-gray-200 bg-opacity-50">
