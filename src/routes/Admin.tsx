@@ -17,6 +17,7 @@ import AddEvent from "../pages/Admin/AddEvent";
 import EditEvents from "../pages/Admin/EditEventDetails";
 import BannerManagement from "../pages/Admin/BannerManagement";
 import AddBanner from "../pages/Admin/AddBanner";
+import EditBanner from "../pages/Admin/EditBanner";
 
 
 interface Admin {
@@ -47,6 +48,7 @@ function Admin() {
           <Route path="/community" element={<Community />} />
           <Route path="/bannerManagement" element={<BannerManagement/>}/>
           <Route path="/bannerManagement/addBanner" element={<AddBanner/>}/>
+          <Route path="/bannerManagement/editBanner/:id" element={<EditBanner/>}/>
           <Route path="/userManagement" element={<UserManagement />} />
           <Route path="/createCommunity" element={<CreateCommunity />} />
           <Route path="/community/edit-community/:id" element={<EditCommunity />} />
