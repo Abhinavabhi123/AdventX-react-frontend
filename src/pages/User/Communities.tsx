@@ -9,7 +9,7 @@ function Communities() {
       <div className=" w-full h-20">
         <NavBar />
       </div>
-      <div className='w-[92.5rem] h-[70rem] bg-red-300'>
+      <div className='w-[92.5rem] h-[50rem] bg-red-400'>
         <UserCommunityList/>
       </div>
     </div>
