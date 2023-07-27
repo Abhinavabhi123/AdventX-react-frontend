@@ -14,11 +14,12 @@ interface UserData {
 function UserCommunityList() {
   const id: string = useSelector((state: any) => state?.user?._id);
   const [chatOpen, setChatOpen] = useState<boolean>(false);
+  const [commId, setCommId] = useState<string>("");
   const [userData, setUserData] = useState<UserData>({
     image: "",
   });
   const [communities, setCommunities] = useState([
-    { logo: "", communityName: "" },
+    { logo: "", communityName: "", _id: "" },
   ]);
   // const { userChanges, setUserChanges } = useContext(UserChangeContext)
 
@@ -51,7 +52,7 @@ function UserCommunityList() {
             boxShadow: "rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px",
           }}
         >
-          <div className="w-full h-14 bg-yellow-500 rounded-tr-lg flex ">
+          <div className="w-full h-14 bg-yellow-500 rounded-tr-lg flex " onClick={()=>setChatOpen(false)}>
             <div className="h-full bg-transparent w-[80%] flex items-center pl-5">
               <h1 className="text-lg ">Chats</h1>
             </div>
@@ -69,6 +70,10 @@ function UserCommunityList() {
                 <div
                   key={i}
                   className="w-full h-14 flex items-center hover:bg-gray-300 pl-3 pr-3 cursor-pointer bg-white border-b border-gray-700"
+                  onClick={() => {
+                    setCommId(community?._id);
+                    setChatOpen(true);
+                  }}
                 >
                   <img
                     className="w-10 rounded-full  h-10"
@@ -85,7 +90,7 @@ function UserCommunityList() {
         </div>
       </div>
       <div className="w-[80%] h-[50rem] bg-white flex justify-center items-center">
-        <div className="w-[98%] h-[98%] bg-red-400 rounded-md flex justify-center items-center">
+        <div className="w-[98%] h-[98%] bg-transparent rounded-md flex justify-center items-center">
           {chatOpen ? <ChatRoom /> : <EmptyChat />}
         </div>
       </div>

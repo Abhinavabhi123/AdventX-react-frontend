@@ -19,6 +19,7 @@ import UserProfile from "../pages/User/UserProfile";
 import UserIdContext from "../Store/Context/UserContext";
 import Communities from "../pages/User/Communities";
 import UserChangeContext from "../Store/Context/UserChangecontext";
+import AddUserVehicle from "../pages/User/AddUserVehicle";
 
 interface DecodedToken {
   _id: string;
@@ -95,6 +96,7 @@ function User() {
                 isPrime ? <Communities /> : <Navigate to={"/subscribe"} />
               }
             />
+            <Route path="/addVehicle" element={<AddUserVehicle/>}/>
           </Routes>
         </UserChangeContext>
       </Authentication>

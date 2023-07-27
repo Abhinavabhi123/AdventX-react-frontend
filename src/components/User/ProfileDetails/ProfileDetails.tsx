@@ -7,6 +7,8 @@ import { UserApi } from "../../../Store/api";
 import EditProfile from "../EditProfile/EditProfile";
 import { useSelector } from "react-redux";
 import UserAxios from "../../../Store/Axios/UserConfig";
+import VehicleList from "../VehicleDetails/VehicleList";
+import License from "../LicenseDetails/License";
 
 function ProfileDetails() {
   const userId = useContext(UserIdContext);
@@ -35,7 +37,7 @@ function ProfileDetails() {
   return (
     <>
       <div className="w-full h-11  border-b border-black ">
-        <div className="profile_top_bar w-[35rem] h-full flex ps-2 pe-2 gap-5 items-center">
+        <div className="profile_top_bar w-[50rem] h-full flex ps-2 pe-2 gap-5 items-center">
           <button
             className={active === "details" ? "btnActive" : ""}
             onClick={handleActive.bind(null, "details")}
@@ -58,6 +60,14 @@ function ProfileDetails() {
           )}
           {prime && (
             <button
+              className={active === "license" ? "btnActive" : ""}
+              onClick={handleActive.bind(null, "license")}
+            >
+              License Details
+            </button>
+          )}
+          {prime && (
+            <button
               className={active === "event" ? "btnActive" : ""}
               onClick={handleActive.bind(null, "event")}
             >
@@ -69,6 +79,8 @@ function ProfileDetails() {
       <div className="w-full flex justify-center">
         {active == "details" && <Details data={data} />}
         {active == "edit" && <EditProfile />}
+        {active == "vehicles" && <VehicleList />}
+        {active == "license" && <License />}
       </div>
     </>
   );
