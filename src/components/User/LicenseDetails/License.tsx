@@ -1,11 +1,35 @@
-import React, { useState, useRef, ChangeEvent } from "react";
+import React, { useState, useRef, ChangeEvent, useEffect } from "react";
+import UserAxios from "../../../Store/Axios/UserConfig";
+import { useSelector } from "react-redux";
+import { licenseImageApi } from "../../../Store/api";
 
 function License() {
+  const userId: string = useSelector((state: any) => state?.user?._id);
   const [openEdit, setOpenEdit] = useState<boolean>(false);
   const [image, setImage] = useState<File>();
   const [imgPreview, setImgPreview] = useState<string>("");
-  const number = useRef(null);
-  const expiry = useRef(null);
+  const number = useRef<HTMLInputElement>(null);
+  const expiry = useRef<HTMLInputElement>(null);
+  const [userData, setUserData] = useState({
+    licenseNumber: "",
+    ExpiryDate: "",
+    image: "",
+  });
+  const [changed, setChange] = useState<boolean>(false);
+  useEffect(() => {
+    (async () => {
+      if (userId) {
+        await UserAxios.get("/userLicense", { params: { id: userId } }).then(
+          (response) => {
+            if (response?.data?.status === 200) {
+              console.log(response);
+              setUserData(response?.data?.userData?.license);
+            }
+          }
+        );
+      }
+    })();
+  }, [changed, userId]);
 
   const uploadImage = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -13,33 +37,101 @@ function License() {
       setImage(file);
       setImgPreview(URL.createObjectURL(file));
     }
-  }
+  };
 
-  const saveData = async()=>{
+  const saveData = async () => {
     try {
+      const lNumber: string | undefined = number?.current?.value;
+      const lExpiry = expiry?.current?.value;
+      console.log(lNumber,lExpiry);
+      
+      if (lNumber === undefined || expiry === undefined) {
+        return;
+      }
+
+      if (lNumber.length < 10 && lNumber?.length > 18) {
+        return;
+      }
+      if (!image) {
+        return;
+      }
+      const Number: string = lNumber.toUpperCase();
+      console.log(userData,"okogjjgn");
+      
+      if(userData?.licenseNumber.length===0){
+         await UserAxios.post(
+          "/addLicense",
+          { image, Number, lExpiry, userId },
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+            withCredentials: true,
+          }
+        ).then((response) => {
+          console.log(response);
+          if (response?.data?.status === 200) {
+            setOpenEdit(false)
+            changed ? setChange(false) : setChange(true);
+          }
+        });
+      
+      }else{  
+        console.log( Number, lExpiry, userId,"opopo");
         
-        const lNumber: string | undefined = number?.current?.value;
-        const lExpiry = expiry.current?.value;
+        await UserAxios.post(
+          "/editLicense",
+          { image, Number, lExpiry, userId },
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+            withCredentials: true,
+          }
+        ).then((response) => {
+          console.log(response);
+          if (response?.data?.status === 200) {
+            setOpenEdit(false)
+            changed ? setChange(false) : setChange(true);
+          }
+        });
+      }
+      
     } catch (error) {
-    console.error(error);
+      console.error(error);
     }
-  }
+  };
+  console.log(userData, "oooo");
 
   return (
     <div className="w-full h-[34.5em]  rounded-md">
       <div className="w-full h-[50%] bg-transparent flex border-b border-gray-400">
         {/* details */}
         <div className="w-[50%] h-full  flex flex-col justify-center ps-[5rem]">
-          <p>LicenseNo:- ___________</p>
-          <p>Expiry:- ___________</p>
+          <p>
+            LicenseNo:-
+            {userData?.licenseNumber ? userData?.licenseNumber : " ___________"}
+          </p>
+          <p>
+            Expiry:-{" "}
+            {userData?.ExpiryDate ? userData?.ExpiryDate : " ___________"}
+          </p>
         </div>
         {/* image */}
         <div className="w-[50%] h-full  flex justify-between bg-yellow-400 bg-opacity-40 items-center flex-col">
-          <img
-            src="/bg/8140054.jpg"
-            alt="img"
-            className="w-60 rounded-xl mt-20"
-          />
+          {userData?.image ? (
+            <img
+              src={`${licenseImageApi}${userData?.image}`}
+              alt="img"
+              className="w-60 rounded-xl mt-20"
+            />
+          ) : (
+            <img
+              src="/bg/8140054.jpg"
+              alt="img"
+              className="w-60 rounded-xl mt-20"
+            />
+          )}
           <button
             onClick={() => (openEdit ? setOpenEdit(false) : setOpenEdit(true))}
           >
@@ -48,7 +140,6 @@ function License() {
         </div>
       </div>
       {openEdit && (
-        
         <div className="w-full h-[50%] flex rounded-b-md">
           <div className="w-[50%] h-full bg-transparent rounded-bl-md flex justify-center items-center flex-col gap-2">
             <div className="w-[18rem] flex flex-col h-14  m-0 justify-center">
@@ -58,6 +149,9 @@ function License() {
               </p>
               <input
                 type="text"
+                defaultValue={
+                  userData?.licenseNumber ? userData?.licenseNumber : ""
+                }
                 ref={number}
                 placeholder="Enter the license number"
                 className="placeholder-gray-500 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md spin-button-none"
@@ -72,6 +166,7 @@ function License() {
               <input
                 type="date"
                 ref={expiry}
+                defaultValue={userData?.ExpiryDate ? userData?.ExpiryDate : ""}
                 placeholder="Enter the vehicle number"
                 className="placeholder-gray-500 pl-2 pr-3 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md spin-button-none"
                 required
@@ -79,20 +174,39 @@ function License() {
             </div>
           </div>
           <div className="w-[50%] h-full  rounded-br-md">
-            <div className="w-full h-[50%]  flex justify-center items-center">
+            <div className="w-full h-[50%]  flex flex-col justify-center items-center">
+                <p className="text-sm">Please Select image</p>
               <div className="w-[30%] h-[60%] rounded-md relative border border-dashed border-violet-500">
                 <input
                   type="file"
                   className="absolute w-[100%] opacity-0 h-[100%]"
                   onChange={(e) => uploadImage(e)}
                 />
-                {imgPreview && <img className="w-[100%] h-[100%] rounded-md" src={imgPreview} alt="" />}
+                {imgPreview && (
+                  <img
+                    className="w-[100%] h-[100%] rounded-md"
+                    src={imgPreview}
+                    alt=""
+                  />
+                )}
               </div>
             </div>
             <div className="w-full h-[30%] flex justify-center items-center">
-              <button className="w-14 rounded-md h-6 bg-red-300 hover:bg-red-400" onClick={saveData}>
-                Save
-              </button>
+              {userData ? (
+                <button
+                  className="w-16 rounded-md h-6 bg-red-300 hover:bg-red-400"
+                  onClick={saveData}
+                >
+                  change
+                </button>
+              ) : (
+                <button
+                  className="w-14 rounded-md h-6 bg-red-300 hover:bg-red-400"
+                  onClick={saveData}
+                >
+                  Save
+                </button>
+              )}
             </div>
           </div>
         </div>
