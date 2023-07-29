@@ -9,7 +9,7 @@ function AddUserVehicle() {
       <div className=" w-full h-20">
         <NavBar />
       </div>
-      <div className="w-[92.5rem] h-[50rem] bg-white flex items-center justify-evenly">
+      <div className="w-full h-[50rem] bg-white flex items-center justify-evenly">
         <Vehicles/>
         <AddVehicle/>
       </div>

@@ -149,28 +149,25 @@ function AddVehicle() {
         return
       }
       console.log("ok ethi");
-      // const formData = new FormData();
-      // for(let i=0;i<image.length;i++){
-      //   formData.append('images', image[i]);
-      // }
-      // formData.append('vNumber', vNumber);
-      // formData.append('vType', vType);
-      // formData.append('fuelType', fuelType);
-      // formData.append('vName', vName);
-      // formData.append('vWheels', String(vWheels));
-      // formData.append('vOwner', vOwner);
+      const formData = new FormData()
+      formData.append('vNumber', vNumber);
+      formData.append('vType', vType);
+      formData.append('fuelType', fuelType);
+      formData.append('vName', vName);
+      formData.append('vWheels', String(vWheels));
+      formData.append('vOwner', vOwner);
       const array:any[] =[]
       for(const  imgs in image){
         console.log(image[imgs],'kkk');
         array.push(image[imgs])
         
       }
-      console.log(array,"array");
+      console.log(image,"array");
 
       
       
 
-      await UserAxios.post("/addVehicle",array,{headers:{"Content-Type":"application/json"}}).then((response)=>{
+      await UserAxios.post("/addVehicle",{image,formData},{headers:{"Content-Type":"multipart/form-data"},withCredentials:true}).then((response)=>{
         if(response?.data?.status===200){
           console.log("success");
           

@@ -22,7 +22,6 @@ function License() {
         await UserAxios.get("/userLicense", { params: { id: userId } }).then(
           (response) => {
             if (response?.data?.status === 200) {
-              console.log(response);
               setUserData(response?.data?.userData?.license);
             }
           }
@@ -56,8 +55,6 @@ function License() {
         return;
       }
       const Number: string = lNumber.toUpperCase();
-      console.log(userData,"okogjjgn");
-      
       if(userData?.licenseNumber.length===0){
          await UserAxios.post(
           "/addLicense",
@@ -69,7 +66,6 @@ function License() {
             withCredentials: true,
           }
         ).then((response) => {
-          console.log(response);
           if (response?.data?.status === 200) {
             setOpenEdit(false)
             changed ? setChange(false) : setChange(true);
@@ -77,7 +73,7 @@ function License() {
         });
       
       }else{  
-        console.log( Number, lExpiry, userId,"opopo");
+
         
         await UserAxios.post(
           "/editLicense",
@@ -89,7 +85,6 @@ function License() {
             withCredentials: true,
           }
         ).then((response) => {
-          console.log(response);
           if (response?.data?.status === 200) {
             setOpenEdit(false)
             changed ? setChange(false) : setChange(true);

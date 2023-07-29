@@ -2,6 +2,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./Subscription.css";
 import NavBar from "../../components/User/NavBar/Navbar";
+import UserAxios from "../../Store/Axios/UserConfig";
+import { UseSelector, useSelector } from "react-redux/es/hooks/useSelector";
+import { response } from "express";
 
 function Subscription() {
   const data = [
@@ -17,6 +20,28 @@ function Subscription() {
     { value: "Create blog", free: "No", feature: "yes" },
   ];
   const navigate = useNavigate();
+  const userId = useSelector((state:any)=>state.user._id)
+
+  const payment=async()=>{
+    try {
+      console.log("potikk");
+      
+      await UserAxios.post("/create-checkout-session",{userId,amount:2000},{headers:{
+        'Content-Type':"application/json"
+      }}).then(response=>{
+        console.log(response);
+        if(response?.data?.url){
+          const url = response?.data?.url
+          window.location=url
+        }
+        
+      })
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+
   return (
     <div>
       <div>
@@ -36,7 +61,8 @@ function Subscription() {
               <h1 className="text-xl">Then only $24.38 for Membership</h1>
               <button
                 className="w-36 h-8 bg-green-500 rounded-lg text-xs"
-                onClick={() => navigate("/subscribe/payment")}
+                // onClick={() => navigate("/subscribe/payment")}
+                onClick={payment}
               >
                 Get Membership
               </button>

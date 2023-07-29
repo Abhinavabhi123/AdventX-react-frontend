@@ -1,10 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   value?: any;
 }
 
 function AllEventCard(props: Props) {
+  const navigate = useNavigate()
   const data = props.value;
   return (
     <div
@@ -12,6 +14,7 @@ function AllEventCard(props: Props) {
       style={{
         boxShadow: " rgba(0, 0, 0, 0.05) 0px 0px 0px 1px",
       }}
+      onClick={()=>navigate(`/eventSinglePage/${data?._id}`)}
     >
       <div className="w-[12rem] h-full  flex flex-col items-center ">
         <div className="w-[11.3rem] h-[60%] mt-1">

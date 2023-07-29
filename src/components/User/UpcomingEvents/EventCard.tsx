@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { UserApi } from "../../../Store/api";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   value: { _id: string };
 }
 interface Data {
+  _id:string;
   eventName: string;
   eventType: string;
   location: string;
@@ -16,6 +18,7 @@ interface Data {
 
 function EventCard({ value }: Props) {
   const [data, setData] = useState<Data>({
+    _id:"",
     eventName: "",
     eventType: "",
     location: "",
@@ -23,6 +26,7 @@ function EventCard({ value }: Props) {
     date: "",
     primaryImage: "",
   });
+  const navigate = useNavigate()
   const id = value._id;
   useEffect(() => {
     (async () => {
@@ -41,10 +45,11 @@ function EventCard({ value }: Props) {
 
   return (
     <div
-      className="rounded-md mr-2 bg-white bg-opacity-50"
+      className="rounded-md mr-2 bg-opacity-50"
       style={{
         boxShadow: " rgba(0, 0, 0, 0.05) 0px 0px 0px 1px",
       }}
+      onClick={()=>navigate(`/eventSinglePage/${data?._id}`)}
     >
       <div className="w-[12rem] h-full  flex flex-col items-center ">
         <div className="w-[11.3rem] h-[60%] mt-1">

@@ -26,15 +26,15 @@ function NavBar() {
     return state.user.userName;
   });
 
-  
-
   useEffect(() => {
     (async () => {
-      await UserAxios.get(`getUserProfile/${userId}`).then((response) => {
-        if (response?.data?.status === 200) {
-          setUserImage(response?.data?.userData?.image);
-        }
-      });
+      if (userId) {
+        await UserAxios.get(`getUserProfile/${userId}`).then((response) => {
+          if (response?.data?.status === 200) {
+            setUserImage(response?.data?.userData?.image);
+          }
+        });
+      }
     })();
   }, [userId]);
 
@@ -50,7 +50,12 @@ function NavBar() {
               onClick={() => navigate("/")}
             />
             <ul className="flex flex-row bg-white space-x-6">
-              <li className="bg-white cursor-pointer" onClick={()=>navigate("/communities")}>Community</li>
+              <li
+                className="bg-white cursor-pointer"
+                onClick={() => navigate("/communities")}
+              >
+                Community
+              </li>
               <li className="bg-white cursor-pointer">Activities</li>
               <li className="bg-white cursor-pointer">About</li>
             </ul>
@@ -58,26 +63,28 @@ function NavBar() {
         </div>
         <div className="mr-3 flex items-center justify-between w-18">
           <div className=" flex w-40 justify-between">
-           {
-            !isPrime ?<button
-            className="w-36 h-6 bg-green-500 text-white rounded-full text-xs flex justify-evenly items-center"
-            onClick={() => navigate("/subscribe")}
-          >
-            <img
-              className="crownImage rounded-full "
-              src="/icons/crown.png"
-              alt="prime"
-            />
-            GetMembership
-          </button>
-          :(
-            <button className="w-fit select-none cursor-default h-6 flex justify-evenly items-center bg-transparent">
-                <img className="w-6 mr-2 select-none cursor-default" src="/icons/crown.png" alt="crown" />
+            {!isPrime ? (
+              <button
+                className="w-36 h-6 bg-green-500 text-white rounded-full text-xs flex justify-evenly items-center"
+                onClick={() => navigate("/subscribe")}
+              >
+                <img
+                  className="crownImage rounded-full "
+                  src="/icons/crown.png"
+                  alt="prime"
+                />
+                GetMembership
+              </button>
+            ) : (
+              <button className="w-fit select-none cursor-default h-6 flex justify-evenly items-center bg-transparent">
+                <img
+                  className="w-6 mr-2 select-none cursor-default"
+                  src="/icons/crown.png"
+                  alt="crown"
+                />
                 {primeName}
-            </button>
-          )
-           }
-           
+              </button>
+            )}
           </div>
           {!cookie ? (
             <button
@@ -91,7 +98,11 @@ function NavBar() {
               className=" w-10 h-10 rounded-full cursor-pointer flex items-center"
               onClick={() => navigate("/profile")}
             >
-              <img src={`${userImgApi}${userImage}`} className="w-[2rem] h-[2rem] rounded-full" alt="userImage" />
+              <img
+                src={`${userImgApi}${userImage}`}
+                className="w-[2rem] h-[2rem] rounded-full"
+                alt="userImage"
+              />
             </div>
           ) : (
             <div
