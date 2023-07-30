@@ -5,6 +5,8 @@ import Cookies from "js-cookie";
 import { UserApi } from "../../../Store/api";
 import { useDispatch } from "react-redux/es/exports";
 import { userActions } from "../../../Store/redux/UserAuth";
+import toast, { Toaster } from 'react-hot-toast';
+
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -14,6 +16,11 @@ function Login() {
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      if(email.length===0){
+        console.log("ivide");
+        toast.error("please enter the email correctly")
+        return
+      }
       await axios
         .post(
           `${UserApi}userLogin`,
@@ -85,6 +92,7 @@ function Login() {
             </p>
           </div>
         </form>
+        <Toaster/>
       </div>
     </div>
   );

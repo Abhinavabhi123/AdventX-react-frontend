@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useSelector } from "react-redux";
+import io from 'socket.io-client';
 import UserAxios from "../../../Store/Axios/UserConfig";
-import UserChangeContext from "../../../Store/Context/UserChangecontext";
 import { ImgApi, userImgApi } from "../../../Store/api";
-import { response } from "express";
 import ChatRoom from "./ChatRoom";
 import EmptyChat from "./EmptyChat";
 
@@ -41,7 +40,14 @@ function UserCommunityList() {
       }
     })();
   }, [id]);
-  console.log(communities, "opopkjngnjggl");
+
+  useEffect(()=>{
+    const socket = io(import.meta.env.VITE_USER_DOMAIN);
+    socket.on("connection",()=>{
+      console.log("connected to the server");
+    })
+    
+  },[])
 
   return (
     <div className="flex w-full h-full">
@@ -91,7 +97,7 @@ function UserCommunityList() {
       </div>
       <div className="w-[80%] h-[50rem] bg-white flex justify-center items-center">
         <div className="w-[98%] h-[98%] bg-transparent rounded-md flex justify-center items-center">
-          {chatOpen ? <ChatRoom /> : <EmptyChat />}
+          {chatOpen ? <ChatRoom commId={commId}/> : <EmptyChat />}
         </div>
       </div>
     </div>
