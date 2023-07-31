@@ -63,11 +63,23 @@ function UserCommunityList() {
               <h1 className="text-lg ">Chats</h1>
             </div>
             <div className="h-full bg-transparent w-[21%] rounded-tr-lg flex justify-center items-center">
-              <img
-                className="w-10 h-10 rounded-full"
-                src={`${userImgApi}${userData?.image}`}
-                alt=""
-              />
+              {!userData?.image?
+              (
+                <div
+                style={{
+                  backgroundSize: "2rem 2rem",
+                  backgroundImage: "url('/icons/person.png')",
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "center center",
+                }}
+                className=" w-10 h-10 rounded-full"
+              ></div>
+            ):(  <img
+              className="w-10 h-10 rounded-full"
+              src={`${userImgApi}${userData?.image}`}
+              alt=""
+            />)}
+              
             </div>
           </div>
           <div className="w-full h-[45rem] bg-transparent rounded-br-lg overflow-y-scroll">

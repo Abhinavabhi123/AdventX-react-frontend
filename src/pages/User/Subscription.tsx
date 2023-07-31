@@ -20,27 +20,31 @@ function Subscription() {
     { value: "Create blog", free: "No", feature: "yes" },
   ];
   const navigate = useNavigate();
-  const userId = useSelector((state:any)=>state.user._id)
+  const userId = useSelector((state: any) => state.user._id);
 
-  const payment=async()=>{
+  const payment = async () => {
     try {
       console.log("potikk");
-      
-      await UserAxios.post("/create-checkout-session",{userId,amount:2000},{headers:{
-        'Content-Type':"application/json"
-      }}).then(response=>{
-        console.log(response);
-        if(response?.data?.url){
-          const url = response?.data?.url
-          window.location=url
+
+      await UserAxios.post(
+        "/create-checkout-session",
+        { userId, amount: 200000 },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-        
-      })
+      ).then((response) => {
+        console.log(response);
+        if (response?.data?.url) {
+          const url = response?.data?.url;
+          window.location = url;
+        }
+      });
     } catch (error) {
       console.log(error);
-      
     }
-  }
+  };
 
   return (
     <div>
@@ -74,9 +78,11 @@ function Subscription() {
             <div className="w-[90%] h-[90%]">
               <table className=" w-full h-[20rem]">
                 <thead>
-                  <th className="text-xs font-semibold">Features</th>
-                  <th className="text-xs font-semibold">Free</th>
-                  <th className="text-xs font-semibold">Plus</th>
+                  <tr>
+                    <th className="text-xs font-semibold">Features</th>
+                    <th className="text-xs font-semibold">Free</th>
+                    <th className="text-xs font-semibold">Plus</th>
+                  </tr>
                 </thead>
                 <tbody>
                   {data.map((item, i) => {

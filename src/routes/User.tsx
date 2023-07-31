@@ -20,6 +20,7 @@ import Communities from "../pages/User/Communities";
 import UserChangeContext from "../Store/Context/UserChangecontext";
 import AddUserVehicle from "../pages/User/AddUserVehicle";
 import CompletedEvent from "../components/User/CompletedSinglePage/CompletedEvent";
+import Error404 from "../components/Error/Error404";
 
 interface DecodedToken {
   _id: string;
@@ -104,6 +105,9 @@ function User() {
           </Routes>
         </UserChangeContext>
       </Authentication>
+      {/* <Routes>
+            <Route path="/*" element={<Error404/>}/>
+      </Routes> */}
     </div>
   );
 }

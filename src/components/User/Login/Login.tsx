@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 import { UserApi } from "../../../Store/api";
 import { useDispatch } from "react-redux/es/exports";
 import { userActions } from "../../../Store/redux/UserAuth";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 
 function Login() {
   const navigate = useNavigate();
@@ -16,10 +16,17 @@ function Login() {
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      if(email.length===0){
+      if (email.length === 0) {
         console.log("ivide");
-        toast.error("please enter the email correctly")
-        return
+        toast.error("please enter the email correctly");
+        return;
+      }
+      const validDomains = ["gmail.com", "yahoo.com", "hotmail.com"];
+
+      const domain = email.split("@")[1];
+      if (!validDomains.includes(domain)) {
+        toast.error("Enter a valid email domain");
+        return;
       }
       await axios
         .post(
@@ -29,11 +36,11 @@ function Login() {
         )
         .then((response) => {
           console.log(response);
-          
+
           const result = response?.data;
           if (result.message === "Access granted" && result.status === 200) {
             console.log(result, "it is the result of the response");
-            Cookies.set("jwtToken",result.jwtToken)
+            Cookies.set("jwtToken", result.jwtToken);
             const userName = `${result.userData?.firstName} ${result.userData?.lastName}`;
             navigate("/");
           }
@@ -85,14 +92,15 @@ function Login() {
             >
               Signup
             </button>
-            <p className="text-black font-bold text-sm cursor-pointer mt-3 hover:underline decoration-double" 
-            onClick={()=>navigate("/forgetPass")}
+            <p
+              className="text-black font-bold text-sm cursor-pointer mt-3 hover:underline decoration-double"
+              onClick={() => navigate("/forgetPass")}
             >
               Forget the password
             </p>
           </div>
         </form>
-        <Toaster/>
+        <Toaster />
       </div>
     </div>
   );
