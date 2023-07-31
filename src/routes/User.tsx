@@ -91,8 +91,8 @@ function User() {
               element={!isPrime ? <Subscription /> : <Navigate to={"/"} />}
             />
             <Route path="/subscribe/payment" element={<CheckOut />} />
-            <Route path="/subscribe/success" element={<PaymentSuccess />} />
-            <Route path="/subscribe/cancel" element={<PaymentSuccess />} />
+            <Route path="/subscribe/success" element={isPrime?<Navigate to={"/"}/>:<PaymentSuccess />} />
+            <Route path="/subscribe/cancel" element={isPrime?<Navigate to={"/"}/>:<PaymentSuccess />} />
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/eventSinglePage/:id" element={<CompletedEvent />} />
             <Route

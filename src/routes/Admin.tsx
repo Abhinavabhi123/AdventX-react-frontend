@@ -18,6 +18,7 @@ import EditEvents from "../pages/Admin/EditEventDetails";
 import BannerManagement from "../pages/Admin/BannerManagement";
 import AddBanner from "../pages/Admin/AddBanner";
 import EditBanner from "../pages/Admin/EditBanner";
+import Accounts from "../pages/Admin/Accounts";
 
 
 interface Admin {
@@ -55,6 +56,7 @@ function Admin() {
           <Route path="/eventManagement" element={<EventManagement/>}/>
           <Route path="/addEvent" element={<AddEvent/>}/>
           <Route path="/editEvent/:id" element={<EditEvents/>}/>
+          <Route  path="/accounts" element={<Accounts/>}/>
         </Routes>
       </Authentication>
     </div>
