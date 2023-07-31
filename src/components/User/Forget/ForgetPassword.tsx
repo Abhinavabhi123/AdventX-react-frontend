@@ -23,7 +23,17 @@ function ForgetPassword() {
 
   const SubmitForget = async () => {
     try {
-      console.log("submitting");
+      console.log("submitting");const validDomains = [
+        "gmail.com",
+        "yahoo.com",
+        "hotmail.com",
+      ];
+  
+      const domain = email.split("@")[1];
+      if (!validDomains.includes(domain)) {
+        alert("enter valid email")
+        return;
+    }
 
       await axios.post(`${UserApi}postForget`, { email }).then((response) => {
         console.log(response);

@@ -29,6 +29,72 @@ function Signup() {
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      if(fName.length===0){
+        return
+      }
+      if(fName[0]===" "){
+        return
+      }
+      if(fName.trim()===""||typeof fName!=="string"){
+        return
+      }
+      const symbols = /[-!"#$%&'()*+,./:;<=>?@[\\\]^_`{|}~]/;
+      if (symbols.test(fName)) {
+        alert("Please enter valid Event ....Name");
+        return;
+      }
+      if(lName.length===0){
+        return
+      }
+      if(lName[0]===" "){
+        return
+      }
+      if(lName.trim()===""||typeof lName!=="string"){
+        return
+      }
+      
+      if (symbols.test(lName)) {
+        alert("Please enter valid Event ....Name");
+        return;
+      }
+      if (symbols.test(Mobile)) {
+        alert("Please enter valid Event ....Name");
+        return;
+      }
+      if(Mobile.length!==10){
+        return
+      }
+      if(Mobile[0]===" "){
+        return
+      }
+      if(Mobile.trim()===""||typeof Mobile!=="string"){
+        return
+      }
+      
+      if (symbols.test(Mobile)) {
+        alert("Please enter valid Event ....Name");
+        return;
+      }
+      const validDomains = [
+        "gmail.com",
+        "yahoo.com",
+        "hotmail.com",
+      ];
+  
+      const domain = email.split("@")[1];
+      if (!validDomains.includes(domain)) {
+        
+        return;
+      }
+      if(password[0]===" "){
+        return
+      }
+      if(password.length>=6){
+        return
+      }
+      if(password!==confPass){
+        return
+      }
       await axios.post(`${UserApi}sendOpt`, { email }).then((response) => {
         console.log(response);
         if (response.data.message) {
