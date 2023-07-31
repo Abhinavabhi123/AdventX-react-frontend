@@ -5,10 +5,9 @@ import { useNavigate } from "react-router-dom";
 
 import SideBar from "../../components/Admin/AdminSideBar/SideBar";
 import TopBar from "../../components/Admin/AdminTopBar/TopBar";
-import axios from "axios";
-import { AdminApi } from "../../Store/api";
 import { ImgApi } from "../../Store/api";
 import AdminAxios from "../../Store/Axios/AdminConfig";
+import { response } from "express";
 
 interface Community {
   communityName: string;
@@ -40,34 +39,33 @@ function EditCommunity() {
   const [errorOpen, setErrorOpen] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [cMembers, setCMembers] = useState<{ _id: string }[]>([]);
-
+  const [newImage, setNewImage] = useState<File | string>("");
+  const [newPreview, setNewPreview] = useState<string>("");
+  const [imagePreviewOpen, setImagePreOpen] = useState<boolean>(false);
+  const [imageChanged, setImageChange] = useState<boolean>(false);
   useEffect(() => {
     try {
       (async () => {
-        await AdminAxios
-          .get(`getCommunityDetails/${id}`, {
-            withCredentials: true,
-          })
-          .then((response) => {
-            setCommunity(response?.data?.commData);
-            setActMember(response?.data?.commData?.members);
-          });
+        await AdminAxios.get(`getCommunityDetails/${id}`, {
+          withCredentials: true,
+        }).then((response) => {
+          setCommunity(response?.data?.commData);
+          setActMember(response?.data?.commData?.members);
+        });
       })();
 
       (async () => {
-        await AdminAxios
-          .get(`addUserECommunity`, {
-            params: { id: id || "" },
-            withCredentials: true,
-          })
-          .then((response) => {
-            setAllMember(response.data.userData);
-          });
+        await AdminAxios.get(`addUserECommunity`, {
+          params: { id: id || "" },
+          withCredentials: true,
+        }).then((response) => {
+          setAllMember(response.data.userData);
+        });
       })();
     } catch (error) {
       console.log(error);
     }
-  }, [change, id]);
+  }, [change, id, imageChanged]);
 
   const [community, setCommunity] = useState<Community>({
     communityName: "",
@@ -107,21 +105,19 @@ function EditCommunity() {
 
   const changeStatus = async (userId: string): Promise<void> => {
     try {
-      await AdminAxios
-        .post(
-          `changeComStatus`,
-          { id, userId },
-          { withCredentials: true }
-        )
-        .then((response) => {
-          console.log(response);
+      await AdminAxios.post(
+        `changeComStatus`,
+        { id, userId },
+        { withCredentials: true }
+      ).then((response) => {
+        console.log(response);
 
-          if (change === false) {
-            setChange(true);
-          } else {
-            setChange(false);
-          }
-        });
+        if (change === false) {
+          setChange(true);
+        } else {
+          setChange(false);
+        }
+      });
     } catch (error) {
       console.error(error);
     }
@@ -140,6 +136,36 @@ function EditCommunity() {
       setCMembers((prevMembers) =>
         prevMembers.filter((member) => member._id !== selectedValue)
       );
+    }
+  };
+  const imageUpload = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      setNewImage("");
+      setNewPreview("");
+      const file = event?.target?.files?.[0];
+      const allowedType = ["image/jpeg", "image/jpeg", "image/png"];
+      if (!allowedType.includes(file.type)) {
+        setError("Please select a JPG, JPEG, or PNG image file.");
+        setErrorOpen(true);
+        setTimeout(() => {
+          setErrorOpen(false);
+          setError("");
+        }, 1500);
+        return;
+      }
+      const maxSize = 5 * 1024 * 1024;
+      if (file.size > maxSize) {
+        setError("Please select an image file smaller than 5MB.");
+        setErrorOpen(true);
+        setTimeout(() => {
+          setErrorOpen(false);
+          setError("");
+        }, 1500);
+        return;
+      }
+      setNewImage(file);
+      setNewPreview(URL.createObjectURL(file));
+      setImagePreOpen(true);
     }
   };
 
@@ -177,13 +203,48 @@ function EditCommunity() {
         inputValue,
         cMembers,
         selectedOption,
-      }).then((response)=>{
-        if(response.data.status === 200){
-          navigate("/admin/community")
-        }
-      }).catch((error)=>{
-        console.error(error);
       })
+        .then((response) => {
+          if (response.data.status === 200) {
+            navigate("/admin/community");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const cancelImage = () => {
+    setNewPreview("");
+    setNewImage("");
+    setImagePreOpen(false);
+  };
+
+  const saveImage = async () => {
+    try {
+      console.log(newImage);
+
+      await AdminAxios.post(
+        `changeCommunityImage/${id}`,
+        { image: newImage },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        }
+      ).then((response) => {
+        console.log(response);
+        if (response?.data?.status === 200) {
+          imageChanged ? setImageChange(false) : setImageChange(true);
+          setNewPreview("");
+          setNewImage("");
+          setImagePreOpen(false);
+        }
+      });
     } catch (error) {
       console.error(error);
     }
@@ -205,16 +266,50 @@ function EditCommunity() {
                 <p className="text-lg font-semibold italic">Edit Community</p>
               </div>
               <div className="w-full h-36  flex">
-                <div className="h-full w-[50%]  flex justify-center items-center">
+                <div className="h-full w-[50%]  flex flex-col justify-center items-center">
                   {!imgOpen ? (
-                    <img
-                      className="community_img w-28 h-28 bg-blue-500  rounded-full"
-                      alt="logo"
-                      src={`${ImgApi}${logo}`}
-                    />
+                    <div className="w-28 h-28 relative  rounded-full">
+                      {imagePreviewOpen ? (
+                        <img
+                          src={newPreview}
+                          alt="logo"
+                          className="community_img w-28 h-28 absolute  rounded-full"
+                        />
+                      ) : (
+                        <img
+                          className="community_img w-28 h-28 absolute  rounded-full"
+                          alt="logo"
+                          src={`${ImgApi}${logo}`}
+                        />
+                      )}
+
+                      <input
+                        type="file"
+                        className="w-28 h-28  opacity-0 rounded-full"
+                        onChange={imageUpload}
+                      />
+                    </div>
                   ) : (
                     <div className="community_img w-28 h-28 bg-blue-500  rounded-full"></div>
                   )}
+                  <div className="w-32 h-10 mt-4 flex justify-around">
+                    {imagePreviewOpen && (
+                      <>
+                        <button
+                          className="w-14 rounded-md h-6 bg-red-300 hover:bg-red-400"
+                          onClick={cancelImage}
+                        >
+                          cancel
+                        </button>
+                        <button
+                          className="w-14 rounded-md h-6 bg-sky-300 hover:bg-sky-400"
+                          onClick={saveImage}
+                        >
+                          save
+                        </button>
+                      </>
+                    )}
+                  </div>
                 </div>
                 <div className="h-full w-[50%] flex justify-center items-center">
                   <div className="w-full flex flex-col items-center">
