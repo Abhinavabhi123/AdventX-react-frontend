@@ -1,7 +1,7 @@
 import React, { useState, useRef, ChangeEvent, useEffect } from "react";
 import UserAxios from "../../../Store/Axios/UserConfig";
 import { useSelector } from "react-redux";
-import { licenseImageApi } from "../../../Store/api";
+
 
 function License() {
   const userId: string = useSelector((state: any) => state?.user?._id);
@@ -116,7 +116,7 @@ function License() {
         <div className="w-[50%] h-full  flex justify-between bg-yellow-400 bg-opacity-40 items-center flex-col">
           {userData?.image ? (
             <img
-              src={`${licenseImageApi}${userData?.image}`}
+              src={`${import.meta.env.VITE_LICENSE_API}${userData?.image}`}
               alt="img"
               className="w-60 rounded-xl mt-20"
             />

@@ -3,7 +3,7 @@ import "./ProfileDetails.css";
 import Details from "./Details";
 import UserIdContext from "../../../Store/Context/UserContext";
 import axios from "axios";
-import { UserApi } from "../../../Store/api";
+// import { UserApi } from "../../../Store/api";
 import EditProfile from "../EditProfile/EditProfile";
 import { useSelector } from "react-redux";
 import UserAxios from "../../../Store/Axios/UserConfig";

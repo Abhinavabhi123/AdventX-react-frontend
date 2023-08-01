@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { UserApi } from "../../../Store/api";
+// import { UserApi } from "../../../Store/api";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -31,7 +31,7 @@ function EventCard({ value }: Props) {
   useEffect(() => {
     (async () => {
       await axios
-        .get(`${UserApi}getEvent`, {
+        .get(`${import.meta.env.VITE_USER_API}getEvent`, {
           params: {
             id,
           },

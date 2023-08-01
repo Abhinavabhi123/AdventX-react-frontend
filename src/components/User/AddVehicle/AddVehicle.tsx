@@ -1,11 +1,12 @@
 import React, { useState, ChangeEvent } from "react";
 import { json, useNavigate } from "react-router-dom";
 import UserAxios from "../../../Store/Axios/UserConfig";
-import { application, response } from "express";
+import { useSelector } from "react-redux";
 
 
 function AddVehicle() {
   const navigate = useNavigate();
+  const _id = useSelector((state:any)=>state.user._id)
   const [vNumber, setVNumber] = useState<string>("");
   const [vType, setVType] = useState<string>("");
   const [fuelType, setFuelType] = useState<string>("");
@@ -67,6 +68,8 @@ function AddVehicle() {
       }
     }
   };
+
+
 
   const submitData =async () => {
     try {
@@ -133,7 +136,7 @@ function AddVehicle() {
       }
       // 
       
-      if(vOwner.length<=0){
+      if(vOwner.length<=1){
         return
       }
       if(vOwner[0]===" "){
@@ -150,27 +153,21 @@ function AddVehicle() {
       }
       console.log("ok ethi");
       const formData = new FormData()
+      formData.append('id',_id);
       formData.append('vNumber', vNumber);
       formData.append('vType', vType);
       formData.append('fuelType', fuelType);
       formData.append('vName', vName);
       formData.append('vWheels', String(vWheels));
       formData.append('vOwner', vOwner);
-      const array:any[] =[]
-      for(const  imgs in image){
-        console.log(image[imgs],'kkk');
-        array.push(image[imgs])
-        
+      for (const img of image) {
+        formData.append('image', img);
       }
-      console.log(image,"array");
-
-      
-      
-
-      await UserAxios.post("/addVehicle",{image,formData},{headers:{"Content-Type":"multipart/form-data"},withCredentials:true}).then((response)=>{
+   
+      await UserAxios.post("/addVehicle",formData,{headers:{"Content-Type":"multipart/form-data"},withCredentials:true}).then((response)=>{
         if(response?.data?.status===200){
-          console.log("success");
-          
+          console.log("success"); 
+          navigate('/profile')
         }
       })
 

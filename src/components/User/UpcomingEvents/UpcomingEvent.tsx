@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Event.css"
 import AdminAxios from "../../../Store/Axios/AdminConfig";
-import { UserApi } from "../../../Store/api";
+// import { UserApi } from "../../../Store/api";
 import axios from "axios";
 import EventCard from "./EventCard";
 
@@ -12,7 +12,7 @@ function UpcomingEvent() {
   const [data, setData] = useState<Data[]>([]);
   useEffect(() => {
     (async () => {
-      await axios.get(`${UserApi}getAllUpEvents`).then((response) => {
+      await axios.get(`${import.meta.env.VITE_USER_API}getAllUpEvents`).then((response) => {
         setData(response?.data.eventData);
       });
     })();

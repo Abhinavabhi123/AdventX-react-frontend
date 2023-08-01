@@ -6,7 +6,7 @@ import { useSelector } from "react-redux/es/hooks/useSelector";
 import Cookies from "js-cookie";
 import { cookies } from "next/dist/client/components/headers";
 import axios from "axios";
-import { UserApi, userImgApi } from "../../../Store/api";
+// import { UserApi, userImgApi } from "../../../Store/api";
 import { response } from "express";
 import UserAxios from "../../../Store/Axios/UserConfig";
 // import { UserState } from "../../../Store/redux/UserAuth";
@@ -99,7 +99,7 @@ function NavBar() {
               onClick={() => navigate("/profile")}
             >
               <img
-                src={`${userImgApi}${userImage}`}
+                src={`${import.meta.env.VITE_USERIMAGE_API}${userImage}`}
                 className="w-[2rem] h-[2rem] rounded-full"
                 alt="userImage"
               />

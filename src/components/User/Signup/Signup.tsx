@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { UserApi } from "../../../Store/api";
+// import { UserApi } from "../../../Store/api";
 import OTP from "../OTP/OTP";
 import UserEmailContext from "../../../Store/Context/Context";
 type userDataType = {
@@ -29,6 +29,7 @@ function Signup() {
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      
       if(fName.length===0){
         return
       }
@@ -76,26 +77,28 @@ function Signup() {
         return;
       }
       const validDomains = [
-        "gmail.com",
-        "yahoo.com",
-        "hotmail.com",
-      ];
-  
-      const domain = email.split("@")[1];
-      if (!validDomains.includes(domain)) {
+          "gmail.com",
+          "yahoo.com",
+          "hotmail.com",
+        ];
         
-        return;
+        const domain = email.split("@")[1];
+        if (!validDomains.includes(domain)) {
+        
+            return;
       }
       if(password[0]===" "){
         return
       }
-      if(password.length>=6){
+      if(password.length<=6){
         return
       }
       if(password!==confPass){
         return
       }
-      await axios.post(`${UserApi}sendOpt`, { email }).then((response) => {
+      console.log("posting");
+      
+      await axios.post(`${import.meta.env.VITE_USER_API}sendOpt`, { email }).then((response) => {
         console.log(response);
         if (response.data.message) {
           setShowOtp(true);
@@ -194,7 +197,7 @@ function Signup() {
 
           {/* submit div */}
           <div className="flex justify-center">
-            <button className="bg-blue-400 w-20 h-6 rounded-md border-2 mt-2 border-black text-sm">
+            <button type="submit" className="bg-blue-400 w-20 h-6 rounded-md border-2 mt-2 border-black text-sm">
               Signup
             </button>
           </div>

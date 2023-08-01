@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { UserApi } from "../../../Store/api";
+// import { UserApi } from "../../../Store/api";
 import { useDispatch } from "react-redux/es/exports";
 import { userActions } from "../../../Store/redux/UserAuth";
 import toast, { Toaster } from "react-hot-toast";
@@ -30,7 +30,7 @@ function Login() {
       }
       await axios
         .post(
-          `${UserApi}userLogin`,
+          `${import.meta.env.VITE_USER_API}userLogin`,
           { email, password },
           { withCredentials: true }
         )

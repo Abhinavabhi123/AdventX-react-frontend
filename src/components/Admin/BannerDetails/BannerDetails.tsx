@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
-import { bannerImageApi } from "../../../Store/api";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
@@ -96,7 +95,7 @@ function BannerDetails() {
                 <td className="text-center h-[3rem] flex justify-center items-center">
                   <img
                     className="w-16"
-                    src={`${bannerImageApi}${banner?.image}`}
+                    src={`${import.meta.env.VITE_BANNER_API}${banner?.image}`}
                     alt="banner image"
                   />
                 </td>

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { useSelector } from "react-redux";
 import io from 'socket.io-client';
 import UserAxios from "../../../Store/Axios/UserConfig";
-import { ImgApi, userImgApi } from "../../../Store/api";
+
 import ChatRoom from "./ChatRoom";
 import EmptyChat from "./EmptyChat";
 
@@ -76,7 +76,7 @@ function UserCommunityList() {
               ></div>
             ):(  <img
               className="w-10 h-10 rounded-full"
-              src={`${userImgApi}${userData?.image}`}
+              src={`${import.meta.env.VITE_USERIMAGE_API}${userData?.image}`}
               alt=""
             />)}
               
@@ -95,7 +95,7 @@ function UserCommunityList() {
                 >
                   <img
                     className="w-10 rounded-full  h-10"
-                    src={`${ImgApi}${community?.logo}`}
+                    src={`${import.meta.env.VITE_IMAGE_API}${community?.logo}`}
                     alt=""
                   />
                   <p className="text-sm pl-4 truncate ">

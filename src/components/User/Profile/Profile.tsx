@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import UserIdContext from "../../../Store/Context/UserContext";
-import { UserApi, userImgApi } from "../../../Store/api";
+// import { UserApi, userImgApi } from "../../../Store/api";
 import ProfileDetails from "../ProfileDetails/ProfileDetails";
 import { userActions } from "../../../Store/redux/UserAuth";
 import UserAxios from "../../../Store/Axios/UserConfig";
@@ -129,7 +129,7 @@ function Profile() {
               {userData?.image && !imgOpen ? (
                 <img
                   className="w-[8rem] h-[8rem] rounded-full absolute"
-                  src={`${userImgApi}${userData?.image}`}
+                  src={`${import.meta.env.VITE_USERIMAGE_API}${userData?.image}`}
                   alt="profile"
                 />
               ) : !imgOpen ? (

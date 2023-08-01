@@ -5,7 +5,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import StripePayment from "./StripePayment";
 import axios from "axios";
 import "./checkout.css";
-import { UserApi } from "../../../Store/api";
+// import { UserApi } from "../../../Store/api";
 
 
 const PUBLIC_KEY =
@@ -22,7 +22,7 @@ function CheckOut() {
       try {
         const amount = 2000;
         const response = await axios.post(
-          `${UserApi}addPayment`,
+          `${import.meta.env.VITE_USER_API}addPayment`,
           { id: userId, amount },
           {
             headers: { "Content-Type": "application/json" },

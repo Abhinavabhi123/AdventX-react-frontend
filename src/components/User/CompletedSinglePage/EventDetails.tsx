@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { UserApi } from "../../../Store/api";
+// import { UserApi } from "../../../Store/api";
 
 interface Props {
   id: string | undefined;
@@ -23,7 +23,7 @@ function EventDetails({ id }: Props) {
     (async () => {
       if (id) {
         await axios
-          .get(`${UserApi}getUserEvent`, {
+          .get(`${import.meta.env.VITE_USER_API}getUserEvent`, {
             params: {
               id,
             },

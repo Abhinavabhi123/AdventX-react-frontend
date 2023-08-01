@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React,{useEffect,useState} from 'react'
-import { UserApi } from '../../../Store/api';
+// import { UserApi } from '../../../Store/api';
 import AllEventCard from './AllEventCard';
 import"../UpcomingEvents/Event.css"
 
@@ -12,7 +12,7 @@ function AllEvents() {
     const [data,setData]= useState<Data[]>([])
     useEffect(()=>{
         (async()=>{
-            await axios.get(`${UserApi}getAllEvents`).then((response)=>{
+            await axios.get(`${import.meta.env.VITE_USER_API}getAllEvents`).then((response)=>{
                 console.log(response);
                 setData(response?.data?.data)
             })

@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent, useEffect, useRef } from "react";
 import "./Banner.css";
 import { useNavigate, useParams } from "react-router-dom";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
-import { bannerImageApi } from "../../../Store/api";
+
 
 
 function EditBanner() {
@@ -268,7 +268,7 @@ function EditBanner() {
           <div className="w-full h-40 flex justify-center items-center flex-col">
             {!previewUrl && bannerData?.image && (
               <img
-                src={`${bannerImageApi}${bannerData?.image}`}
+                src={`${import.meta.env.VITE_BANNER_API}${bannerData?.image}`}
                 alt=""
                 className="w-48 h-32 rounded"
               />

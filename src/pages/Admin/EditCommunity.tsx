@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import SideBar from "../../components/Admin/AdminSideBar/SideBar";
 import TopBar from "../../components/Admin/AdminTopBar/TopBar";
-import { ImgApi } from "../../Store/api";
+// import { ImgApi } from "../../Store/api";
 import AdminAxios from "../../Store/Axios/AdminConfig";
 import { response } from "express";
 
@@ -279,7 +279,7 @@ function EditCommunity() {
                         <img
                           className="community_img w-28 h-28 absolute  rounded-full"
                           alt="logo"
-                          src={`${ImgApi}${logo}`}
+                          src={`${import.meta.env.VITE_IMAGE_API}${logo}`}
                         />
                       )}
 

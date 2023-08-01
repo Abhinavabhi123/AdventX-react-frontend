@@ -2,7 +2,7 @@ import React, { FormEvent, useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import UserEmailContext from "../../../Store/Context/Context";
 import axios from "axios";
-import { UserApi } from "../../../Store/api";
+// import { UserApi } from "../../../Store/api";
 
 function OTP() {
   const userEmail = useContext(UserEmailContext);
@@ -40,7 +40,7 @@ function OTP() {
     try {
       if (otpLength.length === 6) {
         await axios
-          .post(`${UserApi}postSignup`, {
+          .post(`${import.meta.env.VITE_USER_API}postSignup`, {
             fName,
             lName,
             Mobile,
@@ -64,7 +64,7 @@ function OTP() {
     try {
         console.log("hello");
         setSeconds(30)
-        await axios.post(`${UserApi}sendOpt`, { email }).then((response) => {
+        await axios.post(`${import.meta.env.VITE_USER_API}sendOpt`, { email }).then((response) => {
             console.log(response);
         });
     } catch (error) {

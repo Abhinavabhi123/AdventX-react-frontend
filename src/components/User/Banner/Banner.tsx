@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { UserApi } from "../../../Store/api";
+// import { UserApi } from "../../../Store/api";
 interface Banner{
   _id:string;
   image:string;
@@ -23,7 +23,7 @@ function Banner() {
   
   useEffect(() => {
     (async () => {
-      await axios.get(`${UserApi}getBanner`).then((response) => {
+      await axios.get(`${import.meta.env.VITE_USER_API}getBanner`).then((response) => {
         if (response?.data?.status === 200) {
           setBannerData(response?.data?.bannerData);
         }

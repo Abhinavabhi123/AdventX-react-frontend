@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AdminApi, ImgApi } from "../../../Store/api";
+// import { AdminApi, ImgApi } from "../../../Store/api";
 import Swal from 'sweetalert2';
 import axios from "axios";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
@@ -82,7 +82,7 @@ const CommunityRow = (props: Values) => {
               <div className="w-10 h-10 rounded-full">
                 <img
                   className="w-10 h-10 rounded-full"
-                  src={`${ImgApi}${logo}`}
+                  src={`${import.meta.env.VITE_IMAGE_API}${logo}`}
                   alt="logo"
                 />
               </div>

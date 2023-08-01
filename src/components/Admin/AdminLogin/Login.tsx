@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"
-import { AdminApi } from "../../../Store/api";
+// import { AdminApi } from "../../../Store/api";
 import Cookies from "js-cookie";
 
 
@@ -19,7 +19,7 @@ function Login() {
       // if(!email ||email.length===0||email[0]===""||emailFormat.test(email)){
       
       // }
-     await axios.post(`${AdminApi}AdminLogin`,{email,password},{withCredentials:true}).then((response)=>{
+     await axios.post(`${import.meta.env.VITE_ADMIN_API}AdminLogin`,{email,password},{withCredentials:true}).then((response)=>{
       console.log(response.data);
       // Cookies.set("adminJwt",response.data.token)
       if(response.data?.access === true){

@@ -2,7 +2,7 @@ import React, { useState,useRef } from "react";
 import "./ForgetPassword.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { UserApi } from "../../../Store/api";
+// import { UserApi } from "../../../Store/api";
 
 
 function ForgetPassword() {
@@ -35,7 +35,7 @@ function ForgetPassword() {
         return;
     }
 
-      await axios.post(`${UserApi}postForget`, { email }).then((response) => {
+      await axios.post(`${import.meta.env.VITE_USER_API}postForget`, { email }).then((response) => {
         console.log(response);
         if (response.data.message === "Success") {
           setCheckEmail(response.data.email);
@@ -50,7 +50,7 @@ function ForgetPassword() {
   const confirmOTP = async () => {
     try {
       const enteredOtp = Number(otp);
-      await axios.post(`${UserApi}postOtp`, { enteredOtp }).then((response) => {
+      await axios.post(`${import.meta.env.VITE_USER_API}postOtp`, { enteredOtp }).then((response) => {
         console.log(response);
         if (response.data.message === "Otp matching") {
           setChange(true);
@@ -64,7 +64,7 @@ function ForgetPassword() {
   const changePass =async()=>{
     try {
       if(password === confPassword){
-        await axios.post(`${UserApi}changePass`,{checkEmail,password}).then((response)=>{
+        await axios.post(`${import.meta.env.VITE_USER_API}changePass`,{checkEmail,password}).then((response)=>{
           console.log(response);
           if(response.data.message === "Password Changed"){
             navigate("/userLogin")
