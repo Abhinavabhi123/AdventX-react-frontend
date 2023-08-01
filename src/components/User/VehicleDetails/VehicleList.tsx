@@ -11,6 +11,7 @@ function VehicleList() {
   const [vehicles, setVehicles] = useState([{
     images:"",
   }]);
+  const[changed,setChanged]=useState<boolean>(false)
   
 
   useEffect(() => {
@@ -21,7 +22,7 @@ function VehicleList() {
         }
       });
     })();
-  }, [id]);
+  }, [id,changed]);
   console.log(vehicles,"dgjkgdfkjh");
   
   return (
@@ -34,10 +35,10 @@ function VehicleList() {
           </svg>
         </button>
       </div>
-      <div className="w-full h-[31rem]">
+      <div className="w-full h-[31rem] overflow-y-scroll over">
         {vehicles.map((vehicle, i) => {        
           return (
-           <VehicleCard vehicle={vehicle} key={i}/>
+           <VehicleCard vehicle={vehicle} key={i} setChanged={setChanged} changed={changed}/>
           );
         })}
       </div>

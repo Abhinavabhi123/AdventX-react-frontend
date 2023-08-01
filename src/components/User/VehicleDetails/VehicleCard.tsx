@@ -1,12 +1,29 @@
-import React from "react";
+import React,{Dispatch,SetStateAction} from "react";
+import UserAxios from "../../../Store/Axios/UserConfig";
+import { response } from "express";
 
 interface Vehicle {
   vehicle: any;
+  setChanged:Dispatch<SetStateAction<boolean>>;
+  changed:boolean
 }
 
-function VehicleCard({ vehicle }: Vehicle) {
+function VehicleCard({ vehicle,setChanged,changed }: Vehicle) {
+
+  const deleteVehicle=async()=>{
+    console.log("deleting vehicle");
+    console.log(vehicle._id);
+    
+    await UserAxios.delete(`/deleteVehicle/${vehicle._id}`).then((response)=>{
+      if(response?.data?.status===200){
+        console.log("deleted");
+        changed?setChanged(false):setChanged(true)
+      }
+    })
+    
+  }
   return (
-    <div className="w-full h-32 bg-[#d1d7f1] flex">
+    <div className="w-full h-32 bg-[#d1d7f1] flex mb-2">
       <div className="w-[33.3%] h-full flex justify-center items-center ">
         <div className="w-[60%] h-[90%]  rounded-md">
           <img
@@ -34,7 +51,7 @@ function VehicleCard({ vehicle }: Vehicle) {
         )}
 
         <button className="mb-2 me-2">
-            <img src='/icons/delete1.png' className="w-6" alt="" />
+            <img src='/icons/delete1.png' className="w-5" alt="vehicle image" onClick={deleteVehicle}/>
         </button>
       </div>
     </div>
