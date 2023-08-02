@@ -28,6 +28,12 @@ function EventForm() {
       vehicleId: "",
     },
   });
+  const [vehicleData, setVehicleData] = useState([
+    {
+      vehicleName: "",
+      vehicleNumber:""
+    },
+  ]);
   const userId = useSelector((state: any) => state?.user?._id);
   const isPrime = useSelector((state: any) => state.user.is_prime);
   useEffect(() => {
@@ -38,9 +44,15 @@ function EventForm() {
             setUserData(response?.data?.userData);
           }
         });
+        await UserAxios.get(`/getAllVehicles/${userId}`).then((response) => {
+          if (response?.data?.status === 200) {
+            setVehicleData(response?.data?.vehicleData);
+          }
+        });
       }
     })();
   }, [userId]);
+  console.log(vehicleData, "illlli");
 
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -86,9 +98,11 @@ function EventForm() {
                     placeholder="Community Name"
                     className="placeholder-gray-500 ml-5 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
                   >
-                    <option>Select vehicle</option>
+                    {vehicleData.map((vehicle, i) => {
+                      return <option>{`${vehicle?.vehicleName}- ${vehicle?.vehicleNumber}`}</option>;
+                    })}
                   </select>
-                  {!userData?.vehicles?.vehicleId && (
+                  {vehicleData.length === 0 && (
                     <p className="text-xs ml-5 text-red-500">
                       Add your Vehicle
                     </p>
@@ -175,7 +189,11 @@ function EventForm() {
                   </button>
                 )}
               </div>
-              {isPrime !== true && <p className="text-xs text-yellow-500 hover:text-red-500 cursor-default mt-2">Get the membership and you can add license and vehicle details </p>}
+              {isPrime !== true && (
+                <p className="text-xs text-yellow-500 hover:text-red-500 cursor-default mt-2">
+                  Get the membership and you can add license and vehicle details{" "}
+                </p>
+              )}
             </div>
           </form>
         </div>
