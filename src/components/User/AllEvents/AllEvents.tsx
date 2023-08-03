@@ -26,7 +26,7 @@ function AllEvents() {
       <h1>All Events</h1>
     </div>
     <div className="w-full h-52 flex  cursor-pointer">
-      <div className="w-[95%] h-full overflow-x-scroll  over flex">
+      <div className="w-[95%] h-full overflow-x-scroll scroll-smooth over flex">
         {data.map((item, i) => {
           
           return(

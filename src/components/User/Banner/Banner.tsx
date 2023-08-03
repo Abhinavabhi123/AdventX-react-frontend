@@ -1,54 +1,57 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 // import { UserApi } from "../../../Store/api";
-interface Banner{
-  _id:string;
-  image:string;
-  status:boolean;
-  subTitle:string;
-  title:string;
-  updatedAt:string;
-
+interface Banner {
+  _id: string;
+  image: string;
+  status: boolean;
+  subTitle: string;
+  title: string;
+  updatedAt: string;
 }
 
 function Banner() {
-  const [bannerData, setBannerData] = useState<Banner>({
-    _id:"",
-    image:'',
-    status:false,
-    subTitle:"",
-    title:"",
-    updatedAt:""
-  });
-  
+  const [bannerData, setBannerData] = useState<Banner[]>([
+    {
+      _id: "",
+      image: "",
+      status: false,
+      subTitle: "",
+      title: "",
+      updatedAt: "",
+    },
+  ]);
+
   useEffect(() => {
     (async () => {
-      await axios.get(`${import.meta.env.VITE_USER_API}getBanner`).then((response) => {
-        if (response?.data?.status === 200) {
-          setBannerData(response?.data?.bannerData);
-        }
-      });
+      await axios
+        .get(`${import.meta.env.VITE_USER_API}getBanner`)
+        .then((response) => {
+          if (response?.data?.status === 200) {
+            setBannerData(response?.data?.bannerData);
+          }
+        });
     })();
-  }, []);
-  console.log(bannerData,"lololo");
+  }, [])
   
-//   const array:any[]=[]
-//   for(const key:number in bannerData){
-// console.log(bannerData[key]);
-//   }
-  
-  // const banner = bannerData[Math.random(bannerData.length)]
-  
+  const id = Math.floor(Math.random() * bannerData.length);
+
   return (
-    <>
-      <div className=" w-full h-full relative">
+    <div className="w-full h-[43rem]">
+      <div className=" w-full h-full ">
         <img
-          className="w-full h-full object-cover "
-          src="https://images.unsplash.com/photo-1579271723430-d600366f032f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8b2Zmcm9hZHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"
+          className="w-full h-[43rem] object-cover absolute "
+          src={`${import.meta.env.VITE_BANNER_API}${bannerData[id].image}`}
           alt="banner"
         />
+        <div className=" w-[28rem] h-48 relative items-center flex flex-col justify-center">
+          <p className="text-[2.5rem] ms-5 font-semibold text-white relative">
+            {bannerData[id].title}
+          </p>
+          <p className="text-2xl font-serif text-white ">{bannerData[id].subTitle}</p>
+        </div>
       </div>
-    </>
+    </div>
   );
 }
 

@@ -4,13 +4,11 @@ import "./NavBar.css";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import Cookies from "js-cookie";
-import { cookies } from "next/dist/client/components/headers";
-import axios from "axios";
-// import { UserApi, userImgApi } from "../../../Store/api";
-import { response } from "express";
+
+
+
 import UserAxios from "../../../Store/Axios/UserConfig";
-// import { UserState } from "../../../Store/redux/UserAuth";
-// import rootReducer from "../../../Store/redux/RootReducer";
+
 function NavBar() {
   const [open, setOpen] = useState(false);
   const [userImage, setUserImage] = useState<string>("");
@@ -56,7 +54,12 @@ function NavBar() {
               >
                 Community
               </li>
-              <li className="bg-white cursor-pointer">Activities</li>
+              <li
+                className="bg-white cursor-pointer"
+                onClick={() => navigate("/activities")}
+              >
+                Activities
+              </li>
               <li className="bg-white cursor-pointer">About</li>
             </ul>
           </div>

@@ -10,7 +10,7 @@ function Home() {
       <div className=" w-full h-20">
         <Navbar />
       </div>
-      <div className="w-full h-[43rem]">
+      <div className="w-full h-[43rem]  m-0 bg-white">
         <Banner />
       </div>
       <div className="w-full h-[38rem] bg-white flex  flex-col items-center justify-evenly">

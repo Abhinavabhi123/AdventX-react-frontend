@@ -21,6 +21,7 @@ import UserChangeContext from "../Store/Context/UserChangecontext";
 import AddUserVehicle from "../pages/User/AddUserVehicle";
 import CompletedEvent from "../components/User/CompletedSinglePage/CompletedEvent";
 import Error404 from "../components/Error/Error404";
+import Activities from "../pages/User/Activities";
 
 interface DecodedToken {
   _id: string;
@@ -78,6 +79,7 @@ function User() {
           path="/forgetPass"
           element={userData ? <Navigate to={"/"} /> : <ForgetPass />}
         />
+        <Route path="/activities" element={<Activities />} />
       </Routes>
       <Authentication CookieName="jwtToken" Type="user">
         <UserChangeContext>
@@ -91,8 +93,14 @@ function User() {
               element={!isPrime ? <Subscription /> : <Navigate to={"/"} />}
             />
             <Route path="/subscribe/payment" element={<CheckOut />} />
-            <Route path="/subscribe/success" element={isPrime?<Navigate to={"/"}/>:<PaymentSuccess />} />
-            <Route path="/subscribe/cancel" element={isPrime?<Navigate to={"/"}/>:<PaymentSuccess />} />
+            <Route
+              path="/subscribe/success"
+              element={isPrime ? <Navigate to={"/"} /> : <PaymentSuccess />}
+            />
+            <Route
+              path="/subscribe/cancel"
+              element={isPrime ? <Navigate to={"/"} /> : <PaymentSuccess />}
+            />
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/eventSinglePage/:id" element={<CompletedEvent />} />
             <Route
