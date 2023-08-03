@@ -14,6 +14,7 @@ function UserCommunityList() {
   const id: string = useSelector((state: any) => state?.user?._id);
   const [chatOpen, setChatOpen] = useState<boolean>(false);
   const [commId, setCommId] = useState<string>("");
+  const [change,setChange]=useState<boolean>(false)
   const [userData, setUserData] = useState<UserData>({
     image: "",
   });
@@ -91,6 +92,7 @@ function UserCommunityList() {
                   onClick={() => {
                     setCommId(community?._id);
                     setChatOpen(true);
+                    setChange(!change)
                   }}
                 >
                   <img
@@ -109,7 +111,7 @@ function UserCommunityList() {
       </div>
       <div className="w-[80%] h-[50rem] bg-white flex justify-center items-center">
         <div className="w-[98%] h-[98%] bg-transparent rounded-md flex justify-center items-center">
-          {chatOpen ? <ChatRoom commId={commId}/> : <EmptyChat />}
+          {chatOpen ? <ChatRoom commId={commId} change={change}/> : <EmptyChat />}
         </div>
       </div>
     </div>

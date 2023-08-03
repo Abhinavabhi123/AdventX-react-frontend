@@ -5,7 +5,7 @@ export default {
     extend: {
       backgroundImage: {
         'person': "url('/public/icons/person.png')",
-      }
+      },
     }
   },
   plugins: [],

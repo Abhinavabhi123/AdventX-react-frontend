@@ -1,20 +1,29 @@
 import React, { useEffect, useState } from "react";
 import UserAxios from "../../../Store/Axios/UserConfig";
 import io from "socket.io-client";
+import Picker, { EmojiClickData } from "emoji-picker-react";
+import { useSelector } from "react-redux";
+import "./roomChat.css";
+import { response } from "express";
+
 interface Props {
   commId: string | number;
+  change:boolean
 }
 interface Community {
   communityName: string;
   logo: string;
 }
 
-function ChatRoom({ commId }: Props) {
+function ChatRoom({ commId ,change}: Props) {
+  const userId = useSelector((state: any) => state.user._id);
   const [communityData, setCommunityData] = useState<Community>({
     communityName: "",
     logo: "",
   });
+  const [emojiOpen, setEmojiOpen] = useState<boolean>(false);
   const [detailsOpen, setDetailsOpen] = useState<boolean>(false);
+  const [changed,setChanged] =useState<boolean>(false)
   const [commUsers, setCommUsers] = useState([
     {
       image: "",
@@ -22,6 +31,7 @@ function ChatRoom({ commId }: Props) {
       lastName: "",
     },
   ]);
+  const [msg, setMsg] = useState<string>("");
   useEffect(() => {
     const socket = io(import.meta.env.VITE_USER_DOMAIN);
     socket.on("connection", () => {
@@ -56,10 +66,43 @@ function ChatRoom({ commId }: Props) {
         });
     })();
   }, [commId]);
-  console.log(commUsers, "opkopopo");
 
-  const submitChat = (e: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => { 
+    (async () => {
+      await UserAxios.post("/getMessages", { commId }).then((response) => {
+        if (response?.data?.status === 200) {
+          console.log(response);
+        }
+      });
+    })();
+  }, [changed,change]);
+
+  const openPicker = () => {
+    setEmojiOpen(!emojiOpen);
+  };
+
+  const handleEmojiClick = (emoji: EmojiClickData, event: any) => {
+    let message = msg;
+    message += emoji.emoji;
+
+    setMsg(message);
+  };
+
+  const submitChat = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (msg.length > 0) {
+      await UserAxios.post("/postMessage", { commId, userId, message: msg })
+        .then((response) => {
+          if (response?.data?.status === 200) {
+            setMsg("");
+            setChanged(!changed)
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
   };
 
   return (
@@ -75,6 +118,7 @@ function ChatRoom({ commId }: Props) {
               alt="community logo"
               className="w-12 h-12 rounded-full"
             />
+
             <div
               className=" flex flex-col cursor-pointer"
               onClick={() => {
@@ -82,8 +126,6 @@ function ChatRoom({ commId }: Props) {
               }}
             >
               <span className="font-bold select-none">. . .</span>
-              {/* <span>.</span>
-              <span>.</span> */}
             </div>
           </div>
         </div>
@@ -93,13 +135,31 @@ function ChatRoom({ commId }: Props) {
             <div className="w-full h-[95%] border border-dashed border-black">
               <form
                 onSubmit={submitChat}
-                className=" w-full h-full flex  items-center ps-4 pe-4 justify-between"
+                className=" w-full h-full flex  items-center ps-4 pe-4 justify-between cursor-pointer"
               >
                 <div>
-                  <img src="/icons/smile.png" className="w-8" />
+                  <img
+                    src="/icons/smile.png"
+                    className="w-8 relative"
+                    onClick={openPicker}
+                  />
+                  {emojiOpen && (
+                    <div className="emojiPicker">
+                      <Picker onEmojiClick={handleEmojiClick} />
+                    </div>
+                  )}
                 </div>
                 <div>
-                  <input type="text" className="w-[34rem] h-10 ps-3" />
+                  <input
+                    type="text"
+                    className="w-[34rem] h-10 ps-3 text-sm"
+                    value={msg}
+                    placeholder="Text here"
+                    onChange={(e) => {
+                      setMsg(e.target.value);
+                      setEmojiOpen(false);
+                    }}
+                  />
                 </div>
                 <button type="submit">
                   <img src="/icons/send.png" alt="send btn" className="w-8" />
@@ -110,7 +170,7 @@ function ChatRoom({ commId }: Props) {
         </div>
       </div>
       {detailsOpen && (
-        <div className=" w-[40%] h-full bg-[#fef3c7]">
+        <div className=" w-[40%] h-full bg-[#fef3c7 ]">
           <div className="w-full h-16 rounded-t-md bg-gray-300 flex items-center ps-3">
             <p className="text-md select-none">Participants</p>
           </div>
