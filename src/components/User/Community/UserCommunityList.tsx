@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useSelector } from "react-redux";
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 import UserAxios from "../../../Store/Axios/UserConfig";
 
 import ChatRoom from "./ChatRoom";
@@ -20,7 +20,7 @@ function UserCommunityList() {
   const [communities, setCommunities] = useState([
     { logo: "", communityName: "", _id: "" },
   ]);
-  // const { userChanges, setUserChanges } = useContext(UserChangeContext)
+  // const { userChanges, setUserChanges } = useCon text(UserChangeContext)
 
   useEffect(() => {
     (async () => {
@@ -41,13 +41,13 @@ function UserCommunityList() {
     })();
   }, [id]);
 
-  useEffect(()=>{
-    const socket = io(import.meta.env.VITE_USER_DOMAIN);
-    socket.on("connection",()=>{
-      console.log("connected to the server");
-    })
+  // useEffect(()=>{
+  //   const socket = io(import.meta.env.VITE_USER_DOMAIN);
+  //   socket.on("connection",()=>{
+  //     console.log("connected to the server");
+  //   })
     
-  },[])
+  // },[])
 
   return (
     <div className="flex w-full h-full">
