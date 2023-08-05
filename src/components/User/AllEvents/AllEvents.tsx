@@ -40,7 +40,7 @@ function AllEvents() {
           style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
         >
           <img className="w-4" src="/icons/right_arrow.png" alt="right arrow" />
-          <span className="tooltiptext">See more</span>
+          <span className="tooltiptext">See All</span>
         </div>
       </div>
     </div>

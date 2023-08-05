@@ -1,12 +1,9 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { AdminApi } from "../../../Store/api";
 import TableRow from "./TableRow";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
 
 function UserList() {
   const [users, setUsers] = useState([]);
- 
 
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
@@ -31,8 +28,8 @@ function UserList() {
           </tr>
         </thead>
         <tbody>
-          {users.map((data,i) => {
-            return <TableRow key={i} value={data}/>;
+          {users.map((data, i) => {
+            return <TableRow key={i} value={data} />;
           })}
         </tbody>
       </table>

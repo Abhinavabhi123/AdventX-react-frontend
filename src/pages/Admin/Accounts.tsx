@@ -1,6 +1,7 @@
 import React from "react";
 import TopBar from "../../components/Admin/AdminTopBar/TopBar";
 import SideBar from "../../components/Admin/AdminSideBar/SideBar";
+import Account from "../../components/Admin/Accounts/Account";
 
 function Accounts() {
   return (
@@ -12,8 +13,8 @@ function Accounts() {
         <div className="">
           <TopBar value={"Community"} />
         </div>
-        <div className="w-full h-full bg-red-500">
-
+        <div className="w-full h-full">
+          <Account/>
         </div>
       </div>
     </div>

@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { AdminApi } from "../../../Store/api";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
-
 
 interface TableRowProps {
   value: any;
-
 }
 interface User {
   firstName: string;
@@ -16,7 +12,7 @@ interface User {
   status: undefined;
 }
 
-const TableRow: React.FC<TableRowProps> = ({ value}) => {
+const TableRow: React.FC<TableRowProps> = ({ value }) => {
   const { _id } = value;
   const [user, setUser] = useState<User>({
     firstName: "",
@@ -26,35 +22,27 @@ const TableRow: React.FC<TableRowProps> = ({ value}) => {
     status: undefined,
   });
 
-  
   const id = _id;
 
-  
   useEffect(() => {
-
-    
     const fetchSingleUser = async () => {
-      await AdminAxios
-        .get(`singleUser`, {
-          params: { id },
-        })
-        .then((response) => {
-          setUser(response.data);
-        });
+      await AdminAxios.get(`singleUser`, {
+        params: { id },
+      }).then((response) => {
+        setUser(response.data);
+      });
     };
     fetchSingleUser();
-  },[]);
+  }, []);
 
-  
   const { firstName, email, mobile, primeMember, status } = user;
 
   const blockUser = async () => {
     try {
       console.log("Clicked");
-      await AdminAxios.post(`blockUser`, { _id }).then((response)=>{
-        setUser(response.data)
-        
-      })
+      await AdminAxios.post(`blockUser`, { _id }).then((response) => {
+        setUser(response.data);
+      });
     } catch (error) {
       console.error(error);
     }

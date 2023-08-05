@@ -41,7 +41,7 @@ function UpcomingEvent() {
               src="/icons/right_arrow.png"
               alt="right arrow"
             />
-            <span className="tooltiptext">See more</span>
+            <span className="tooltiptext">See All</span>
           </div>
         </div>
       </div>

@@ -1,7 +1,6 @@
 import axios from "axios";
-import React, { useState, useEffect, ChangeEvent,useRef } from "react";
+import React, { useState, useEffect, ChangeEvent, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { AdminApi } from "../../../Store/api";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
 
 interface DataState {
@@ -23,45 +22,46 @@ interface DataState {
 function EditEvent() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [eventName, setEventName] = useState<string>("");
-  const [subTitle, setSubTitle] = useState<string>("");
-  const [location, setLocation] = useState<string>("");
-  const [date, setDate] = useState<string>("");
-  const [type, setType] = useState<string>("");
-  const [fee, setFee] = useState<number>(0);
-  const [firstPrice, setFirstPrice] = useState<number>(0);
-  const [secondPrice, setSecondPrice] = useState<number>(0);
-  const [thirdPrice, setThirdPrice] = useState<number>(0);
-  const [description, setDescription] = useState<string>("");
-  const [about, setAbout] = useState<string>("");
-  const [status, setStatus] = useState<string>("");
+  // const [eventName, setEventName] = useState<string>("");
+  // const [subTitle, setSubTitle] = useState<string>("");
+  // const [location, setLocation] = useState<string>("");
+  // const [date, setDate] = useState<string>("");
+  // const [type, setType] = useState<string>("");
+  // const [fee, setFee] = useState<number>(0);
+  // const [firstPrice, setFirstPrice] = useState<number>(0);
+  // const [secondPrice, setSecondPrice] = useState<number>(0);
+  // const [thirdPrice, setThirdPrice] = useState<number>(0);
+  // const [description, setDescription] = useState<string>("");
+  // const [about, setAbout] = useState<string>("");
+  // const [status, setStatus] = useState<string>("");
   const [image, setImage] = useState<File | undefined>();
   const [imageUrl, setImageUrl] = useState<string>("");
   const [preview, setPreview] = useState<string>("");
   const [imgOpen, setImgOpen] = useState<boolean>(false);
   const [data, setData] = useState<DataState | undefined>();
+  const [error, setError] = useState<string>("");
+  const [errorOpen, setErrorOpen] = useState<boolean>(false);
 
-  const inputName = useRef<HTMLInputElement>(null)
-  const inputSub = useRef<HTMLInputElement>(null)
-  const inputLocation = useRef<HTMLInputElement>(null)
-  const inputDate = useRef<HTMLSelectElement>(null)
-  const inputType = useRef<HTMLSelectElement>(null)
-  const inputFee = useRef<HTMLSelectElement>(null)
-  const inputFirst = useRef<HTMLSelectElement>(null)
-  const inputSecond = useRef<HTMLSelectElement>(null)
-  const inputThird = useRef<HTMLSelectElement>(null)
-  const inputAbout = useRef<HTMLSelectElement>(null)
-  const inputStatus = useRef<HTMLSelectElement>(null)
-
+  const inputName = useRef<HTMLInputElement>(null);
+  const inputSub = useRef<HTMLInputElement>(null);
+  const inputLocation = useRef<HTMLInputElement>(null);
+  const inputDate = useRef<HTMLInputElement>(null);
+  const inputType = useRef<HTMLInputElement>(null);
+  const inputFee = useRef<HTMLInputElement>(null);
+  const inputFirst = useRef<HTMLInputElement>(null);
+  const inputSecond = useRef<HTMLInputElement>(null);
+  const inputThird = useRef<HTMLInputElement>(null);
+  const inputDesc = useRef<HTMLTextAreaElement>(null);
+  const inputAbout = useRef<HTMLTextAreaElement>(null);
+  const inputStatus = useRef<HTMLSelectElement>(null);
 
   useEffect(() => {
     (async () => {
-      await AdminAxios
-        .get(`getEventData`, {
-          params: {
-            id,
-          },
-        })
+      await AdminAxios.get(`getEventData`, {
+        params: {
+          id,
+        },
+      })
         .then((response) => {
           setData(response?.data?.eventData);
         })
@@ -76,26 +76,26 @@ function EditEvent() {
       const file = event.target.files[0];
       const allowedType = ["image/jpeg", "image/jpeg", "image/png"];
       if (!allowedType.includes(file.type)) {
-        // setError("Please select a JPG, JPEG, or PNG image file.");
-        // setErrorOpen(true);
-        // setTimeout(() => {
-        //   setErrorOpen(false);
-        //   setError("");
-        // }, 1500);
+        setError("Please select a JPG, JPEG, or PNG image file.");
+        setErrorOpen(true);
+        setTimeout(() => {
+          setErrorOpen(false);
+          setError("");
+        }, 1500);
         return;
       }
-      const maxSize = 20 * 1024 * 1024;
+      const maxSize = 5 * 1024 * 1024;
       if (file.size > maxSize) {
-        // setError("Please select an image file smaller than 5MB.");
-        // setErrorOpen(true);
-        // setTimeout(() => {
-        //   setErrorOpen(false);
-        //   setError("");
-        // }, 1500);
+        setError("Please select an image file smaller than 5MB.");
+        setErrorOpen(true);
+        setTimeout(() => {
+          setErrorOpen(false);
+          setError("");
+        }, 1500);
         return;
       }
-      // setImage(file);
-      // setImageUrl(URL.createObjectURL(file));
+      setImage(file);
+      setImageUrl(URL.createObjectURL(file));
       setImage(file);
       setPreview(URL.createObjectURL(file));
       setImgOpen(true);
@@ -105,10 +105,10 @@ function EditEvent() {
   const submitDetails = () => {
     console.log("submitting");
     try {
-        console.log(eventName,"daaf");
-        
-     console.log("hello");
-     
+      console.log(image, "images");
+      
+      
+      console.log("hello");
     } catch (error) {
       console.error(error);
     }
@@ -131,7 +131,6 @@ function EditEvent() {
             placeholder="Event Name"
             ref={inputName}
             className="placeholder-gray-500 ml-5 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
-            onChange={(e) => setEventName(e.target.value.toUpperCase())}
             defaultValue={data?.eventName}
           />
         </div>
@@ -145,7 +144,7 @@ function EditEvent() {
             type="text"
             placeholder="Enter sub title"
             className="placeholder-gray-500 ml-5 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
-            onChange={(e) => setSubTitle(e.target.value)}
+            ref={inputSub}
             defaultValue={data?.subName}
           />
         </div>
@@ -159,7 +158,7 @@ function EditEvent() {
             type="text"
             placeholder="Enter Location"
             className="placeholder-gray-500 ml-5 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
-            onChange={(e) => setLocation(e.target.value)}
+            ref={inputLocation}
             defaultValue={data?.location}
           />
         </div>
@@ -175,9 +174,9 @@ function EditEvent() {
             formAction="dd-mm-yyyy"
             min={Date.now()}
             defaultValue={data?.date}
+            ref={inputDate}
             // placeholder="DD-MM-YYYY"
             className="placeholder-gray-500 ml-5 pl-2 pr-3 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
-            onChange={(e) => setDate(e.target.value)}
           />
         </div>
         {/* input div 5 */}
@@ -189,8 +188,8 @@ function EditEvent() {
           <input
             type="text"
             placeholder="Enter event type"
+            ref={inputType}
             className="placeholder-gray-500 ml-5 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
-            onChange={(e) => setType(e.target.value)}
             defaultValue={data?.eventType}
           />
         </div>
@@ -203,8 +202,8 @@ function EditEvent() {
           <input
             type="number"
             placeholder="Enter event fees"
+            ref={inputFee}
             className="placeholder-gray-500 ml-5 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md spin-button-none"
-            onChange={(e) => setFee(parseInt(e.target.value, 10))}
             defaultValue={data?.fee}
           />
         </div>
@@ -217,8 +216,8 @@ function EditEvent() {
           <input
             type="number"
             placeholder="First price amount"
+            ref={inputFirst}
             className="placeholder-gray-500 ml-5 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md spin-button-none"
-            onChange={(e) => setFirstPrice(parseInt(e.target.value, 10))}
             defaultValue={data?.firstPrice}
           />
         </div>
@@ -231,8 +230,8 @@ function EditEvent() {
           <input
             type="number"
             placeholder="Second price amount"
+            ref={inputSecond}
             className="placeholder-gray-500 ml-5 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md spin-button-none"
-            onChange={(e) => setSecondPrice(parseInt(e.target.value, 10))}
             defaultValue={data?.secondPrice}
           />
         </div>
@@ -245,8 +244,8 @@ function EditEvent() {
           <input
             type="text"
             placeholder="Third price amount"
+            ref={inputThird}
             className="placeholder-gray-500 ml-5 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
-            onChange={(e) => setThirdPrice(parseInt(e.target.value, 10))}
             defaultValue={data?.thirdPrice}
           />
         </div>
@@ -266,8 +265,8 @@ function EditEvent() {
               maxHeight: "8rem",
               minHeight: "8rem",
             }}
+            ref={inputDesc}
             defaultValue={data?.description}
-            onChange={(e) => setDescription(e.target.value)}
           />
         </div>
         {/* text area 2 */}
@@ -283,8 +282,8 @@ function EditEvent() {
               maxHeight: "8rem",
               minHeight: "8rem",
             }}
+            ref={inputAbout}
             defaultValue={data?.about}
-            onChange={(e) => setAbout(e.target.value)}
           />
         </div>
         {/* select Status */}
@@ -295,11 +294,10 @@ function EditEvent() {
           </p>
           <select
             placeholder="Third price amount"
+            ref={inputStatus}
             className="placeholder-gray-500 ml-5 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
-            onChange={(e) => setStatus(e.target.value)}
-            defaultValue={data?.status}
           >
-            <option>Select Status</option>
+            <option defaultValue={data?.status}>{data?.status}</option>
             <option value="Active">Active</option>
             <option value="Deactivate">Deactivate</option>
           </select>
@@ -312,21 +310,35 @@ function EditEvent() {
             accept="image/*"
             multiple={false}
             className="placeholder-gray-500 ml-5 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
-            //   onChange={imageHandle}
+            onChange={imageHandle}
           />
         </div>
 
         <div>
-          <img
+          {imgOpen ? (
+            <img src={preview} alt="preview image" 
             className="w-56 rounded-md"
-            src={data?.primaryImage}
-            alt="image"
             style={{
               boxShadow:
                 "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
-            }}
-          />
+            }} />
+          ) : (
+            <img
+              className="w-56 rounded-md"
+              src={data?.primaryImage}
+              alt="image"
+              style={{
+                boxShadow:
+                  "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
+              }}
+            />
+          )}
         </div>
+          {
+            errorOpen&&(
+              <p className="text-xs text-red-600">{error}</p>
+            )
+          }
       </div>
 
       <div className=" w-[33.6%] h-full flex bg-transparent justify-center items-end">

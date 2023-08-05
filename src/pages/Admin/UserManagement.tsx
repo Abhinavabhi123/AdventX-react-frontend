@@ -9,7 +9,7 @@ function UserManagement() {
       <div>
         <SideBar />
       </div>
-      <div className=" w-[76rem]  h-full flex flex-col">
+      <div className=" w-[89rem]  h-full flex flex-col">
         <div>
           <TopBar value="Users" />
         </div>

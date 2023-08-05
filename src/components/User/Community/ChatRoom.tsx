@@ -118,7 +118,7 @@ function ChatRoom({ commId, change }: Props) {
             socket.emit("chatMessage", { commId, userId, message });
             setMsg("");
             setChanged(!changed);
-            setEmojiOpen(!emojiOpen);
+            setEmojiOpen(false);
             scrollToLastMessage();
           }
         })
@@ -230,7 +230,7 @@ function ChatRoom({ commId, change }: Props) {
               return (
                 <div
                   key={i}
-                  className="w-[98%] h-14 bg-white border border-gray-400 flex justify-start gap-5 items-center ps-3 pe-3"
+                  className="w-[98%] h-14 bg-white border border-gray-400 flex justify-start gap-5 items-center ps-3 pe-3 hover:bg-red-100"
                 >
                   <div>
                     {users?.image ? (

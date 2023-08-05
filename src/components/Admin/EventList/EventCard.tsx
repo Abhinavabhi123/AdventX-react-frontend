@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AdminApi } from "../../../Store/api";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
 import Swal from "sweetalert2";
 import { deleteImage } from "../../../Store/Firebase/Firebase";
+import changeLogo from "/icons/changeLogo.png"
 interface Props {
   value: string;
   setDeleted: React.Dispatch<React.SetStateAction<boolean>>;
@@ -139,6 +139,10 @@ function EventCard({ value, deleted, setDeleted }: Props) {
             <p className="text-sm ms-2">Amount:- {fee}</p>
             <p className="text-sm ms-2">Completed:- {is_completed ?"Yes":"No"}</p>
             <p className="text-sm ms-2">Status:- {status}</p>
+            <button className="w-32 mt-2 rounded-md text-xs bg-green-300 outline outline-red-200 hover:bg-green-500 flex items-center justify-center gap-2" onClick={()=>navigate(`/admin/completeEvent/${value}`)}>
+              Complete Event
+              <img className="w-3" src={changeLogo} alt="change" />
+            </button>
           </div>
           <div className="w-[15%] h-full flex  flex-col justify-between items-end">
             <img

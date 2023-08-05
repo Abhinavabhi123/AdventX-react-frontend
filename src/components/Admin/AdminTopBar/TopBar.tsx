@@ -15,6 +15,7 @@ interface TopBarProps {
     | "Edit Event"
     | "Banners"
     |"Add Banner"
+    |"Complete Event"
 }
 
 function TopBar(props: TopBarProps) {

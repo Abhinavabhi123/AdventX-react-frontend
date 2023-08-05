@@ -19,6 +19,7 @@ import BannerManagement from "../pages/Admin/BannerManagement";
 import AddBanner from "../pages/Admin/AddBanner";
 import EditBanner from "../pages/Admin/EditBanner";
 import Accounts from "../pages/Admin/Accounts";
+import CompleteEvent from "../pages/Admin/CompleteEvent";
 
 
 interface Admin {
@@ -56,6 +57,7 @@ function Admin() {
           <Route path="/eventManagement" element={<EventManagement/>}/>
           <Route path="/addEvent" element={<AddEvent/>}/>
           <Route path="/editEvent/:id" element={<EditEvents/>}/>
+          <Route path="/completeEvent/:id" element={<CompleteEvent/>} />
           <Route  path="/accounts" element={<Accounts/>}/>
         </Routes>
       </Authentication>
