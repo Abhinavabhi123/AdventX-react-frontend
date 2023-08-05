@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import UserAxios from "../../../Store/Axios/UserConfig";
-import io from "socket.io-client";
+import io, { Socket } from "socket.io-client";
 import Picker, { EmojiClickData } from "emoji-picker-react";
 import { useSelector } from "react-redux";
 import "./roomChat.css";
@@ -13,6 +13,10 @@ interface Community {
   communityName: string;
   logo: string;
 }
+interface ChatMessage {
+  userId: string;
+  message: string;
+}
 
 function ChatRoom({ commId, change }: Props) {
   const userId = useSelector((state: any) => state.user._id);
@@ -22,6 +26,7 @@ function ChatRoom({ commId, change }: Props) {
   });
   const [emojiOpen, setEmojiOpen] = useState<boolean>(false);
   const [detailsOpen, setDetailsOpen] = useState<boolean>(false);
+  const lastMessageRef = useRef(null);
   const [changed, setChanged] = useState<boolean>(false);
   const [commUsers, setCommUsers] = useState([
     {
@@ -30,28 +35,32 @@ function ChatRoom({ commId, change }: Props) {
       lastName: "",
     },
   ]);
-  const [messages, setMessages] = useState([{
-    message:"",
-    userId:"",
-    userName:"",
-  }]);
+  const [messages, setMessages] = useState([
+    {
+      message: "",
+      userId: "",
+      userName: "",
+    },
+  ]);
   const [msg, setMsg] = useState<string>("");
+  const socket = io(import.meta.env.VITE_USER_DOMAIN);
   useEffect(() => {
-    const socket = io(import.meta.env.VITE_USER_DOMAIN);
-    socket.on("connection", () => {
-      socket.emit("communityChat", (commId: string) => {
-        console.log("community id ", commId);
-      });
+    socket.emit("joinRoom", { commId, userId });
 
-      console.log("connected to the server");
+    socket.on("message", ({ message: msg }) => {
+      const newMessage: ChatMessage = { userId, message: msg };
+      setMessages((prevMessages: any) => [...prevMessages, newMessage]);
     });
-  }, []);
+        
+    return () => {
+      socket.disconnect();
+    };
+  }, [changed]);
 
   useEffect(() => {
     (async () => {
       await UserAxios.get("/getUserCommunity", { params: { commId } })
         .then((response) => {
-          console.log(response);
           if (response?.data?.status === 200) {
             setCommunityData(response?.data?.communityData);
           }
@@ -76,11 +85,16 @@ function ChatRoom({ commId, change }: Props) {
       await UserAxios.post("/getMessages", { commId }).then((response) => {
         if (response?.data?.status === 200) {
           setMessages(response?.data?.messages);
+          scrollToLastMessage();
         }
       });
     })();
   }, [changed, change]);
-  console.log(messages, "okpop");
+  const scrollToLastMessage = () => {
+    if (lastMessageRef.current) {
+      // lastMessageRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   const openPicker = () => {
     setEmojiOpen(!emojiOpen);
@@ -100,8 +114,12 @@ function ChatRoom({ commId, change }: Props) {
       await UserAxios.post("/postMessage", { commId, userId, message: msg })
         .then((response) => {
           if (response?.data?.status === 200) {
+            const message = msg;
+            socket.emit("chatMessage", { commId, userId, message });
             setMsg("");
             setChanged(!changed);
+            setEmojiOpen(!emojiOpen);
+            scrollToLastMessage();
           }
         })
         .catch((err) => {
@@ -135,14 +153,30 @@ function ChatRoom({ commId, change }: Props) {
           </div>
         </div>
         <div className="w-[98%] h-[43.4rem] rounded-b-md bg-opacity-10 bg-gradient-to-r from-indigo-500 via-purple-500 to-purple-500">
-          <div className="w-full h-[93%] pt-3  overflow-y-scroll over">
+          <div className="w-full h-[93%] pt-3  overflow-y-scroll over ">
             {/* chat messages */}
-            {messages.map((message) => {
+            {messages.map((message, i) => {
+             
+              const isLastMessage = i === messages.length - 1;
               return (
-                <div className={`w-full h-12 ${message?.userId===userId?"You":"other"}`}>
-                  <div className={`charMessage`}>
-                    <p className="text-[10px] italic">{message?.userId===userId?"You":message?.userName}</p>
-                    <p className={`${message?.userId===userId?"chatRight":"chatLeft"}`}>{message?.message}</p>
+                <div
+                  
+                  key={i}
+                  className={`w-full h-12 ${
+                    message?.userId === userId ? "You" : "other"
+                  }`}
+                >
+                  <div className={`charMessage`} ref={isLastMessage ? lastMessageRef : null}>
+                    <p className="text-[10px] italic">
+                      {message?.userId === userId ? "You" : message?.userName}
+                    </p>
+                    <p
+                      className={`${
+                        message?.userId === userId ? "chatRight" : "chatLeft"
+                      }`}
+                    >
+                      {message?.message}
+                    </p>
                   </div>
                 </div>
               );
@@ -192,9 +226,12 @@ function ChatRoom({ commId, change }: Props) {
             <p className="text-md select-none">Participants</p>
           </div>
           <div className="w-full h-[43.4rem]  flex flex-col items-center overflow-y-scroll over">
-            {commUsers.map((users) => {
+            {commUsers.map((users, i) => {
               return (
-                <div className="w-[98%] h-14 bg-white border border-gray-400 flex justify-start gap-5 items-center ps-3 pe-3">
+                <div
+                  key={i}
+                  className="w-[98%] h-14 bg-white border border-gray-400 flex justify-start gap-5 items-center ps-3 pe-3"
+                >
                   <div>
                     {users?.image ? (
                       <img
