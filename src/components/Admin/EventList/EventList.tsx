@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { AdminApi } from "../../../Store/api";
 import EventCard from "./EventCard";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
 

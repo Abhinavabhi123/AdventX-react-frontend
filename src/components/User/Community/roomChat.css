@@ -1,4 +1,19 @@
 .emojiPicker{
     position: absolute;
-   top:21.875rem;
+    top:21.875rem;
 }
+.charMessage{
+    width: fit-content ;
+    max-width: 20rem;
+    height: fit-content;
+    padding: 5px 15px 5px 15px;
+    /* background-color:violet; */
+}
+.You{
+    display: flex;
+    justify-content: end;
+}
+.chatRight{
+    text-align: end;
+}
+

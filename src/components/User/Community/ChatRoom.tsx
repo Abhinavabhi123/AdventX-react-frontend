@@ -4,18 +4,17 @@ import io from "socket.io-client";
 import Picker, { EmojiClickData } from "emoji-picker-react";
 import { useSelector } from "react-redux";
 import "./roomChat.css";
-import { response } from "express";
 
 interface Props {
   commId: string | number;
-  change:boolean
+  change: boolean;
 }
 interface Community {
   communityName: string;
   logo: string;
 }
 
-function ChatRoom({ commId ,change}: Props) {
+function ChatRoom({ commId, change }: Props) {
   const userId = useSelector((state: any) => state.user._id);
   const [communityData, setCommunityData] = useState<Community>({
     communityName: "",
@@ -23,7 +22,7 @@ function ChatRoom({ commId ,change}: Props) {
   });
   const [emojiOpen, setEmojiOpen] = useState<boolean>(false);
   const [detailsOpen, setDetailsOpen] = useState<boolean>(false);
-  const [changed,setChanged] =useState<boolean>(false)
+  const [changed, setChanged] = useState<boolean>(false);
   const [commUsers, setCommUsers] = useState([
     {
       image: "",
@@ -31,6 +30,11 @@ function ChatRoom({ commId ,change}: Props) {
       lastName: "",
     },
   ]);
+  const [messages, setMessages] = useState([{
+    message:"",
+    userId:"",
+    userName:"",
+  }]);
   const [msg, setMsg] = useState<string>("");
   useEffect(() => {
     const socket = io(import.meta.env.VITE_USER_DOMAIN);
@@ -67,15 +71,16 @@ function ChatRoom({ commId ,change}: Props) {
     })();
   }, [commId]);
 
-  useEffect(() => { 
+  useEffect(() => {
     (async () => {
       await UserAxios.post("/getMessages", { commId }).then((response) => {
         if (response?.data?.status === 200) {
-          console.log(response);
+          setMessages(response?.data?.messages);
         }
       });
     })();
-  }, [changed,change]);
+  }, [changed, change]);
+  console.log(messages, "okpop");
 
   const openPicker = () => {
     setEmojiOpen(!emojiOpen);
@@ -96,7 +101,7 @@ function ChatRoom({ commId ,change}: Props) {
         .then((response) => {
           if (response?.data?.status === 200) {
             setMsg("");
-            setChanged(!changed)
+            setChanged(!changed);
           }
         })
         .catch((err) => {
@@ -130,7 +135,19 @@ function ChatRoom({ commId ,change}: Props) {
           </div>
         </div>
         <div className="w-[98%] h-[43.4rem] rounded-b-md bg-opacity-10 bg-gradient-to-r from-indigo-500 via-purple-500 to-purple-500">
-          <div className="w-full h-[93%] "></div>
+          <div className="w-full h-[93%] pt-3  overflow-y-scroll over">
+            {/* chat messages */}
+            {messages.map((message) => {
+              return (
+                <div className={`w-full h-12 ${message?.userId===userId?"You":"other"}`}>
+                  <div className={`charMessage`}>
+                    <p className="text-[10px] italic">{message?.userId===userId?"You":message?.userName}</p>
+                    <p className={`${message?.userId===userId?"chatRight":"chatLeft"}`}>{message?.message}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
           <div className="w-full h-[7%] bg-white flex justify-center items-center">
             <div className="w-full h-[95%] border border-dashed border-black">
               <form
