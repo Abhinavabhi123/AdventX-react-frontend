@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios"
 // import { AdminApi } from "../../../Store/api";
 import Cookies from "js-cookie";
+import { showErrorToast } from "../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
 
 
 function Login() {
@@ -15,18 +17,18 @@ function Login() {
     try {
       
 
-      const emailFormat = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,3}$/;
-      // if(!email ||email.length===0||email[0]===""||emailFormat.test(email)){
       
-      // }
      await axios.post(`${import.meta.env.VITE_ADMIN_API}AdminLogin`,{email,password},{withCredentials:true}).then((response)=>{
-      console.log(response.data);
-      // Cookies.set("adminJwt",response.data.token)
       if(response.data?.access === true){
         Cookies.set("adminJwt",response?.data?.token)
         navigate("/admin/dashboard")
       }
       
+     }).catch((error)=>{
+      if(error?.response?.data?.status!==200){
+        showErrorToast(error?.response?.data?.error)
+        return
+      } 
      })
     } catch (error) {
       console.error(error);
@@ -40,6 +42,7 @@ function Login() {
         backgroundImage: "url('https://wallpapercave.com/wp/wp6984580.jpg')",
       }}
     >
+      <Toaster/>
       <div className="w-96 h-96 bg-white  bg-opacity-25 flex flex-col justify-center rounded-md  items-center">
         <div className=" flex flex-col items-center ">
           <p className="text-xl">Welcome Back</p>

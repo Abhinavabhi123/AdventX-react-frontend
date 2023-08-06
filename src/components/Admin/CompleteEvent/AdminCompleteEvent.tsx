@@ -3,12 +3,13 @@ import { showErrorToast } from "../../ToastMessage/Toast";
 import { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
+import EventImages from "./EventImages";
 interface Params {
   id: string | undefined;
 }
 
 function AdminCompleteEvent({ id }: Params) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [firstName, setFirstName] = useState<string>("");
   const [secondName, setSecondName] = useState<string>("");
   const [thirdName, setThirdName] = useState<string>("");
@@ -81,35 +82,32 @@ function AdminCompleteEvent({ id }: Params) {
       setThirdPreview(URL.createObjectURL(file));
     }
   };
-  const saveWinner= async()=>{
+  const saveWinner = async () => {
     try {
       console.log("submitting");
-      const array:any[]=[]
-      array.push(firstImage)
-      array.push(secondImage)
-      array.push(thirdImage)
-      console.log(array,"arrayayaya");
-      
-      const formData = new FormData()
-      for(const image of array){
-        formData.append('file',image)
+      const array: any[] = [];
+      array.push(firstImage);
+      array.push(secondImage);
+      array.push(thirdImage);
+
+      const formData = new FormData();
+      for (const image of array) {
+        formData.append("file", image);
       }
-      formData.append("firstName",firstName)
-      formData.append("secondName",secondName)
-      formData.append("thirdName",thirdName)
-      console.log(formData);
-      
-      await AdminAxios.post(`/addWinners/${id}`,{thirdImage}).then((response)=>{
-        if(response?.data?.status===200){
+      formData.append("firstName", firstName);
+      formData.append("secondName", secondName);
+      formData.append("thirdName", thirdName);
+      console.log(array, "arrrrrraaayyy");
+
+      await AdminAxios.post(`/addWinners/${id}`, array).then((response) => {
+        if (response?.data?.status === 200) {
           console.log("success");
-          
         }
-      })
-     
+      });
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   return (
     <div className="w-full h-full ">
@@ -137,6 +135,7 @@ function AdminCompleteEvent({ id }: Params) {
                   type="file"
                   accept="image/*"
                   onChange={uploadFirstImage}
+                  multiple={false}
                   required
                 />
               </div>
@@ -171,6 +170,7 @@ function AdminCompleteEvent({ id }: Params) {
                     type="file"
                     accept="image/*"
                     onChange={uploadSecondImage}
+                    multiple={false}
                     required
                   />
                 </div>
@@ -204,6 +204,7 @@ function AdminCompleteEvent({ id }: Params) {
                     type="file"
                     accept="image/*"
                     onChange={uploadThirdImage}
+                    multiple={false}
                     required
                   />
                 </div>
@@ -225,12 +226,24 @@ function AdminCompleteEvent({ id }: Params) {
           </div>
           <div className="w-full h-[25%] bg-transparent flex items-center justify-center">
             <div className=" w-56 h-9 flex justify-around items-center">
-              <button className="w-24 rounded-md bg-red-400 b-5" onClick={()=>navigate("/admin/eventManagement")}>Cancel</button>
-              <button className="w-24 rounded-md bg-green-500 b-5" onClick={saveWinner}>Save</button>
+              <button
+                className="w-24 rounded-md bg-red-400 b-5"
+                onClick={() => navigate("/admin/eventManagement")}
+              >
+                Cancel
+              </button>
+              <button
+                className="w-24 rounded-md bg-green-500 b-5"
+                onClick={saveWinner}
+              >
+                Save
+              </button>
             </div>
           </div>
         </div>
-        <div className="w-[50%] h-full bg-yellow-400"></div>
+        <div className="w-[50%] h-full bg-yellow-400">
+         <EventImages/>
+        </div>
       </div>
     </div>
   );
