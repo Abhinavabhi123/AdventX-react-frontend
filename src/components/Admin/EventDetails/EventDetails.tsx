@@ -1,11 +1,11 @@
 import React, { useState, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import "./EventDetails.css";
-import { AdminApi } from "../../../Store/api";
-import axios from "axios";
-import ImageCompressor from "compressorjs";
+
 import { uploadImage } from "../../../Store/Firebase/Firebase";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
+import { showErrorToast } from "../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
 
 function EventDetails() {
   const navigate = useNavigate();
@@ -31,26 +31,15 @@ function EventDetails() {
       const file = event.target.files[0];
       const allowedType = ["image/jpeg", "image/jpeg", "image/png"];
       if (!allowedType.includes(file.type)) {
-        // setError("Please select a JPG, JPEG, or PNG image file.");
-        // setErrorOpen(true);
-        // setTimeout(() => {
-        //   setErrorOpen(false);
-        //   setError("");
-        // }, 1500);
+        showErrorToast("Please select a JPG, JPEG, or PNG image file.");
         return;
       }
-      const maxSize = 20 * 1024 * 1024;
+      const maxSize = 5 * 1024 * 1024;
       if (file.size > maxSize) {
-        // setError("Please select an image file smaller than 5MB.");
-        // setErrorOpen(true);
-        // setTimeout(() => {
-        //   setErrorOpen(false);
-        //   setError("");
-        // }, 1500);
+        showErrorToast("Please select an image file smaller than 5MB");
         return;
       }
-      // setImage(file);
-      // setImageUrl(URL.createObjectURL(file));
+
       setImage(file);
       setPreview(URL.createObjectURL(file));
       setImgOpen(true);
@@ -132,27 +121,13 @@ function EventDetails() {
           alert("Please select status");
           return;
         }
-        const compressImage = (image: File): Promise<File> => {
-          return new Promise((resolve, reject) => {
-            new ImageCompressor(image, {
-              quality: 0.5,
-              success(result: any) {
-                resolve(result);
-              },
-              error(error: any) {
-                reject(error);
-              },
-            });
-          });
-        };
-        // await compressImage(image).then(async(response) => {
-        //   console.log(response, "jjj");
-
+        console.log("ivide");
+        
         await uploadImage(image).then(async (data) => {
           // setImageUrl(data);
           console.log(data, "kitty");
           if (data) {
-            setTimeout(async() => {
+            setTimeout(async () => {
               await AdminAxios.post(
                 `addEvent`,
                 {
@@ -168,7 +143,7 @@ function EventDetails() {
                   description,
                   about,
                   status,
-                  imageUrl:data,
+                  imageUrl: data,
                 },
                 {
                   withCredentials: true,
@@ -190,6 +165,7 @@ function EventDetails() {
 
         // });
       } else {
+        showErrorToast("Please fill all the fields")
         console.error("error");
       }
     } catch (error) {
@@ -203,6 +179,7 @@ function EventDetails() {
         <div className="w-full h-10  flex items-center">
           <p className="text-red-600 text-xs ml-5"> Mandatory *</p>
         </div>
+        <Toaster />
         {/* input div 1 */}
         <div className="w-[18rem] flex flex-col h-14  m-0 justify-center mb-2">
           <p className="text-xs ml-5">

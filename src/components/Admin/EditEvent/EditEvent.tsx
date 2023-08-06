@@ -2,6 +2,9 @@ import axios from "axios";
 import React, { useState, useEffect, ChangeEvent, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
+import { showErrorToast } from "../../ToastMessage/Toast";
+import { Toaster, toast } from "react-hot-toast";
+import { deleteImage, uploadImage } from "../../../Store/Firebase/Firebase";
 
 interface DataState {
   eventName: string;
@@ -102,13 +105,239 @@ function EditEvent() {
     }
   };
 
-  const submitDetails = () => {
-    console.log("submitting");
+  const submitDetails = async () => {
     try {
-      console.log(image, "images");
-      
-      
-      console.log("hello");
+      const eventName = inputName.current?.value;
+      const subName = inputSub.current?.value;
+      const location = inputLocation.current?.value;
+      const date = inputDate.current?.value;
+      const type = inputType.current?.value;
+      const fee = inputFee.current?.value;
+      const first = inputFirst.current?.value;
+      const second = inputSecond.current?.value;
+      const third = inputThird.current?.value;
+      const desc = inputDesc.current?.value;
+      const about = inputAbout.current?.value;
+      const status = inputStatus.current?.value;
+      if (
+        eventName === undefined ||
+        subName === undefined ||
+        location === undefined ||
+        date === undefined ||
+        type === undefined ||
+        fee === undefined ||
+        second === undefined ||
+        third === undefined ||
+        desc === undefined ||
+        about === undefined ||
+        status === undefined ||
+        first === undefined
+      ) {
+        showErrorToast("Something went wrong");
+        return;
+      }
+      const symbols = /[-!"#$%&'()*+,./:;<=>?@[\\\]^_`{|}~]/;
+      const symbol = /[!"#$%&'()*+.:;<=>?@[\\\]^_`{|}~]/;
+      if (eventName?.length <= 0) {
+        showErrorToast("Please enter the event name");
+        return;
+      }
+      if (eventName.trim() === "") {
+        showErrorToast("Please enter the event name");
+        return;
+      }
+      if (eventName[0] === " ") {
+        showErrorToast("Remove the space before the text");
+        return;
+      }
+      if (symbols.test(eventName)) {
+        showErrorToast("Remove the special symbols in the event name");
+        return;
+      }
+      // .......................
+      if (subName?.length <= 0) {
+        showErrorToast("Please enter the sub title");
+        return;
+      }
+      if (subName.trim() === "") {
+        showErrorToast("Please enter the sub title");
+        return;
+      }
+      if (subName[0] === " ") {
+        showErrorToast("Remove the space before the text");
+        return;
+      }
+      if (symbols.test(subName)) {
+        showErrorToast("Remove the special symbols in the event name");
+        return;
+      }
+      // ......................
+      if (location?.length <= 0) {
+        showErrorToast("Please enter the sub title");
+        return;
+      }
+      if (location.trim() === "") {
+        showErrorToast("Please enter the sub title");
+        return;
+      }
+      if (location[0] === " ") {
+        showErrorToast("Remove the space before the text");
+        return;
+      }
+      if (symbol.test(subName)) {
+        showErrorToast("Remove the special symbols in the event name");
+        return;
+      }
+      // ......................
+      if (!date) {
+        showErrorToast("Please select the date");
+        return;
+      }
+      const today = new Date().getTime();
+      const result = new Date(date).getTime();
+      if (result < today) {
+        showErrorToast("Not a valid date");
+        return;
+      }
+      console.log(today);
+      console.log(result);
+
+      // ......................
+      if (type?.length <= 0) {
+        showErrorToast("Please enter the event type");
+        return;
+      }
+      if (type.trim() === "") {
+        showErrorToast("Please enter the event type");
+        return;
+      }
+      if (type[0] === " ") {
+        showErrorToast("Remove the space before the text");
+        return;
+      }
+      if (symbols.test(type)) {
+        showErrorToast("Remove the special symbols in the event name");
+        return;
+      }
+      // ......................
+      if (Number(fee) <= 0) {
+        showErrorToast("Amount is not  valid");
+        return;
+      }
+      if (Number(first) <= 0) {
+        showErrorToast("Amount is not  valid");
+        return;
+      }
+      if (Number(second) <= 0) {
+        showErrorToast("Second price is not  valid");
+        return;
+      }
+      if (Number(third) <= 0) {
+        showErrorToast("Third price is not  valid");
+        return;
+      }
+      // .....................
+      if (desc.length <= 0) {
+        showErrorToast("Please enter the event type");
+        return;
+      }
+      if (desc.trim() === "") {
+        showErrorToast("Please enter the event type");
+        return;
+      }
+      if (desc[0] === " ") {
+        showErrorToast("Remove the space before the text");
+        return;
+      }
+      if (symbols.test(desc)) {
+        showErrorToast("Remove the special symbols in the event name");
+        return;
+      }
+      // .....................
+      if (about.length <= 0) {
+        showErrorToast("Please enter the event type");
+        return;
+      }
+      if (about.trim() === "") {
+        showErrorToast("Please enter the event type");
+        return;
+      }
+      if (about[0] === " ") {
+        showErrorToast("Remove the space before the text");
+        return;
+      }
+      if (symbols.test(about)) {
+        showErrorToast("Remove the special symbols in the event name");
+        return;
+      }
+      // ................
+      if (status === "select status") {
+        showErrorToast("Please select the status");
+        return;
+      }
+      if (image) {
+        console.log("image uploading");
+
+        console.log(image, "imageee");
+        toast.loading("Please Wait image is uploading");
+        await uploadImage(image).then(async (data) => {
+          if (data) {
+            console.log(data, "hjksgh");
+
+            setTimeout(async () => {
+              await AdminAxios.post(`/editEventImage/${id}`, {
+                eventName,
+                subTitle: subName,
+                location,
+                date,
+                type,
+                fee,
+                firstPrice: first,
+                secondPrice: second,
+                thirdPrice: third,
+                description: desc,
+                about,
+                status,
+                imageUrl: data,
+              }).then(async (response) => {
+                if (response?.data?.status === 200) {
+                  await deleteImage(
+                    response?.data?.eventData?.primaryImage
+                  ).then(() => {
+                    navigate("/admin/eventManagement");
+                  });
+                }
+              });
+            }, 1500);
+          }
+        });
+      }
+       if(!image) {
+        setTimeout(async () => {
+          await AdminAxios.post(`editEvent/${id}`, {
+            eventName,
+            subTitle: subName,
+            location,
+            date,
+            type,
+            fee,
+            firstPrice: first,
+            secondPrice: second,
+            thirdPrice: third,
+            description: desc,
+            about,
+            status,
+          })
+            .then((response) => {
+              if (response?.data?.status === 200) {
+                navigate("/admin/eventManagement");
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }, 1500);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -120,6 +349,7 @@ function EditEvent() {
         <div className="w-full h-10  flex items-center">
           <p className="text-red-600 text-xs ml-5"> Mandatory *</p>
         </div>
+        <Toaster />
         {/* input div 1 */}
         <div className="w-[18rem] flex flex-col h-14  m-0 justify-center mb-2">
           <p className="text-xs ml-5">
@@ -316,12 +546,15 @@ function EditEvent() {
 
         <div>
           {imgOpen ? (
-            <img src={preview} alt="preview image" 
-            className="w-56 rounded-md"
-            style={{
-              boxShadow:
-                "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
-            }} />
+            <img
+              src={preview}
+              alt="preview image"
+              className="w-56 rounded-md"
+              style={{
+                boxShadow:
+                  "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
+              }}
+            />
           ) : (
             <img
               className="w-56 rounded-md"
@@ -334,11 +567,7 @@ function EditEvent() {
             />
           )}
         </div>
-          {
-            errorOpen&&(
-              <p className="text-xs text-red-600">{error}</p>
-            )
-          }
+        {errorOpen && <p className="text-xs text-red-600">{error}</p>}
       </div>
 
       <div className=" w-[33.6%] h-full flex bg-transparent justify-center items-end">

@@ -1,7 +1,5 @@
-import React, { useEffect, useContext, useState, useRef, SetStateAction } from "react";
+import React, { useEffect, useContext, useState, useRef } from "react";
 import UserIdContext from "../../../Store/Context/UserContext";
-import axios from "axios";
-import { UserApi } from "../../../Store/api";
 import UserAxios from "../../../Store/Axios/UserConfig";
 
 
