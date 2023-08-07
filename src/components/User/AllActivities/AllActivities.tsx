@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-
 import ActiveEventCard from "./ActiveEventCard";
 
 function AllActivities() {
-  const [eventData, setEventData] = useState([{
-    _id:"",
-    primaryImage:'',
-    eventName:'',
-    eventType:'',
-    location:""
-  }]);
+  const [eventData, setEventData] = useState([
+    {
+      _id: "",
+      primaryImage: "",
+      eventName: "",
+      eventType: "",
+      location: "",
+    },
+  ]);
   useEffect(() => {
     (async () => {
       await axios

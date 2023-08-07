@@ -27,12 +27,15 @@ function AdminCompleteEvent({ id }: Params) {
       setFirstPreview("");
       const file = e.target.files[0];
       const allowedType = ["image/jpeg", "image/jpeg", "image/png"];
+      const fileInput = document.getElementById("firstInput")as HTMLInputElement;
       if (!allowedType.includes(file.type)) {
+        fileInput.value = "";  
         showErrorToast("Please select a JPG, JPEG, or PNG image file.");
         return;
       }
       const maxSize = 5 * 1024 * 1024;
       if (file.size > maxSize) {
+        fileInput.value = ""; 
         showErrorToast("Please select an image file smaller than 5MB.");
         return;
       }
@@ -48,12 +51,15 @@ function AdminCompleteEvent({ id }: Params) {
       setSecondPreview("");
       const file = e.target.files[0];
       const allowedType = ["image/jpeg", "image/jpeg", "image/png"];
+      const fileInput = document.getElementById("secondInput")as HTMLInputElement;
       if (!allowedType.includes(file.type)) {
+        fileInput.value = ""; 
         showErrorToast("Please select a JPG, JPEG, or PNG image file.");
         return;
       }
       const maxSize = 5 * 1024 * 1024;
       if (file.size > maxSize) {
+        fileInput.value = ""; 
         showErrorToast("Please select an image file smaller than 5MB.");
         return;
       }
@@ -69,12 +75,15 @@ function AdminCompleteEvent({ id }: Params) {
       setThirdPreview("");
       const file = e.target.files[0];
       const allowedType = ["image/jpeg", "image/jpeg", "image/png"];
+      const fileInput = document.getElementById("thirdInput")as HTMLInputElement;
       if (!allowedType.includes(file.type)) {
+        fileInput.value = ""; 
         showErrorToast("Please select a JPG, JPEG, or PNG image file.");
         return;
       }
       const maxSize = 5 * 1024 * 1024;
       if (file.size > maxSize) {
+        fileInput.value = ""; 
         showErrorToast("Please select an image file smaller than 5MB.");
         return;
       }
@@ -134,6 +143,7 @@ function AdminCompleteEvent({ id }: Params) {
                   className="w-[9rem] h-24 opacity-0 relative"
                   type="file"
                   accept="image/*"
+                  id="firstInput"
                   onChange={uploadFirstImage}
                   multiple={false}
                   required
@@ -169,6 +179,7 @@ function AdminCompleteEvent({ id }: Params) {
                     className="w-[9rem] h-24 opacity-0 relative"
                     type="file"
                     accept="image/*"
+                    id="secondInput"
                     onChange={uploadSecondImage}
                     multiple={false}
                     required
@@ -203,6 +214,7 @@ function AdminCompleteEvent({ id }: Params) {
                     className="w-[9rem] h-24 opacity-0 relative"
                     type="file"
                     accept="image/*"
+                    id="thirdInput"
                     onChange={uploadThirdImage}
                     multiple={false}
                     required
@@ -241,8 +253,8 @@ function AdminCompleteEvent({ id }: Params) {
             </div>
           </div>
         </div>
-        <div className="w-[50%] h-full bg-yellow-400">
-         <EventImages/>
+        <div className="w-[50%] h-full bg-transparent">
+         <EventImages id={id}/>
         </div>
       </div>
     </div>
