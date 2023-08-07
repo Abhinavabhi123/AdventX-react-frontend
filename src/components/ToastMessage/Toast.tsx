@@ -6,7 +6,7 @@ export const showSuccessToast = (message:string) => {
       position: 'top-center',
       icon: '🎉',
       style: {
-        background: '#4caf50',
+        background: '#51C35B',
         color: '#fff',
       },
     });

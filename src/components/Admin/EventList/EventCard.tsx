@@ -4,13 +4,17 @@ import { useNavigate } from "react-router-dom";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
 import Swal from "sweetalert2";
 import { deleteImage } from "../../../Store/Firebase/Firebase";
-import changeLogo from "/icons/changeLogo.png"
+import changeLogo from "/icons/changeLogo.png";
+import { response } from "express";
+import { showSuccessToast } from "../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
 interface Props {
   value: string;
   setDeleted: React.Dispatch<React.SetStateAction<boolean>>;
   deleted: boolean;
 }
 interface Value {
+  _id: string;
   eventName: string;
   description: string;
   date: string;
@@ -25,8 +29,11 @@ interface Value {
 
 function EventCard({ value, deleted, setDeleted }: Props) {
   const navigate = useNavigate();
-
+  const [selected, setSelected] = useState<boolean>(false);
+  const [change, setChange] = useState<boolean>(false);
+  const [changed, setChanged] = useState<boolean>(false);
   const [data, setData] = useState<Value>({
+    _id: "",
     eventName: "",
     description: "",
     date: "",
@@ -39,6 +46,7 @@ function EventCard({ value, deleted, setDeleted }: Props) {
     is_completed: false,
   });
   useEffect(() => {
+    
     (async () => {
       await AdminAxios.get(`getEventDetails`, {
         params: {
@@ -52,8 +60,9 @@ function EventCard({ value, deleted, setDeleted }: Props) {
           console.log(error);
         });
     })();
-  }, []);
+  }, [changed, value]);
   const {
+    _id,
     eventName,
     date,
     eventType,
@@ -64,7 +73,7 @@ function EventCard({ value, deleted, setDeleted }: Props) {
     status,
     is_completed,
   } = data;
-  
+
   const count = participants.length;
 
   const deleteEvent = async () => {
@@ -113,8 +122,37 @@ function EventCard({ value, deleted, setDeleted }: Props) {
     }
   };
 
+  const selectStatus = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (e.target.value === "select") {
+      setChange(false);
+      return;
+    }
+    if (e.target.value === "Completed") {
+      setSelected(true);
+    } else {
+      setSelected(false);
+    }
+    setChange(true);
+  };
+
+  const changeStatus = async () => {
+    await AdminAxios.post("/changeEventStatus", { _id, selected })
+      .then((response) => {
+        console.log(response);
+        if (response?.data?.status === 200) {
+          showSuccessToast(response?.data?.message);
+          setChange(false);
+          setChanged(!changed);
+        }
+      })
+      .catch((err) => {
+        console.error("error", err);
+      });
+  };
+
   return (
-    <div className="w-[95%] h-36 flex bg-slate-300 rounded-md mt-3">
+    <div className="w-[95%] h-42 flex bg-slate-300 rounded-md mt-3">
+      <Toaster />
       <div className="w-[20%] h-full flex justify-center items-center ">
         <div className="w-[90%] h-[90%]  rounded-md flex justify-center items-center">
           <img
@@ -137,12 +175,39 @@ function EventCard({ value, deleted, setDeleted }: Props) {
         <div className="w-[95%] h-[90%]  flex">
           <div className="w-[85%] h-full ">
             <p className="text-sm ms-2">Amount:- {fee}</p>
-            <p className="text-sm ms-2">Completed:- {is_completed ?"Yes":"No"}</p>
+            <p className="text-sm ms-2">
+              Completed:- {is_completed ? "Yes" : "No"}
+            </p>
             <p className="text-sm ms-2">Status:- {status}</p>
-            <button className="w-32 mt-2 rounded-md text-xs bg-green-300 outline outline-red-200 hover:bg-green-500 flex items-center justify-center gap-2" onClick={()=>navigate(`/admin/completeEvent/${value}`)}>
-              Complete Event
-              <img className="w-3" src={changeLogo} alt="change" />
-            </button>
+            <div>
+              <select
+                className="w-28 h-4 text-xs  rounded-sm"
+                onChange={(e) => {
+                  selectStatus(e);
+                }}
+              >
+                <option value="select">select status</option>
+                <option value="Completed">Completed</option>
+                <option value="Not Completed">Not Completed</option>
+              </select>
+              {change && (
+                <button
+                  className="w-16 ms-2 text-xs font-semibold rounded-md h-5 bg-blue-400"
+                  onClick={changeStatus}
+                >
+                  Change
+                </button>
+              )}
+            </div>
+            {is_completed && (
+              <button
+                className="w-32 mt-2 rounded-md text-xs bg-green-300 outline outline-red-200 hover:bg-green-500 flex items-center justify-center gap-2"
+                onClick={() => navigate(`/admin/completeEvent/${value}`)}
+              >
+                Complete Event
+                <img className="w-3" src={changeLogo} alt="change" />
+              </button>
+            )}
           </div>
           <div className="w-[15%] h-full flex  flex-col justify-between items-end">
             <img

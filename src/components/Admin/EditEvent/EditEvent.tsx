@@ -136,7 +136,7 @@ function EditEvent() {
         showErrorToast("Something went wrong");
         return;
       }
-      const symbols = /[-!"#$%&'()*+,./:;<=>?@[\\\]^_`{|}~]/;
+      const symbols = /[!#$%&()*+/:;<=>?@[\\\]^_`{|}~]/;
       const symbol = /[!"#$%&'()*+.:;<=>?@[\\\]^_`{|}~]/;
       if (eventName?.length <= 0) {
         showErrorToast("Please enter the event name");
@@ -250,7 +250,7 @@ function EditEvent() {
         return;
       }
       if (symbols.test(desc)) {
-        showErrorToast("Remove the special symbols in the event name");
+        showErrorToast("Remove the special symbols in the event name 5");
         return;
       }
       // .....................
@@ -304,6 +304,7 @@ function EditEvent() {
                   await deleteImage(
                     response?.data?.eventData?.primaryImage
                   ).then(() => {
+                    toast.dismiss();
                     navigate("/admin/eventManagement");
                   });
                 }

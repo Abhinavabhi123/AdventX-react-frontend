@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 import { showErrorToast } from "../../ToastMessage/Toast";
 import { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -19,23 +19,48 @@ function AdminCompleteEvent({ id }: Params) {
   const [secondPreview, setSecondPreview] = useState<string>("");
   const [thirdImage, setThirdImage] = useState<File | string>("");
   const [thirdPreview, setThirdPreview] = useState<string>("");
+  const [data, setData] = useState({
+    images:[]
+  });
+
+  useEffect(() => {
+    if (id) {
+      (async () => {
+        await AdminAxios.get(`/getEventDetails`, {
+          params: {
+            id: id,
+          },
+        })
+          .then((response) => {
+            console.log(response, "klklk");
+
+            setData(response?.data?.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      })();
+    }
+  }, [id]);
+  console.log(data, "adfsafsdnf");
 
   const uploadFirstImage = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      console.log("ethiiiii");
       setFirstImage("");
       setFirstPreview("");
       const file = e.target.files[0];
       const allowedType = ["image/jpeg", "image/jpeg", "image/png"];
-      const fileInput = document.getElementById("firstInput")as HTMLInputElement;
+      const fileInput = document.getElementById(
+        "firstInput"
+      ) as HTMLInputElement;
       if (!allowedType.includes(file.type)) {
-        fileInput.value = "";  
+        fileInput.value = "";
         showErrorToast("Please select a JPG, JPEG, or PNG image file.");
         return;
       }
       const maxSize = 5 * 1024 * 1024;
       if (file.size > maxSize) {
-        fileInput.value = ""; 
+        fileInput.value = "";
         showErrorToast("Please select an image file smaller than 5MB.");
         return;
       }
@@ -46,20 +71,21 @@ function AdminCompleteEvent({ id }: Params) {
 
   const uploadSecondImage = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      console.log("ethiiiii");
       setSecondImage("");
       setSecondPreview("");
       const file = e.target.files[0];
       const allowedType = ["image/jpeg", "image/jpeg", "image/png"];
-      const fileInput = document.getElementById("secondInput")as HTMLInputElement;
+      const fileInput = document.getElementById(
+        "secondInput"
+      ) as HTMLInputElement;
       if (!allowedType.includes(file.type)) {
-        fileInput.value = ""; 
+        fileInput.value = "";
         showErrorToast("Please select a JPG, JPEG, or PNG image file.");
         return;
       }
       const maxSize = 5 * 1024 * 1024;
       if (file.size > maxSize) {
-        fileInput.value = ""; 
+        fileInput.value = "";
         showErrorToast("Please select an image file smaller than 5MB.");
         return;
       }
@@ -70,20 +96,21 @@ function AdminCompleteEvent({ id }: Params) {
 
   const uploadThirdImage = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      console.log("ethiiiii");
       setThirdImage("");
       setThirdPreview("");
       const file = e.target.files[0];
       const allowedType = ["image/jpeg", "image/jpeg", "image/png"];
-      const fileInput = document.getElementById("thirdInput")as HTMLInputElement;
+      const fileInput = document.getElementById(
+        "thirdInput"
+      ) as HTMLInputElement;
       if (!allowedType.includes(file.type)) {
-        fileInput.value = ""; 
+        fileInput.value = "";
         showErrorToast("Please select a JPG, JPEG, or PNG image file.");
         return;
       }
       const maxSize = 5 * 1024 * 1024;
       if (file.size > maxSize) {
-        fileInput.value = ""; 
+        fileInput.value = "";
         showErrorToast("Please select an image file smaller than 5MB.");
         return;
       }
@@ -106,7 +133,6 @@ function AdminCompleteEvent({ id }: Params) {
       formData.append("firstName", firstName);
       formData.append("secondName", secondName);
       formData.append("thirdName", thirdName);
-      console.log(array, "arrrrrraaayyy");
 
       await AdminAxios.post(`/addWinners/${id}`, array).then((response) => {
         if (response?.data?.status === 200) {
@@ -254,7 +280,7 @@ function AdminCompleteEvent({ id }: Params) {
           </div>
         </div>
         <div className="w-[50%] h-full bg-transparent">
-         <EventImages id={id}/>
+          <EventImages id={id} data={data} />
         </div>
       </div>
     </div>

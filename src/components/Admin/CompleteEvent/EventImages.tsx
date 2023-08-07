@@ -6,28 +6,42 @@ import close from "/icons/close.png";
 import "./Event.css";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
 import Loader from "../../Loader/Loader";
+import imagess from "/icons/images.png";
+
+
 
 interface Props {
   id: string | undefined;
+  data: {
+    images: string[];
+  };
 }
 
-function EventImages({ id }: Props) {
+function EventImages({ id, data }: Props) {
+  const limit = 9 - data?.images.length;
+
   const navigate = useNavigate();
   const [images, setImage] = useState<any[] | string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [showImages, setShowImages] = useState<boolean>(false);
   const selectImages = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const selectedFiles = e.target.files;
       const filesArray = [...selectedFiles];
       setImage(filesArray);
       // setImage(selectedFile);
-      if (selectedFiles.length > 9) {
+      if (selectedFiles.length > limit) {
         const fileInput = document.getElementById(
           "fileInput"
         ) as HTMLInputElement;
         setImage([]);
-        fileInput.value = "";
-        showErrorToast("you can only select 9 images");
+        if (limit === 0) {
+          fileInput.value = "";
+          showErrorToast(`you can't select any image`);
+        } else {
+          fileInput.value = "";
+          showErrorToast(`you can only select ${limit} images`);
+        }
       }
       return;
     }
@@ -58,36 +72,73 @@ function EventImages({ id }: Props) {
         formData.append("image", img);
       }
       setLoading(true);
-      await AdminAxios.post(`eventImages/${id}`,formData,{headers:{"Content-Type":"multipart/form-data"}}).then((response)=>{
-        if(response?.data?.status===200){
+      await AdminAxios.post(`eventImages/${id}`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      }).then((response) => {
+        if (response?.data?.status === 200) {
           console.log("success");
-          setLoading(false)
-          showSuccessToast("image saved")
+          setLoading(false);
+          showSuccessToast(response?.data?.message);
         }
-      })
+      });
     }
   };
+  if (showImages) {
+    return (
+      <div className="w-full h-full flex flex-col items-center justify-center">
+        <div className="w-[90%] h-[90%]  rounded-md">
+          <div className=" w-full h-20 flex justify-between ps-5 items-center rounded-md bg-white">
+            <p>All images</p>
+            <img
+              className="w-10 me-3 cursor-pointer transform transition-transform duration-200 hover:scale-110"
+              src={close}
+              alt="close"
+              onClick={() => setShowImages(!showImages)}
+            />
+          </div>
+          <div className="w-full h-[28rem] grid grid-cols-3 gap-4 rounded-b-md p-4">
+            {data?.images.map((item, i) => {
+              return <img className="w-96 h-32 transform transition-transform duration-200 hover:scale-110" src={item} alt="" />;
+            })}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
-      <div className="w-full h-[20%] bg-transparent flex flex-col items-center justify-center">
-        <p>Maximum number of the image upload is 9</p>
+      <div className="w-full h-[15%] bg-transparent flex flex-col items-center justify-center">
+        <div className="w-full h-full flex items-center justify-evenly">
+          <p>Maximum number of the image upload is {limit}</p>
+          {data.images.length > 0 && (
+            <button
+              className=" w-8 h-8"
+              onClick={() => setShowImages(!showImages)}
+            >
+              <img src={imagess} alt="images" className="w-7" />
+            </button>
+          )}
+        </div>
         <Toaster />
         <div className="w-full h-20 bg-transparent flex justify-center items-center">
-          <input
-            type="file"
-            className="border border-gray-900"
-            multiple={true}
-            max={9}
-            id="fileInput"
-            onChange={selectImages}
-            required
-          />
+          {limit > 0 && (
+            <input
+              type="file"
+              className="border border-gray-900"
+              multiple={true}
+              max={9}
+              id="fileInput"
+              onChange={selectImages}
+              required
+            />
+          )}
         </div>
       </div>
-      <div className="w-full h-[80%] bg-transparent flex flex-col justify-center items-center">
-        <div className="grid grid-cols-3 gap-4 w-[90%] h-[90%]">
-          {images.map((item, i) => {
+      <div className="w-full h-[80%] mt-4 bg-transparent flex flex-col justify-center items-center">
+        <div className="grid grid-cols-3 gap-4 w-[90%] h-[90%] ">
+          {limit>0?
+          images.map((item, i) => {
             return (
               <div
                 key={i}
@@ -112,7 +163,12 @@ function EventImages({ id }: Props) {
                 </div>
               </div>
             );
-          })}
+          }):(
+            <div className="w-[30rem] h-full flex flex-col justify-center items-center">
+             <img className="w-[60%] h-[60%] " src="/bg/Data extraction-bro.png" alt="empty" />
+             <p className="text-gray-500">Image are already added </p>
+            </div>
+          )}
         </div>
         <div className="w-full h-10 flex mt-3 justify-center items-center ">
           <div className="w-56 h-fit flex justify-around items-center">
