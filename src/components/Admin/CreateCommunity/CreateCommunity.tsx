@@ -1,8 +1,6 @@
-import axios from "axios";
 import "./CreateCommunity.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState, ChangeEvent } from "react";
-import { AdminApi } from "../../../Store/api";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
 // import UsersRow from "./UsersRow";
 

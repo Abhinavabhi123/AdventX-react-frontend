@@ -25,18 +25,6 @@ interface DataState {
 function EditEvent() {
   const navigate = useNavigate();
   const { id } = useParams();
-  // const [eventName, setEventName] = useState<string>("");
-  // const [subTitle, setSubTitle] = useState<string>("");
-  // const [location, setLocation] = useState<string>("");
-  // const [date, setDate] = useState<string>("");
-  // const [type, setType] = useState<string>("");
-  // const [fee, setFee] = useState<number>(0);
-  // const [firstPrice, setFirstPrice] = useState<number>(0);
-  // const [secondPrice, setSecondPrice] = useState<number>(0);
-  // const [thirdPrice, setThirdPrice] = useState<number>(0);
-  // const [description, setDescription] = useState<string>("");
-  // const [about, setAbout] = useState<string>("");
-  // const [status, setStatus] = useState<string>("");
   const [image, setImage] = useState<File | undefined>();
   const [imageUrl, setImageUrl] = useState<string>("");
   const [preview, setPreview] = useState<string>("");

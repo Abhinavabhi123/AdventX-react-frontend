@@ -7,7 +7,7 @@ import BannerDetails from "../../components/Admin/BannerDetails/BannerDetails";
 function BannerManagement() {
     const navigate =useNavigate()
   return (
-    <div className="w-screen h-screen flex ">
+    <div className="w-[99vw] h-screen flex ">
       <div className="w-[16rem] h-full ">
         <SideBar />
       </div>

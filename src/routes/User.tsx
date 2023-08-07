@@ -23,49 +23,12 @@ import CompletedEvent from "../components/User/CompletedSinglePage/CompletedEven
 import Error404 from "../components/Error/Error404";
 import Activities from "../pages/User/Activities";
 
-interface DecodedToken {
-  _id: string;
-  name: string;
-  email: string;
-  is_prime: boolean;
-  status: boolean;
-  token: string;
-}
+
 
 function User() {
-  // const dispatch = useDispatch();
-  // const cookie = Cookies.get("jwtToken");
 
-  // useEffect(() => {
-  //   console.log(cookie, "Cookie");
-
-  //   let cookieData: DecodedToken;
-  //   if (cookie) {
-  //     cookieData = jwtDecode(cookie) as DecodedToken;
-  //     console.log(cookieData);
-
-  //     dispatch(
-  //       userActions.userAddDetails({
-  //         userName: cookieData?.name,
-  //         email: cookieData?.email,
-  //         _id: cookieData?._id,
-  //         is_prime: cookieData?.is_prime,
-  //         status: cookieData?.status,
-  //       })
-  //     );
-  //   }
-  // }, [cookie, dispatch]);
   const userData = useSelector((state: any) => state.user.email);
   const isPrime = useSelector((state: any) => state?.user?.is_prime);
-  // const token:string|undefined= Cookies.get("jwtToken")
-  // console.log(token,"token");
-
-  // if(token){
-  //   const decoded = jwtDecode(token)
-  //   console.log(decoded,"kkkk");
-  // }
-
-  // console.log(isPrime,"gsgsghgsugs");
 
   return (
     <div>

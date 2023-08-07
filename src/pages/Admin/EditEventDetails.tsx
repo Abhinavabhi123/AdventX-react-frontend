@@ -5,7 +5,7 @@ import EditEvent from '../../components/Admin/EditEvent/EditEvent'
 
 function EditEvents() {
   return (
-    <div className="w-screen h-screen flex ">
+    <div className="w-[99vw] h-screen flex ">
     <div className="w-[16rem] h-full ">
       <SideBar />
     </div>

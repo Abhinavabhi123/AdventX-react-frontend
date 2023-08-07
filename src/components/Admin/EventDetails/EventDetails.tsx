@@ -67,61 +67,61 @@ function EventDetails() {
       ) {
         //  check event name
         if (eventName[0] === " ") {
-          alert("please Enter name properly");
+          showErrorToast("Please remove the space before the event name");
           return;
         }
         const symbols = /[-!"#$%&'()*+,./:;<=>?@[\\\]^_`{|}~]/;
         if (symbols.test(eventName)) {
-          alert("Please enter valid Event ....Name");
+          showErrorToast("Please remove symbols in the event name");
           return;
         }
         // Checking sub title
         if (subTitle[0] === " ") {
-          alert("please Enter name properly");
+          showErrorToast("Please remove the space before the sub name");
           return;
         }
         if (symbols.test(subTitle)) {
-          alert("Please enter valid Event ....Name");
+          showErrorToast("Please remove symbols in the sub name");
           return;
         }
         // Checking location
-        if (subTitle[0] === " ") {
-          alert("please Enter name properly");
+        if (location[0] === " ") {
+          showErrorToast("Please remove the space before the location");
           return;
         }
         if (/[!"#$%&'()*+./:;<=>?[\\\]^_`{|}~]/.test(location)) {
-          alert("Please enter valid Event ....Name");
+          showErrorToast("Please remove the symbols in location ");
           return;
         }
         // Checking Date field
+        const now = new Date()
         const today = new Date().getTime();
         const result = new Date(date).getTime();
 
         if (result < today) {
-          alert("Date error");
+          showErrorToast(`Please select a valid date greater then ${now}`);
           return;
         }
         if (fee <= 0) {
-          alert("please Enter the fee more than 0");
+          showErrorToast("please Enter the fee more than 0");
           return;
         }
         if (firstPrice <= 0) {
-          alert("please Enter the first price more than 0");
+          showErrorToast("please Enter the first price more than 0");
           return;
         }
         if (secondPrice <= 0) {
-          alert("please Enter the second price more than 0");
+          showErrorToast("please Enter the second price more than 0");
           return;
         }
         if (thirdPrice <= 0) {
-          alert("please Enter the third price more than 0");
+          showErrorToast("please Enter the third price more than 0");
           return;
         }
         if (status === "Select Status") {
-          alert("Please select status");
+          showErrorToast("Please select status");
           return;
         }
-        console.log("ivide");
         
         await uploadImage(image).then(async (data) => {
           // setImageUrl(data);
@@ -353,19 +353,7 @@ function EventDetails() {
             <option value="Deactivate">Deactivate</option>
           </select>
         </div>
-        {/* drag and drop  start*/}
-        {/* <div id="form-file-upload">
-          <input type="file" id="input-file-upload" multiple={false} />
-          <label id="label-file-upload" htmlFor="input-file-upload">
-            <div>
-              <p>Drag and drop your file chere or</p>
-              <button className="upload-button">Upload a file</button>
-            </div>
-          </label>
-        </div> */}
-
-        {/* end */}
-        <div className="w-[18rem] flex flex-col h-14  m-0 justify-center mb-2">
+        <div className="w-[18rem] ps-5 flex flex-col items-center h-14  m-0 justify-center mb-2">
           <p className="text-xs ml-5">
             Select primary image
             <span className="text-red-500">*</span>

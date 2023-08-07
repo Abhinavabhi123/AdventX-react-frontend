@@ -2,6 +2,8 @@ import React, { FormEvent, useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import UserEmailContext from "../../../Store/Context/Context";
 import axios from "axios";
+import { showErrorToast } from "../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
 // import { UserApi } from "../../../Store/api";
 
 function OTP() {
@@ -54,6 +56,9 @@ function OTP() {
               navigate("/userLogin");
             }
           });
+      }else{
+        showErrorToast("OTP is not containing 6 digit")
+        return
       }
     } catch (error) {
       console.error(error);
@@ -66,7 +71,11 @@ function OTP() {
         setSeconds(30)
         await axios.post(`${import.meta.env.VITE_USER_API}sendOpt`, { email }).then((response) => {
             console.log(response);
-        });
+        }).catch((error)=>{
+          if(error?.response?.data?.status!==200){
+            showErrorToast(error?.response?.data?.error)
+          }
+        })
     } catch (error) {
         console.error(error);
     }
@@ -131,6 +140,7 @@ function OTP() {
             getting access to the world of Adventures
           </p>
         </div>
+        <Toaster/>
       </div>
     </div>
   );

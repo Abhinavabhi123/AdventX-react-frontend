@@ -4,6 +4,8 @@ import axios from "axios";
 // import { UserApi } from "../../../Store/api";
 import OTP from "../OTP/OTP";
 import UserEmailContext from "../../../Store/Context/Context";
+import { showErrorToast } from "../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
 type userDataType = {
   fName: string;
   lName: string;
@@ -31,49 +33,59 @@ function Signup() {
     try {
       
       if(fName.length===0){
+        showErrorToast("Please Enter first name")
         return
       }
       if(fName[0]===" "){
+        showErrorToast("Please remove the space before the text")
         return
       }
       if(fName.trim()===""||typeof fName!=="string"){
+        showErrorToast("Please  enter first name")
         return
       }
       const symbols = /[-!"#$%&'()*+,./:;<=>?@[\\\]^_`{|}~]/;
       if (symbols.test(fName)) {
-        alert("Please enter valid Event ....Name");
+        showErrorToast("Please  remove the special symbols in first name");
         return;
       }
+      console.log("submitting");
       if(lName.length===0){
+        showErrorToast("Please Enter last name")
         return
       }
       if(lName[0]===" "){
+        showErrorToast("Please remove the space before the last name")
         return
       }
       if(lName.trim()===""||typeof lName!=="string"){
+        showErrorToast("Please  enter last name")
         return
       }
       
       if (symbols.test(lName)) {
-        alert("Please enter valid Event ....Name");
+        showErrorToast("Please  remove the special symbols in last name");
         return;
       }
       if (symbols.test(Mobile)) {
-        alert("Please enter valid Event ....Name");
+        showErrorToast("Please  remove the special symbols in mobile");
         return;
       }
       if(Mobile.length!==10){
+        showErrorToast("Please enter a valid mobile number");
         return
       }
       if(Mobile[0]===" "){
+        showErrorToast("Please remove the space in the mobile number");
         return
       }
-      if(Mobile.trim()===""||typeof Mobile!=="string"){
+      if(Mobile.trim()===""||typeof Mobile!=="string"||Mobile.trim().length!==10){
+        showErrorToast("Please enter a valid mobile number");
         return
       }
       
       if (symbols.test(Mobile)) {
-        alert("Please enter valid Event ....Name");
+        showErrorToast("Please  remove the special symbols in mobile");
         return;
       }
       const validDomains = [
@@ -84,16 +96,23 @@ function Signup() {
         
         const domain = email.split("@")[1];
         if (!validDomains.includes(domain)) {
-        
-            return;
+        showErrorToast("Please enter valid email")
+        return;
       }
-      if(password[0]===" "){
+      if(email.length===0){
+        showErrorToast("Please enter email")
         return
       }
-      if(password.length<=6){
+      if(password[0]===" "){
+        showErrorToast("Please enter valid password")
+        return
+      }
+      if(password.length<6){
+        showErrorToast("Please enter at least 6 characters for password")
         return
       }
       if(password!==confPass){
+        showErrorToast("Password is not matching to the confirm password ")
         return
       }
       console.log("posting");
@@ -103,7 +122,11 @@ function Signup() {
         if (response.data.message) {
           setShowOtp(true);
         }
-      });
+      }).catch((error)=>{
+        if(error?.response?.data?.status!==200){
+          showErrorToast(error?.response?.data?.error)
+        }
+      })
     } catch (error) {
       console.error(error);
     }
@@ -202,6 +225,7 @@ function Signup() {
             </button>
           </div>
         </form>
+        <Toaster/>
         <div>
           <h6></h6>
           <p></p>

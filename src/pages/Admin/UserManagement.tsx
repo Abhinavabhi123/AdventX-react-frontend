@@ -5,7 +5,7 @@ import UserList from "../../components/Admin/UsreManagement/UserList";
 
 function UserManagement() {
   return (
-    <div className="flex w-screen h-screen flex-row bg-transparent justify-between">
+    <div className="flex w-[99vw] h-screen flex-row bg-transparent justify-between">
       <div>
         <SideBar />
       </div>

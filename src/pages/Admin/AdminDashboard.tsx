@@ -4,7 +4,7 @@ import TopBar from '../../components/Admin/AdminTopBar/TopBar'
 
 function AdminDashboard() {
   return (
-    <div className='fle flex-row '>
+    <div className='fle flex-row w-[99vw] '>
       <div>
       <SideBar/>
       </div>

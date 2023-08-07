@@ -2,23 +2,26 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
-// import { UserApi } from "../../../Store/api";
-import { useDispatch } from "react-redux/es/exports";
-import { userActions } from "../../../Store/redux/UserAuth";
 import toast, { Toaster } from "react-hot-toast";
 
 function Login() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const dispatch = useDispatch();
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       if (email.length === 0) {
-        console.log("ivide");
-        toast.error("please enter the email correctly");
+        toast.error("please enter the email");
+        return;
+      }      
+      if (email.substring(0, 1).trim() === '') {
+        toast.error("Please remove the space before the event name");
+        return
+      }
+      if (email[0] === "") {
+        toast.error("Please remove the space before the event name");
         return;
       }
       const validDomains = ["gmail.com", "yahoo.com", "hotmail.com"];
@@ -27,6 +30,10 @@ function Login() {
       if (!validDomains.includes(domain)) {
         toast.error("Enter a valid email domain");
         return;
+      }
+      if(password.length===0){
+        toast.error("Enter the password");
+        return
       }
       await axios
         .post(
@@ -44,9 +51,16 @@ function Login() {
             const userName = `${result.userData?.firstName} ${result.userData?.lastName}`;
             navigate("/");
           }
-        });
-    } catch (error) {
-      console.error(error);
+         
+        }).catch((error)=>{
+          if(error?.response?.data?.status!==200){
+            toast.error(error?.response?.data?.error)
+            return
+          }
+        })
+    } catch (error){
+     
+      console.error(error,"error");
     }
   };
   return (

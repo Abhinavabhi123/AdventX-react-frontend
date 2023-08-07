@@ -16,6 +16,7 @@ body{
   margin: 0;
   box-sizing: border-box;
   background-color:#e3e3e3
+ 
 }
 ::-webkit-scrollbar {
   width: 8px; /* Width of the scrollbar */
