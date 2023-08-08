@@ -1,8 +1,9 @@
 import axios from "axios";
 import React, { useRef, useEffect, useContext, useState, Dispatch, SetStateAction } from "react";
-import { UserApi } from "../../../Store/api";
 import UserIdContext from "../../../Store/Context/UserContext";
 import UserAxios from "../../../Store/Axios/UserConfig";
+import { showErrorToast, showSuccessToast } from "../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
 
 interface Data{
     area:string;
@@ -67,6 +68,7 @@ function EditAddress() {
       ) {
         return;
       } else {
+        console.log("dataa");
         if (
           houseName.length > 0 &&
           locality.length > 0 &&
@@ -74,46 +76,60 @@ function EditAddress() {
           district?.length > 0 &&
           state?.length > 0 &&
           zip.length > 0
-        ) {
+          ) {
           if (houseName.trim() === "") {
+            showErrorToast("Please enter the house name")
             return;
           }
           if (houseName[0] === " ") {
-            return;
-          }
-          const symbols = /[-!"#$%&'()*+,./:;<=>?@[\\\]^_`{|}~]/;
-          if (symbols.test(houseName)) {
+          showErrorToast("Please remove the space before house name")
+          return;
+        }
+        
+        const symbols = /[-!"#$%&'()*+,./:;<=>?@[\\\]^_`{|}~]/;
+        if (symbols.test(houseName)) {
+          showErrorToast("Please remove the symbol in the house name")
             return;
           }
           if (locality.trim() === "") {
+            showErrorToast("Please enter the location")
             return;
           }
           if (locality[0] === " ") {
+            showErrorToast("Please remove the space before location")
             return;
           }
           if (symbols.test(locality)) {
-            return;
+          showErrorToast("Please remove the symbol in the location")
+          return;
           }
           if (area.trim() === "") {
+            showErrorToast("Please enter the area")
             return;
           }
           if (area[0] === " ") {
+            showErrorToast("Please remove the space before area")
             return;
           }
           if (symbols.test(area)) {
+            showErrorToast("Please remove the symbol in the area")
             return;
           }
           if (district === "Select state") {
+            showErrorToast("Please select your district")
             return;
           }
           if (state === "Select state") {
+            showErrorToast("Please select your state")
             return;
           }
           if (zip.length !== 6) {
+            showErrorToast("Zip code must have 6 characters")
             return;
           }
           const e = "e";
           if (e.includes(zip)) {
+          showErrorToast("Please check Zip code")
             return;
           }
           const formData = {
@@ -134,10 +150,13 @@ function EditAddress() {
 
               if (response.data.status === 200) {
                 changed?setChanged(false):setChanged(true)
-                alert("Your address has been saved successfully");
+                showSuccessToast(response?.data?.message)
               }
-            });
+            }).catch((error)=>{
+              showErrorToast(error?.response?.data?.error)
+            })
         } else {
+          showErrorToast("Please fill all the field")
           return;
         }
       }
@@ -283,6 +302,7 @@ function EditAddress() {
           </div>
         </div>
       </form>
+      <Toaster/>
     </div>
   );
 }

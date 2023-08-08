@@ -1,6 +1,8 @@
 import React, { useEffect, useContext, useState, useRef } from "react";
 import UserIdContext from "../../../Store/Context/UserContext";
 import UserAxios from "../../../Store/Axios/UserConfig";
+import { showErrorToast, showSuccessToast } from "../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
 
 
 function EditPersonal() {
@@ -56,51 +58,70 @@ function EditPersonal() {
         return;
       } else {
         if (firstName.length <= 0) {
+          showErrorToast("Please enter the first name")
           return;
         }
         if (firstName.trim() === "") {
-          return;
+          showErrorToast("Please enter the first name")
+        return;
         }
         if (firstName[0] === " ") {
+          showErrorToast("Please remove the space before first name")
           return;
         }
         const symbols = /[-!"#$%&'()*+,./:;<=>?@[\\\]^_`{|}~]/;
         if (symbols.test(firstName)) {
-          return;
+        showErrorToast("Please remove the special symbols in first name")
+        return;
         }
         if (lastName.length <= 0) {
-          return;
-        }
-        if (lastName.trim() === "") {
+        showErrorToast("Please enter the last name")
+        return;
+      }
+      if (lastName.trim() === "") {
+          showErrorToast("Please enter the last name")
           return;
         }
         if (lastName[0] === " ") {
+          showErrorToast("Please remove the space before last name")
           return;
         }
         if (symbols.test(lastName)) {
+          showErrorToast("Please remove the special symbols in last name")
           return;
         }
         if (number.length !== 10) {
+          showErrorToast("Please enter the mobile number correctly")
           return;
         }
         if (about.length <= 0 ) {
+          showErrorToast("Please fill the about")
           return;
         }
-        if (height.length <= 0 && height.length>3) {
+        if (about[0] === " ") {
+          showErrorToast("Please remove the space before the about text")
           return;
         }
-        if (weight.length <=0 &&weight.length>3) {
+        console.log(height.length,'length');
+        
+        if (height.length <= 0 || height.length>3) {
+          showErrorToast("Please enter the height properly")
+          return;
+        }
+        if (weight.length <=0 || weight.length>3) {
+          showErrorToast("Please enter the weight properly")
           return;
         }
         if (!date) {
+          showErrorToast("Please select the DOB")
           return;
         }
         const today = new Date().getTime();
         const result = new Date(date).getTime();
         if (result > today) {
+          showErrorToast("Invalid selected date")
           return;
         }
-        console.log("starting");
         console.log(firstName,lastName,number,about,height,weight,date);
         
         const formData ={
@@ -110,11 +131,13 @@ function EditPersonal() {
         await UserAxios
           .post(`postUserDetails`, formData)
           .then((response) => {
-            console.log(response);
             if(response?.data?.status===200){
               changed ?setChanged(false):setChanged(true)
+              showSuccessToast(response?.data?.message)
             }
-          });
+          }).catch((error)=>{
+            showErrorToast(error?.response?.data?.error)
+          })
       }
     } catch (error) {
       console.error(error);
@@ -260,6 +283,7 @@ function EditPersonal() {
           </div>
         </div>
       </form>
+      <Toaster/>
     </div>
   );
 }

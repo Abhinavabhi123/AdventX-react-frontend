@@ -37,10 +37,10 @@ function Banner() {
   const id = Math.floor(Math.random() * bannerData.length);
 
   return (
-    <div className="w-full h-[43rem]">
+    <div className="w-[92rem] h-[43rem]">
       <div className=" w-full h-full ">
         <img
-          className="w-full h-[43rem] object-cover absolute "
+          className="w-[92rem] h-[43rem] object-cover absolute "
           src={`${import.meta.env.VITE_BANNER_API}${bannerData[id].image}`}
           alt="banner"
         />

@@ -4,6 +4,7 @@ import Profile from "../../components/User/Profile/Profile";
 import NavBar from "../../components/User/NavBar/Navbar";
 import HomeBtn from "../../components/User/Button/HomeBtn";
 import UserIdContext from "../../Store/Context/UserContext";
+import Footer from "../../components/User/Footer/Footer";
 
 function UserProfile() {
   const id: string = useSelector((state: any) => state.user._id);
@@ -13,7 +14,7 @@ function UserProfile() {
       <div className=" w-full h-20">
         <NavBar />
       </div>
-      <div className="w-screen h-fit bg-white flex flex-col items-center">
+      <div className="w-[92rem] h-fit bg-white flex flex-col items-center">
         <div className="w-[90%] h-16  flex justify-end items-center">
           <HomeBtn />
         </div>
@@ -23,6 +24,7 @@ function UserProfile() {
           </UserIdContext.Provider>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 }

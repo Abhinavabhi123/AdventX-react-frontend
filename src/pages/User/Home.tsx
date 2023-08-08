@@ -13,7 +13,7 @@ function Home() {
       <div className="w-full h-[43rem]  m-0 bg-white">
         <Banner />
       </div>
-      <div className="w-full h-[38rem] bg-white flex  flex-col items-center justify-evenly">
+      <div className="w-[92rem] h-[38rem] bg-white flex  flex-col items-center justify-evenly">
         <div className="w-[80%] h-[41%] bg-gray-400 bg-opacity-10 rounded-md">
           <UpcomingEvent/>
         </div>

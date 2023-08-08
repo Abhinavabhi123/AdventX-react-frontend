@@ -1,6 +1,6 @@
-import React, { useContext, useEffect } from "react";
 
 function Details({ data }: any) {
+
   const {
     email,
     firstName,

@@ -1,21 +1,19 @@
 import React, { useEffect } from "react";
-import { Routes, Route, Navigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import jwtDecode from "jwt-decode";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import Home from "../pages/User/Home";
 import UserLogin from "../pages/User/UserLoing";
 import UserSignup from "../pages/User/userSignup";
 import ForgetPass from "../pages/User/ForgetPass";
 import Subscription from "../pages/User/Subscription";
-import Cookies from "js-cookie";
+
 import Authentication from "../Middleware/AuthMiddleware";
 
-import { userActions } from "../Store/redux/UserAuth";
 import CheckOut from "../components/User/SubscribePayment/CheckOut";
 import PaymentSuccess from "../components/User/SubscribePayment/PaymentSuccess/PaymentSuccess";
 import UserProfile from "../pages/User/UserProfile";
-import UserIdContext from "../Store/Context/UserContext";
+
 import Communities from "../pages/User/Communities";
 import UserChangeContext from "../Store/Context/UserChangecontext";
 import AddUserVehicle from "../pages/User/AddUserVehicle";
@@ -23,10 +21,7 @@ import CompletedEvent from "../components/User/CompletedSinglePage/CompletedEven
 import Error404 from "../components/Error/Error404";
 import Activities from "../pages/User/Activities";
 
-
-
 function User() {
-
   const userData = useSelector((state: any) => state.user.email);
   const isPrime = useSelector((state: any) => state?.user?.is_prime);
 
@@ -43,14 +38,14 @@ function User() {
           element={userData ? <Navigate to={"/"} /> : <ForgetPass />}
         />
         <Route path="/activities" element={<Activities />} />
+        <Route
+          path="/userSignup"
+          element={userData ? <Navigate to={"/"} /> : <UserSignup />}
+        />
       </Routes>
       <Authentication CookieName="jwtToken" Type="user">
         <UserChangeContext>
           <Routes>
-            <Route
-              path="/userSignup"
-              element={userData ? <Navigate to={"/"} /> : <UserSignup />}
-            />
             <Route
               path="/subscribe"
               element={!isPrime ? <Subscription /> : <Navigate to={"/"} />}

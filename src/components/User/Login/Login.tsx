@@ -65,7 +65,7 @@ function Login() {
   };
   return (
     <div
-      className=" flex flex-col items-center justify-center w-screen"
+      className=" flex flex-col items-center justify-center w-[92rem]"
       style={{
         height: "51.7rem",
         backgroundSize: "103rem 51.7rem",

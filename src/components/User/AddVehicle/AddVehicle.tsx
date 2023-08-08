@@ -2,6 +2,8 @@ import React, { useState, ChangeEvent } from "react";
 import { json, useNavigate } from "react-router-dom";
 import UserAxios from "../../../Store/Axios/UserConfig";
 import { useSelector } from "react-redux";
+import { showErrorToast } from "../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
 
 
 function AddVehicle() {
@@ -78,77 +80,99 @@ function AddVehicle() {
       console.log(image.length, "legjjgj");
       const symbols = /[!"#$%&'()*+,./:;<=>?@[\\\]^`{|}~]/;
       if(vNumber.length<=0){
+        showErrorToast('Please enter the vehicle name')
         return
       }
       if(vNumber[0]===" "){
+        showErrorToast('Please remove the space before vehicle number')
         return
       }
       if(vNumber.trim()===""){
+        showErrorToast('Please remove the space before vehicle number')
         return
       }
       if(symbols.test(vNumber)){
+        showErrorToast('Please remove the symbol in vehicle number')
         return
       }
       // 
       const allSymbols = /[-!"#$%&'()*+,./:;<=>?@[\\\]^_`{|}~]/;
       if(vType.length<=0){
+        showErrorToast('Please enter the vehicle type')
         return
       }
       if(vType[0]===" "){
+        showErrorToast('Please remove the space before vehicle type')
         return
       }
       if(vType.trim()===""){
+        showErrorToast('Please remove the space before vehicle type')
         return
       }
       if(allSymbols.test(vType)){
+        showErrorToast('Please remove the symbol in vehicle type')
         return
       }
       // 
       if(fuelType.length<=0){
+        showErrorToast('Please enter the fuel type')
         return
       }
       if(fuelType[0]===" "){
+        showErrorToast('Please remove the space before fuel type')
         return
       }
       if(fuelType.trim()===""){
+      showErrorToast('Please remove the space before fuel type')
         return
       }
       if(symbols.test(fuelType)){
+        showErrorToast('Please remove the symbol in fuel type')
         return
       }
       // 
       if(vName.length<=0){
+        showErrorToast('Please enter the vehicle name')
         return
       }
       if(vName[0]===" "){
+        showErrorToast('Please remove the space before vehicle name')
         return
       }
       if(vName.trim()===""){
+        showErrorToast('Please remove the space before vehicle name')
         return
       }
       if(symbols.test(vName)){
+        showErrorToast('Please remove the symbol in vehicle name')
         return
       }
       
       // 
       if(vWheels<=0){
+        showErrorToast('Please enter the wheel count')
         return
       }
       // 
       
       if(vOwner.length<=1){
+        showErrorToast('Please enter the vehicle owner name')
         return
       }
       if(vOwner[0]===" "){
+        showErrorToast('Please remove the space before vehicle owner name')
         return
       }
       if(vOwner.trim()===""){
+        showErrorToast('Please remove the space before vehicle owner name')
         return
       }
       if(symbols.test(vOwner)){
+        showErrorToast('Please remove the symbol in vehicle owner name')
         return
       }
       if(image.length!==3){
+        showErrorToast('Please select 3 images')
         return
       }
       console.log("ok ethi");
@@ -379,6 +403,7 @@ function AddVehicle() {
               }
             </div>
           </div>
+          <Toaster/>
         </div>
       </div>
     </div>
