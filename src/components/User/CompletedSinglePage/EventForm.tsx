@@ -52,7 +52,7 @@ function EventForm() {
       }
     })();
   }, [userId]);
-  console.log(vehicleData, "illlli");
+
 
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

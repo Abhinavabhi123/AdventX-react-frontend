@@ -98,7 +98,7 @@ function EventImages({ id, data }: Props) {
           </div>
           <div className="w-full h-[28rem] grid grid-cols-3 gap-4 rounded-b-md p-4">
             {data?.images.map((item, i) => {
-              return <img className="w-96 h-32 transform transition-transform duration-200 hover:scale-110" src={item} alt="" />;
+              return <img key={i} className="w-96 h-32 transform transition-transform duration-200 hover:scale-110" src={item} alt="" />;
             })}
           </div>
         </div>

@@ -4,7 +4,6 @@ import UserEmailContext from "../../../Store/Context/Context";
 import axios from "axios";
 import { showErrorToast } from "../../ToastMessage/Toast";
 import { Toaster } from "react-hot-toast";
-// import { UserApi } from "../../../Store/api";
 
 function OTP() {
   const userEmail = useContext(UserEmailContext);
@@ -57,7 +56,7 @@ function OTP() {
             }
           });
       }else{
-        showErrorToast("OTP is not containing 6 digit")
+        showErrorToast("OTP must containing 6 digit")
         return
       }
     } catch (error) {

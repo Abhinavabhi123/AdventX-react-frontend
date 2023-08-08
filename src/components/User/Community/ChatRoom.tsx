@@ -158,6 +158,7 @@ function ChatRoom({ commId, change }: Props) {
             {messages.map((message, i) => {
              
               const isLastMessage = i === messages.length - 1;
+              
               return (
                 <div
                   
