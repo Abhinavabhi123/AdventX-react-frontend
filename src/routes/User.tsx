@@ -20,6 +20,8 @@ import AddUserVehicle from "../pages/User/AddUserVehicle";
 import CompletedEvent from "../components/User/CompletedSinglePage/CompletedEvent";
 import Error404 from "../components/Error/Error404";
 import Activities from "../pages/User/Activities";
+import About from "../pages/User/About";
+import PaymentCancel from "../components/User/SubscribePayment/PaymentCancel/PaymentCancel";
 
 function User() {
   const userData = useSelector((state: any) => state.user.email);
@@ -42,6 +44,8 @@ function User() {
           path="/userSignup"
           element={userData ? <Navigate to={"/"} /> : <UserSignup />}
         />
+        <Route path="/about" element={<About/>}/>
+        <Route path="/llll" element={ <PaymentCancel />}/>
       </Routes>
       <Authentication CookieName="jwtToken" Type="user">
         <UserChangeContext>
@@ -57,7 +61,7 @@ function User() {
             />
             <Route
               path="/subscribe/cancel"
-              element={isPrime ? <Navigate to={"/"} /> : <PaymentSuccess />}
+              element={isPrime ? <Navigate to={"/"} /> : <PaymentCancel />}
             />
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/eventSinglePage/:id" element={<CompletedEvent />} />

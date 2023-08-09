@@ -16,7 +16,7 @@ function EventImages({ images,about }: Props) {
           </div>
           <div className="grid grid-cols-3 ">
             {images.map((image, i) => {
-              return <img src={image} key={i} className="p-2 hover:scale-110 ease-out duration-300" onClick={() => window.open(image)}/>;
+              return <img src={image} key={i} className="p-2 hover:scale-110 ease-out duration-300 object-cover" onClick={() => window.open(image)}/>;
             })}
           </div>
         </div>

@@ -149,13 +149,13 @@ function Signup() {
   return (
     <div
       style={{
-        height: "50rem",
-        backgroundSize: "100rem 50rem",
+        height: "51.7rem",
+        backgroundSize: "104rem 51.7rem",
         backgroundImage:
           "url('https://images8.alphacoders.com/109/1092575.jpg')",
           backgroundRepeat: "no-repeat"
       }}
-      className="flex justify-center items-center w-[99vw]"
+      className="flex justify-center items-center w-[100vw]"
     >
       <div className=" bg-white bg-opacity-30 rounded-md w-96 h-96 flex flex-col items-center ">
         <div className="flex flex-col items-center">

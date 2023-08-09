@@ -36,7 +36,7 @@ function Login() {
   };
   return (
     <div
-      className="w-screen h-screen container flex justify-center items-center"
+      className="w-screen h-screen flex justify-center items-center"
       style={{
         backgroundSize: "104rem 52rem",
         backgroundImage: "url('https://wallpapercave.com/wp/wp6984580.jpg')",

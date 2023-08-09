@@ -49,13 +49,16 @@ const  Authentication = ({
           navigate("/")
           return
         }
-        
         if(location.pathname ==="/forgetPass" && userData._id ===""){
           navigate("/forgetPass")
           return
         }
         if(location.pathname ==="/userSignup" && userData._id ===""){
           navigate("/userSignup")
+          return
+        }
+        if(location.pathname ==="/about" && userData._id ===""){
+          navigate("/about")
           return
         }
         navigate("/userLogin");
@@ -86,7 +89,7 @@ const  Authentication = ({
         navigate("/admin/dashboard")
       }
     }
-  }, [cookie, navigate,Type,dispatch,location.pathname]);
+  }, [cookie, navigate,Type,dispatch,location.pathname,userData._id]);
 
   return <>{children}</>;
 };

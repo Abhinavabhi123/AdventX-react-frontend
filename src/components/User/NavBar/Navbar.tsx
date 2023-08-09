@@ -60,7 +60,9 @@ function NavBar() {
               >
                 Activities
               </li>
-              <li className="bg-white cursor-pointer">About</li>
+              <li className="bg-white cursor-pointer"
+              onClick={()=>navigate("/about")}
+              >About</li>
             </ul>
           </div>
         </div>

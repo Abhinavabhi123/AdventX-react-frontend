@@ -25,7 +25,7 @@ function PaymentSuccess() {
               Cookies.set("jwtToken", response?.data?.jwtToken);
               setTimeout(() => {
                 navigate("/");
-              }, 2000);
+              }, 4000);
             }
           }
         );
@@ -38,7 +38,7 @@ function PaymentSuccess() {
         <NavBar />
       </div>
       <div className="w-screen h-full flex justify-center items-center">
-        <div className="w-[60%] h-[70%] bg-orange-400 rounded-md flex flex-col justify-center items-center">
+        <div className="w-[60%] h-[70%] shadow-md shadow-gray-600 border border-gray-300 rounded-md flex flex-col justify-center items-center">
           <div>Success</div>
           <div>
             <button className="w-36 h-10 rounded-md bg-green-400">
