@@ -155,9 +155,9 @@ function Signup() {
           "url('https://images8.alphacoders.com/109/1092575.jpg')",
           backgroundRepeat: "no-repeat"
       }}
-      className="flex justify-center items-center w-[92rem] "
+      className="flex justify-center items-center w-[99vw]"
     >
-      <div className=" bg-white bg-opacity-30 rounded-md w-96 h-96 flex flex-col items-center">
+      <div className=" bg-white bg-opacity-30 rounded-md w-96 h-96 flex flex-col items-center ">
         <div className="flex flex-col items-center">
           <img
             className="w-20 ml-5 "

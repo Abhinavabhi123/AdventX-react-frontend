@@ -65,12 +65,13 @@ function Login() {
   };
   return (
     <div
-      className=" flex flex-col items-center justify-center w-[92rem]"
+      className=" flex flex-col items-center justify-center  w-[99vw]"
       style={{
         height: "51.7rem",
         backgroundSize: "103rem 51.7rem",
         backgroundImage:
           "url('https://i.pinimg.com/originals/05/b3/1a/05b31a061a39390c2dcb058aded8fa44.jpg')",
+          backgroundRepeat: "no-repeat",
       }}
     >
       <div className="bg-white bg-opacity-40 w-96 h-96 rounded-lg m-3">

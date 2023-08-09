@@ -31,3 +31,8 @@
     height:9rem ;
     background-color: rgb(73, 73, 73) ;
 }
+/* @media only screen and (max-width: 600px) {
+    .topBarAdmin {
+      width: 80vw;
+    }
+  } */

@@ -2,7 +2,8 @@ import React, { useState,useRef } from "react";
 import "./ForgetPassword.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-// import { UserApi } from "../../../Store/api";
+import { showErrorToast } from "../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
 
 
 function ForgetPassword() {
@@ -28,10 +29,18 @@ function ForgetPassword() {
         "yahoo.com",
         "hotmail.com",
       ];
+      if(email.length===0){
+        showErrorToast("Please enter the email")
+        return
+      }
+      if(email[0]===" "){
+        showErrorToast('Please remove the space before entered text')
+        return
+      }
   
       const domain = email.split("@")[1];
       if (!validDomains.includes(domain)) {
-        alert("enter valid email")
+        showErrorToast("enter valid email")
         return;
     }
 
@@ -49,6 +58,10 @@ function ForgetPassword() {
 
   const confirmOTP = async () => {
     try {
+      if(otp.length<=3||otp.length>=7){
+        showErrorToast('Enter the otp correctly')
+        return
+      }
       const enteredOtp = Number(otp);
       await axios.post(`${import.meta.env.VITE_USER_API}postOtp`, { enteredOtp }).then((response) => {
         console.log(response);
@@ -71,7 +84,10 @@ function ForgetPassword() {
           }
           
         })
-      }
+      }else{
+        showErrorToast("Password is not matching to confirm password")
+        return
+    }
       
     } catch (error) {
       console.error(error);
@@ -158,6 +174,7 @@ function ForgetPassword() {
           </p>
         </div>
       </div>
+      <Toaster/>
     </>
   );
 }

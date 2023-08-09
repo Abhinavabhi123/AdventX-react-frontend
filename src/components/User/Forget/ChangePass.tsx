@@ -1,7 +1,9 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserApi } from "../../../Store/api";
+import { showErrorToast } from "../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
+// import { UserApi } from "../../../Store/api";
 
 
 interface Value{
@@ -14,8 +16,13 @@ function ChangePass(props:Value) {
     const[password,setPassword]=useState("")
 
     const ChangePass=async()=>{
+      if(password.length===0){
+        showErrorToast("Please enter the password")
+        return
+      }
+
         try {
-           await axios.post(`${UserApi}changePass`,{confMail,password}).then((response)=>{
+           await axios.post(`${import.meta.env.VITE_USER_API}changePass`,{confMail,password}).then((response)=>{
             console.log(response); 
             navigate("/userLogin")
            })
@@ -52,6 +59,7 @@ function ChangePass(props:Value) {
         </p>
       </div>
     </div>
+    <Toaster/>
   </form>
   );
 }

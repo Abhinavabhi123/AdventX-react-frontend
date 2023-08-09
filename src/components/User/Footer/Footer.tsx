@@ -16,20 +16,20 @@ function Footer() {
             <div className="w-56 h-full ms-4">
               <ul className=" ps-3 mt-8">
                 <li className="font-semibold mb-2">Explore</li>
-                <li className="text-sm">Event Details</li>
-                <li className="text-sm">Participate Event</li>
+                <li className="text-sm cursor-pointer">Event Details</li>
+                <li className="text-sm cursor-pointer">Participate Event</li>
               </ul>
             </div>
             <div className="w-56 h-full ms-4">
               <ul className=" ps-3 mt-8">
                 <li className="font-semibold mb-2">Company</li>
-                <li className="text-sm">About</li>
+                <li className="text-sm cursor-pointer">About</li>
               </ul>
             </div>
             <div className="w-56 h-full ms-4">
               <ul className=" ps-3 mt-8">
                 <li className="font-semibold mb-2">community</li>
-                <li className="text-sm">Support</li>
+                <li className="text-sm cursor-pointer">Support</li>
               </ul>
             </div>
           </div>
@@ -39,10 +39,10 @@ function Footer() {
                 <p className="font-semibold">Contact with us</p>
               </div>
               <div className="w-full h-[60%] flex justify-around items-center">
-                <img className="w-8 h-8" src={instagram} alt="instagram" />
-                <img className="w-7 h-7" src={facebook} alt="facebook" />
-                <img className="w-10 h-10" src={twitter} alt="twitter" />
-                <img className="w-8 h-8" src={linkedIn} alt="linkedIn" />
+                <img className="w-8 h-8 cursor-pointer" src={instagram} alt="instagram" />
+                <img className="w-7 h-7 cursor-pointer" src={facebook} alt="facebook" />
+                <img className="w-10 h-10 cursor-pointer" src={twitter} alt="twitter" />
+                <img className="w-8 h-8 cursor-pointer" src={linkedIn} alt="linkedIn" />
               </div>
             </div>
           </div>

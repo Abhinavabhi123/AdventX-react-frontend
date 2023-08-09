@@ -7,11 +7,11 @@ import EventList from "../../components/Admin/EventList/EventList";
 function EventManagement() {
     const navigate = useNavigate()
   return (
-    <div className="w-[99vw] h-screen flex ">
+    <div className="w-[100vw] h-[100vh] flex">
       <div className="w-[16rem] h-full ">
         <SideBar />
       </div>
-      <div className="w-full h-[53rem]">
+      <div className="w-[100%] h-[53rem]">
         <div>
           <TopBar value={"Event"} />
         </div>
