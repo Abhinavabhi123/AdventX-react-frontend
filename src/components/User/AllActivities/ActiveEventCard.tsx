@@ -17,7 +17,6 @@ interface Event {
 
 function ActiveEventCard({ event }: Event) {
   const navigate = useNavigate();
-  console.log(event, "dgdfg");
 
   return (
     <div

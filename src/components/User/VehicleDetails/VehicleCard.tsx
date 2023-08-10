@@ -45,7 +45,7 @@ function VehicleCard({ vehicle,setChanged,changed }: Vehicle) {
       </div>
       <div className="w-[33.3%] h-full  flex flex-col justify-between items-end">
         {vehicle?.approved === true ? (
-          <button className="w-20 h-5 rounded-lg bg-green-500 mt-2 me-2 text-xs">Approved</button>
+          <button className="w-20 h-5 rounded-lg bg-green-400 mt-2 me-2 text-xs">Approved</button>
         ) : (
           <button className="w-24 h-5 rounded-lg bg-red-400  mt-2 me-2 text-xs">Not approved</button>
         )}

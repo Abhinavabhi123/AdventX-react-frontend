@@ -13,6 +13,7 @@ function AllActivities() {
       location: "",
     },
   ]);
+  const [search,setSearch]=useState<string>("")
   useEffect(() => {
     (async () => {
       await axios
@@ -24,27 +25,37 @@ function AllActivities() {
         });
     })();
   }, []);
+  console.log(search);
+
+  const submitSearch=(e:React.FormEvent<HTMLFormElement>)=>{
+    e.preventDefault()
+  }
+  
+  
 
   return (
     <div className="w-full h-full">
       <div className="w-full h-14  flex justify-center items-center ">
-        <div className="w-[25rem] h-9  border border-gray-400 rounded-full flex items-center ps-1 pe-1">
-          <button className="w-7 h-7 bg-white rounded-full flex justify-center items-center">
-            <img src="/icons/search.png" alt="search" className="w-5" />
-          </button>
-          <input
-            className="w-[21rem] h-8  me-1 text-xs ps-3 focus:outline-none  focus:border-transparent"
-            type="search"
-            placeholder="Search Event"
-          ></input>
-          <button className="w-7 h-7 bg-green-500 rounded-full flex justify-center items-center">
-            <img
-              src="/icons/right_white_arrow.png"
-              alt="arrow"
-              className="w-5"
+        {/* <div className="w-[25rem] h-9  border border-gray-400 rounded-full flex items-center ps-1 pe-1"> */}
+          <form className="w-[25rem] h-9  border border-gray-400 rounded-full flex items-center ps-1 pe-1" onSubmit={submitSearch}>
+            <button className="w-7 h-7 bg-white rounded-full flex justify-center items-center">
+              <img src="/icons/search.png" alt="search" className="w-5" />
+            </button>
+            <input
+              className="w-[21rem] h-8  me-1 text-xs ps-3 focus:outline-none  focus:border-transparent"
+              type="search"
+              placeholder="Search Event"
+              onChange={(e)=>{setSearch(e.target.value)}}
             />
-          </button>
-        </div>
+            <button className="w-7 h-7 bg-green-500 rounded-full flex justify-center items-center">
+              <img
+                src="/icons/right_white_arrow.png"
+                alt="arrow"
+                className="w-5"
+              />
+            </button>
+          </form>
+        {/* </div> */}
       </div>
       <div className="w-full min-h-full max-h-fit bg-transparent flex justify-center mb-28">
         <div className="w-[80%] h-full bg-transparent grid grid-cols-4 gap-6 md:grid-cols-4  sm:grid-cols-2 ">

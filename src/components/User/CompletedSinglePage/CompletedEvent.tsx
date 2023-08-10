@@ -62,7 +62,7 @@ console.log(data);
 
 
   return (
-    <div className="w-[100vw] h-[100vh] bg-white">
+    <div className="w-[99vw] h-[100vh] bg-white">
       <div className="w-full h-20 ">
         <NavBar />
       </div>

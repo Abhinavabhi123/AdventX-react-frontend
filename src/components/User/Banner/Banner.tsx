@@ -37,7 +37,7 @@ function Banner() {
   const id = Math.floor(Math.random() * bannerData.length);
 
   return (
-    <div className="w-[100%] h-[43rem]">
+    <div className="w-[100%]  h-[43rem]">
       <div className=" w-full h-full ">
         <img
           className="w-[100%] h-[43rem] object-cover absolute "

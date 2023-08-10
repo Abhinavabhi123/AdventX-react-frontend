@@ -71,7 +71,7 @@ function BannerDetails() {
 
   return (
     <div
-      className="w-[70rem] h-[47rem] bg-white rounded-lg"
+      className="w-full h-[47rem] bg-white rounded-lg"
       style={{
         boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
       }}

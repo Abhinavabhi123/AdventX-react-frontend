@@ -118,11 +118,11 @@ function License() {
             <img
               src={`${import.meta.env.VITE_LICENSE_API}${userData?.image}`}
               alt="img"
-              className="w-60 rounded-xl mt-20"
+              className="w-60 rounded-xl mt-12 h-40 object-cover"
             />
           ) : (
             <img
-              src="/bg/8140054.jpg"
+              src="/bg/license.png"
               alt="img"
               className="w-60 rounded-xl mt-20"
             />
@@ -130,7 +130,7 @@ function License() {
           <button
             onClick={() => (openEdit ? setOpenEdit(false) : setOpenEdit(true))}
           >
-            <img src="/icons/license.png" alt="add license" className="w-6" />
+            <img src="/icons/license.png" alt="add license" className="w-6 " />
           </button>
         </div>
       </div>
