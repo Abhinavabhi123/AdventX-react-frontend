@@ -37,7 +37,7 @@ function NavBar() {
   }, [userId]);
 
   return (
-    <div className="navBar absolute  bg-white w-screen h-20 flex flex-row items-center border-2">
+    <div className="navBar absolute  bg-white w-[100%] h-20 flex flex-row items-center border-2">
       <div className="navInnerContaine bg-white w-full  h-max flex flex-row items-center justify-evenly">
         <div className="flex flex-row bg-white w-full">
           <div className="  w-96 flex  justify-around items-center bg-white">
@@ -78,7 +78,7 @@ function NavBar() {
                   src="/icons/crown.png"
                   alt="prime"
                 />
-                GetMembership
+                Get Membership
               </button>
             ) : (
               <button className="w-fit select-none cursor-default h-6 flex justify-evenly items-center bg-transparent">

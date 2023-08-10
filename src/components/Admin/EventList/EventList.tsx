@@ -18,8 +18,8 @@ function EventList() {
       <div className="w-full h-5  flex items-center ps-[2rem]">
         <p className="text-xs">Total Events:- {events.length}</p>
       </div>
-      <div className=" w-[72rem] h-[46rem] flex flex-col  items-center overflow-y-scroll over">
-        <div className=" w-[72rem] h-[44rem] flex flex-col items-center overflow-y-scroll over">
+      <div className=" w-full h-[46rem] flex flex-col  items-center overflow-y-scroll over">
+        <div className=" w-full h-[44rem] flex flex-col items-center overflow-y-scroll over">
           {events.map((event, i) => {
             return (
               <EventCard

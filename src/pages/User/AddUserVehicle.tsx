@@ -5,7 +5,7 @@ import AddVehicle from "../../components/User/AddVehicle/AddVehicle";
 
 function AddUserVehicle() {
   return (
-    <div className=" w-screen h-[100vh]">
+    <div className=" w-[99vw] h-[100vh]">
       <div className=" w-full h-20">
         <NavBar />
       </div>

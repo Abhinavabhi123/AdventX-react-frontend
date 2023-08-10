@@ -51,7 +51,7 @@ function Subscription() {
       <div>
         <NavBar />
       </div>
-      <div className="subImage w-screen h-[50rem]">
+      <div className="subImage w-[99vw] h-[50rem]">
         <div className="w-[50%] h-full  flex justify-center items-center">
           <div className="w-[80%] h-96 bg-white rounded-md bg-opacity-30 mt-[5rem]">
             <div className="w-full h-24 flex justify-center items-center">

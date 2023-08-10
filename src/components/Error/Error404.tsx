@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 function Error404() {
     const navigate = useNavigate()
   return (
-    <div className=''>
+    <div className='w-screen h-screen'>
       {/* <main className="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
         <div className="text-center">
           <p className="text-base font-semibold text-indigo-600">404</p>
@@ -21,7 +21,8 @@ function Error404() {
           </div>
         </div>
       </main> */}
-      <img src="/public/icons/image_processing20190818-32750-8v6g4s.gif" alt="" />
+      <img className='w-screen h-screen absolute' src="/icons/image_processing20190818-32750-8v6g4s.gif" alt="error" />
+      <p className='text-white'>hello</p>
       </div>
   )
 }

@@ -13,7 +13,7 @@ function UserManagement() {
         <div>
           <TopBar value="Users" />
         </div>
-        <div className="w-full h-full mt-[2.5rem] flex pt-5 justify-center">
+        <div className="w-[99%] h-full mt-[2.5rem] flex pt-5 justify-center">
           <UserList />
         </div>
       </div>

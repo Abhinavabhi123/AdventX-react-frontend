@@ -10,11 +10,11 @@ function UserProfile() {
   const id: string = useSelector((state: any) => state.user._id);
   
   return (
-    <div className="w-screen h-[100vh]">
+    <div className="w-[99vw] h-[100vh]">
       <div className=" w-full h-20">
         <NavBar />
       </div>
-      <div className="w-[92rem] h-fit bg-white flex flex-col items-center">
+      <div className="w-[full] h-fit bg-white flex flex-col items-center">
         <div className="w-[90%] h-16  flex justify-end items-center">
           <HomeBtn />
         </div>

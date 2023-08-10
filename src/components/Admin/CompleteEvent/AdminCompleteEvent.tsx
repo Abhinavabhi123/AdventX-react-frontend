@@ -9,6 +9,8 @@ interface Params {
 }
 
 function AdminCompleteEvent({ id }: Params) {
+  console.log(id);
+  
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState<string>("");
   const [secondName, setSecondName] = useState<string>("");
@@ -221,7 +223,7 @@ function AdminCompleteEvent({ id }: Params) {
                 <input
                   type="text"
                   placeholder="Enter the first winner name"
-                  defaultValue={data?.winners[0].first?.name}
+                  defaultValue={data?.winners[0]?.first?.name}
                   className="placeholder-gray-500 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
                   onChange={(e) => setFirstName(e.target.value)}
                   required

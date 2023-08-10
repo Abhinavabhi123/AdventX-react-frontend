@@ -45,7 +45,6 @@ function User() {
           element={userData ? <Navigate to={"/"} /> : <UserSignup />}
         />
         <Route path="/about" element={<About/>}/>
-        <Route path="/llll" element={ <PaymentCancel />}/>
       </Routes>
       <Authentication CookieName="jwtToken" Type="user">
         <UserChangeContext>

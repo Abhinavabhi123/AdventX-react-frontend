@@ -21,7 +21,7 @@ function ActiveEventCard({ event }: Event) {
 
   return (
     <div
-      className="w-[17.4rem] h-52 bg-transparent rounded-md flex flex-col items-center cursor-pointer border border-gray-300"
+      className="w-[17.4rem]  h-52 bg-transparent rounded-md flex flex-col items-center cursor-pointer border border-gray-300 "
       onClick={() => navigate(`/eventSinglePage/${event?._id}`)}
     >
       <div className="w-[95%] h-[70%] bg-transparent flex items-center  justify-center">

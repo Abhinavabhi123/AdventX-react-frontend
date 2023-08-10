@@ -337,7 +337,7 @@ function EditCommunity() {
                         // value={status}
                         // ref={selectRef}
                         onChange={(e) => setSelectedOption(e.target.value)}
-                        className="w-[15rem] ml-5  text-xs h-6 pl-3 rounded-md "
+                        className="w-[15rem] ml-5  text-xs h-6 pl-3 border border-gray-500 rounded-md "
                       >
                         <option>select</option>
                         <option value="Active" className="">

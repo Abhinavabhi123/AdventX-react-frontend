@@ -21,13 +21,13 @@ function VehicleCard({vehicle}:Vehicle) {
         <div className='w-[60%] h-full bg-transparent rounded-s-md flex items-center justify-center'>
             <img className='rounded-md w-48' src={`${import.meta.env.VITE_VEHICLE_API}${vehicle?.images[0]}`} alt="" />
         </div>
-        <div className='w-[40%] h-full bg-transparent  rounded-e-md ps-1 flex flex-col justify-center'>
-            <p className='text-xs'>Name: {vehicle?.vehicleName}</p>
-            <p className='text-xs'>Number: {vehicle?.vehicleNumber}</p>
-            <p className='text-xs'>Owner: {vehicle?.ownerName}</p>
-            <p className='text-xs'>Type: {vehicle?.vehicleType}</p>
-            <p className='text-xs'>Fuel: {vehicle?.fuelType}</p>
-            <p className='text-xs'>Wheels: {vehicle?.wheelCount}</p>
+        <div className='w-[40%] h overflow-hidden-full bg-transparent  rounded-e-md ps-1 flex flex-col justify-center'>
+            <p className='text-xs overflow-hidden'>Name: {vehicle?.vehicleName}</p>
+            <p className='text-xs overflow-hidden'>Number: {vehicle?.vehicleNumber}</p>
+            <p className='text-xs overflow-hidden'>Owner: {vehicle?.ownerName}</p>
+            <p className='text-xs overflow-hidden'>Type: {vehicle?.vehicleType}</p>
+            <p className='text-xs overflow-hidden'>Fuel: {vehicle?.fuelType}</p>
+            <p className='text-xs overflow-hidden'>Wheels: {vehicle?.wheelCount}</p>
         </div>
     </div>
   )

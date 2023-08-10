@@ -5,11 +5,11 @@ import UserCommunityList from '../../components/User/Community/UserCommunityList
 
 function Communities() {
   return (
-    <div className=" w-screen h-[100vh]">
+    <div className=" w-[99vw] h-[100vh]">
       <div className=" w-full h-20">
         <NavBar />
       </div>
-      <div className='w-[92.5rem] h-[50rem] bg-red-400'>
+      <div className='w-[full] h-[50rem] bg-red-400'>
         <UserCommunityList/>
       </div>
     </div>

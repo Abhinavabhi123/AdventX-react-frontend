@@ -7,15 +7,15 @@ import EventList from "../../components/Admin/EventList/EventList";
 function EventManagement() {
     const navigate = useNavigate()
   return (
-    <div className="w-[100vw] h-[100vh] flex">
-      <div className="w-[16rem] h-full ">
+    <div className="w-[99vw] h-[100vh] flex">
+      <div className="w-[18rem] h-full ">
         <SideBar />
       </div>
       <div className="w-[100%] h-[53rem]">
         <div>
           <TopBar value={"Event"} />
         </div>
-        <div className="h-full w-full flex justify-center items-center">
+        <div className="h-full w-[100%] flex justify-center items-center">
           <div className="w-[96%] h-[50rem]  rounded-md border border-dashed border-blue-600 flex flex-col">
             <div className="w-full h-12  flex items-center justify-end">
               <button className="w-32 h-8 text-sm  bg-blue-300 mr-5 rounded-md flex items-center justify-evenly" onClick={()=>{navigate("/admin/addEvent")}}>

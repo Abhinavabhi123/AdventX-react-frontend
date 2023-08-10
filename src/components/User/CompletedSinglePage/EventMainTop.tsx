@@ -68,7 +68,7 @@ function EventMainTop({ id }: EventMainTopProps) {
           </div>
         </div>
         <div className="w-[40%] h-full ">
-          <div className=" w-full h-[30%] bg-transparent ps-3 flex flex-col justify-center ">
+          <div className=" w-full h-[30%] bg-transparent ps-3 bg-slate-100 flex flex-col justify-center ">
             <p>Sub title:- {eventData?.subName} </p>
             <p>Location:- {eventData?.location} </p>
             <p>Date:- {eventData?.date}</p>
@@ -77,7 +77,7 @@ function EventMainTop({ id }: EventMainTopProps) {
           <div className=" w-full h-[70%] bg-transparent">
             <div className="w-full h-[13%] underline">Description</div>
             <div className="w-full h-[87%] bg-transparent flex justify-center items-center pe-10">
-              <div className="w-[95%] h-[90%] bg-transparent border border-black rounded ps-3 pt-1 overflow-y-scroll over">
+              <div className="w-[95%] h-[90%] bg-transparent border border-gray-500 rounded ps-3 pt-1 overflow-y-scroll over">
                 <p>{eventData?.description}</p>
               </div>
             </div>

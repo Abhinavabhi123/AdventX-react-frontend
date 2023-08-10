@@ -47,7 +47,7 @@ function AllActivities() {
         </div>
       </div>
       <div className="w-full min-h-full max-h-fit bg-transparent flex justify-center mb-28">
-        <div className="w-[80%] h-full bg-transparent grid grid-cols-4 gap-6">
+        <div className="w-[80%] h-full bg-transparent grid grid-cols-4 gap-6 md:grid-cols-4  sm:grid-cols-2 ">
           {eventData.map((event, i) => {
             return <ActiveEventCard key={i} event={event} />;
           })}

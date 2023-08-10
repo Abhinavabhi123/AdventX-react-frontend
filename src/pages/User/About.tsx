@@ -9,11 +9,11 @@ function About() {
       <div className="h-20">
         <NavBar />
       </div>
-      <div className="w-[92.5rem]">
+      <div className="w-[100%]">
         <div className="w-full h-20 flex items-center justify-end pe-5 border-b border-gray-300">
           <HomeBtn />
         </div>
-        <div className="w-[92.5rem]">
+        <div className="w-[100%]">
           <AboutUs />
         </div>
         <Footer/>

@@ -153,12 +153,12 @@ function EventCard({ value, deleted, setDeleted }: Props) {
   return (
     <div className="w-[95%] h-42 flex bg-slate-300 rounded-md mt-3">
       <Toaster />
-      <div className="w-[20%] h-full flex justify-center items-center ">
-        <div className="w-[90%] h-[90%]  rounded-md flex justify-center items-center">
+      <div className="w-[20%] h-full flex   justify-center items-center ">
+        <div className="w-[90%] h-[90%] rounded-md flex justify-center items-center">
           <img
             src={primaryImage}
             alt="event image"
-            className="w-full h-full text-xs rounded-md"
+            className="w-full h-[100%] text-xs rounded-md"
           />
         </div>
       </div>

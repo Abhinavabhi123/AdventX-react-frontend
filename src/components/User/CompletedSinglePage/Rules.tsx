@@ -7,7 +7,7 @@ function Rules() {
         <div className="w-full h-[20%] flex items-center ps-5">
           <p>Rules:- </p>
         </div>
-        <div className="w-full h-[80%]  ps-5 flex flex-col justify-center gap-2">
+        <div className="w-full h-[80%] pb-2  ps-5 flex flex-col justify-center gap-2">
           <li>
             It is a long established fact that a reader will be distracted by
             the readable content of a page when looking at its layout.
