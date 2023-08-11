@@ -22,6 +22,9 @@ import Error404 from "../components/Error/Error404";
 import Activities from "../pages/User/Activities";
 import About from "../pages/User/About";
 import PaymentCancel from "../components/User/SubscribePayment/PaymentCancel/PaymentCancel";
+import { Router } from "express";
+import EventPaymentSuccess from "../components/User/EventPayment/EventPaymentSuccess";
+import EventPaymentCancel from "../components/User/EventPayment/EventPaymentCancel";
 
 function User() {
   const userData = useSelector((state: any) => state.user.email);
@@ -71,6 +74,8 @@ function User() {
               }
             />
             <Route path="/addVehicle" element={<AddUserVehicle />} />
+            <Route path={"/eventPayment/success"} element={<EventPaymentSuccess/>}/>
+            <Route path={"/eventPayment/cancel"} element={<EventPaymentCancel/>}/>
           </Routes>
         </UserChangeContext>
       </Authentication>

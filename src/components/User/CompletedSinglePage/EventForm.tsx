@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import UserAxios from "../../../Store/Axios/UserConfig";
@@ -13,9 +13,18 @@ interface User {
   vehicles: {
     vehicleId: string;
   };
+  eventParticipation:[{
+    eventId:string
+  }]
 }
 
-function EventForm() {
+interface Props {
+  amount: number;
+  eventName: string;
+  eventId: string;
+}
+
+function EventForm({ amount, eventName, eventId }: Props) {
   const navigate = useNavigate();
   const [userData, setUserData] = useState<User>({
     firstName: "",
@@ -27,14 +36,21 @@ function EventForm() {
     vehicles: {
       vehicleId: "",
     },
+    eventParticipation:[{
+      eventId:""}
+    ]
   });
   const [vehicleData, setVehicleData] = useState([
     {
       vehicleName: "",
-      vehicleNumber:""
+      vehicleNumber: "",
+      _id:""
     },
   ]);
-  const userId = useSelector((state: any) => state?.user?._id);
+  const vehicleRef = useRef<HTMLSelectElement>(null);
+  const licenseRef = useRef<HTMLSelectElement>(null);
+  const [showBtn,setShowBtn]=useState<boolean>(true);
+  const userId: string = useSelector((state: any) => state?.user?._id);
   const isPrime = useSelector((state: any) => state.user.is_prime);
   useEffect(() => {
     (async () => {
@@ -52,12 +68,46 @@ function EventForm() {
       }
     })();
   }, [userId]);
+  console.log(userData,"lolilili");
+  useEffect(() => {
+    if (userData && eventId) {
+      for (const event of userData.eventParticipation) {
+        if (event.eventId === eventId) {
+          setShowBtn(false);
+          break;
+        }
+      }
+    }
+  }, [userData, eventId]);
+  
 
-
-  const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
+  const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      console.log("submitting");
+      const license = licenseRef?.current?.value;
+      const vehicle = vehicleRef?.current?.value;
+
+      if (license == undefined || vehicle == undefined) {
+        return;
+      }
+      await UserAxios.post("/eventPayment", {
+        userId,
+        amount,
+        eventName,
+        eventId,
+        license,
+        vehicle,
+      })
+        .then((response) => {
+          console.log(response);
+          if (response?.data?.url) {
+            const url = response?.data?.url;
+            window.location = url;
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     } catch (error) {
       console.error(error);
     }
@@ -95,11 +145,16 @@ function EventForm() {
                     <span className="text-red-500">*</span>{" "}
                   </p>
                   <select
-                    placeholder="Community Name"
+                    ref={vehicleRef}
                     className="placeholder-gray-500 ml-5 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
                   >
                     {vehicleData.map((vehicle, i) => {
-                      return <option>{`${vehicle?.vehicleName}- ${vehicle?.vehicleNumber}`}</option>;
+                      return (
+                        <option
+                          key={i}
+                          value={vehicle?._id}
+                        >{`${vehicle?.vehicleName}-${vehicle?.vehicleNumber}`}</option>
+                      );
                     })}
                   </select>
                   {vehicleData.length === 0 && (
@@ -118,7 +173,6 @@ function EventForm() {
                   </p>
                   <input
                     type="text"
-                    placeholder="Community Name"
                     value={userData?.lastName}
                     className="placeholder-gray-500 ml-5 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
                     readOnly
@@ -131,10 +185,13 @@ function EventForm() {
                     <span className="text-red-500">*</span>{" "}
                   </p>
                   <select
-                    placeholder="Community Name"
+                    ref={licenseRef}
                     className="placeholder-gray-500 ml-5 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
                   >
-                    <option className="text-base" value="">
+                    <option
+                      className="text-base"
+                      value={userData?.license?.licenseNumber}
+                    >
                       {userData?.license?.licenseNumber}
                     </option>
                   </select>
@@ -165,6 +222,9 @@ function EventForm() {
               </div>
             </div>
             <div className="w-full h-[20%] flex flex-col items-end pe-5">
+              {
+                showBtn?(
+                  
               <div className="w-52 h-6  flex justify-between">
                 <button
                   type="reset"
@@ -189,6 +249,13 @@ function EventForm() {
                   </button>
                 )}
               </div>
+              
+              ):(
+                <div className="w-52 h-8 rounded-md flex justify-center items-center bg-opacity-50 bg-green-400">
+                  <p className="text-green-900">successfully participated</p>
+                </div>
+              )
+            }
               {isPrime !== true && (
                 <p className="text-xs text-yellow-500 hover:text-red-500 cursor-default mt-2">
                   Get the membership and you can add license and vehicle details{" "}

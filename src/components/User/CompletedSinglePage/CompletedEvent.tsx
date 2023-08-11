@@ -16,8 +16,10 @@ import Footer from "../Footer/Footer";
 function CompletedEvent() {
   const { id } = useParams();
   const [data, setData] = useState({
+    _id:'',
     is_completed:false,
     about:"",
+    fee:0,
     winners: [
       {
         first: {
@@ -34,7 +36,8 @@ function CompletedEvent() {
         },
       },
     ],
-    images:[]
+    images:[],
+    eventName:''
   });
 
   useEffect(() => {
@@ -58,7 +61,7 @@ function CompletedEvent() {
       })();
     }
   }, [id]);
-console.log(data);
+console.log(data,"event");
 
 
   return (
@@ -80,7 +83,7 @@ console.log(data);
         ) : (
           <>
             <EventDetails id={id} />
-            <EventForm />
+            <EventForm amount={data?.fee} eventName={data?.eventName} eventId={data?._id}/>
             <Rules />
           </>
         )}

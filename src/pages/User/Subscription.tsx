@@ -24,8 +24,6 @@ function Subscription() {
 
   const payment = async () => {
     try {
-      console.log("potikk");
-
       await UserAxios.post(
         "/create-checkout-session",
         { userId, amount: 200000 },

@@ -37,7 +37,6 @@ function Account() {
         });
     })();
   }, []);
-  console.log(values, "values");
 
   return (
     <div className="w-full h-full bg--400">
@@ -52,9 +51,12 @@ function Account() {
         <div className="w-full flex justify-end h-10  items-center pe-5">
           <p>Subscription Amount : 2000/-</p>
         </div>
-        <div className="w-full h-full  flex ">
+        <div className="w-full h-full  flex items-center ">
           <div className="w-1/2 h-full flex justify-center items-center bg-blue-300">
             <p>For chart</p>
+          </div>
+          <div className="w-[0.1%] h-[80%] ms-1 bg-gray-400">
+
           </div>
           <div className="w-1/2 h-full flex justify-center items-center ">
             <EventTable/>

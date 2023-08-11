@@ -29,8 +29,6 @@ function EventTable() {
     })();
   }, []);
 
-  console.log(data, "datatata");
-
   return (
     <div className="w-4/5 h-[90%] rounded-md ">
       <div className=" border border-gray-400 rounded-md w-full h-full over overflow-y-scroll">
@@ -44,13 +42,18 @@ function EventTable() {
           </thead>
           <tbody className="">
             {data.map((item, i) => {
-              return<tr key={i} className={`max-h-5 text-center ${i%2===0?"":"bg-slate-200"}`}>
-                <td className="">{item?.eventName}</td>
-                <td className="">
-                  {item?.fee * (item.participants.length + 1)}
-                </td>
-                <td className="">No cost</td>
-              </tr>;
+              return (
+                <tr
+                  key={i}
+                  className={`max-h-5 text-center ${
+                    i % 2 === 0 ? "" : "bg-slate-200"
+                  }`}
+                >
+                  <td className="">{item?.eventName}</td>
+                  <td className="">{item?.fee * item.participants.length}</td>
+                  <td className="">No cost</td>
+                </tr>
+              );
             })}
           </tbody>
         </table>
