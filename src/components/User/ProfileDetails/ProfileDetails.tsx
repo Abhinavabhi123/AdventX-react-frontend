@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import UserAxios from "../../../Store/Axios/UserConfig";
 import VehicleList from "../VehicleDetails/VehicleList";
 import License from "../LicenseDetails/License";
+import EventDetails from "../EventDetails/EventDetails";
 
 function ProfileDetails() {
   const userId = useContext(UserIdContext);
@@ -81,6 +82,7 @@ function ProfileDetails() {
         {active == "edit" && <EditProfile />}
         {active == "vehicles" && <VehicleList />}
         {active == "license" && <License />}
+        {active == "event" && <EventDetails/>}
       </div>
     </>
   );
