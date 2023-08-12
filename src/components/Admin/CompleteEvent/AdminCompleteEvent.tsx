@@ -260,7 +260,7 @@ function AdminCompleteEvent({ id }: Params) {
                     required
                   />
                 </div>
-                <div className="w-[18rem] flex flex-col h-14  m-0 justify-center">
+                <div className="w-[100%] flex flex-col h-14 ps-6  m-0 justify-center">
                   <p className="text-xs ">
                     Second winner Name
                     <span className="text-red-500">*</span>{" "}
@@ -269,7 +269,7 @@ function AdminCompleteEvent({ id }: Params) {
                     type="text"
                     placeholder="Enter the second winner name"
                     defaultValue={data?.winners[1]?.second?.name}
-                    className="placeholder-gray-500 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
+                    className="placeholder-gray-500 pl-2 text-xs w-[80%] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
                     onChange={(e) => setSecondName(e.target.value)}
                     required
                   />
@@ -304,7 +304,7 @@ function AdminCompleteEvent({ id }: Params) {
                     required
                   />
                 </div>
-                <div className="w-[18rem] flex flex-col h-14  m-0 justify-center">
+                <div className="w-[100%] bg-transparent flex flex-col h-14 ps-6  m-0 justify-center">
                   <p className="text-xs ">
                     Third winner Name
                     <span className="text-red-500">*</span>{" "}
@@ -313,7 +313,7 @@ function AdminCompleteEvent({ id }: Params) {
                     type="text"
                     placeholder="Enter the third winner name"
                     defaultValue={data?.winners[2]?.third?.name}
-                    className="placeholder-gray-500 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
+                    className="placeholder-gray-500 pl-2 text-xs w-[80%] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
                     onChange={(e) => setThirdName(e.target.value)}
                     required
                   />

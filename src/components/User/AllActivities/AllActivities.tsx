@@ -1,4 +1,4 @@
-import React, { useEffect, useState, ChangeEvent } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ActiveEventCard from "./ActiveEventCard";
 import searchGif from "/gifs/search-not-found.gif";

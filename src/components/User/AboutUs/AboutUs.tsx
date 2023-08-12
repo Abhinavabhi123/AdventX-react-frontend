@@ -13,6 +13,7 @@ function AboutUs() {
     userCount:0
   });
   useEffect(() => {
+    window.scrollTo(0, 0);
     (async () => {
       await axios
         .get(`${import.meta.env.VITE_USER_API}about`)

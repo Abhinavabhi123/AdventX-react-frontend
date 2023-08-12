@@ -14,6 +14,7 @@ import JoinClub from "../JoinClub/JoinClub";
 import Footer from "../Footer/Footer";
 
 function CompletedEvent() {
+  window.scrollTo(0, 0);
   const { id } = useParams();
   const [data, setData] = useState({
     _id:'',

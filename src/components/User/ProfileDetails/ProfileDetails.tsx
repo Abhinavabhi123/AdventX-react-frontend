@@ -14,8 +14,6 @@ import EventDetails from "../EventDetails/EventDetails";
 function ProfileDetails() {
   const userId = useContext(UserIdContext);
   const prime = useSelector((state: any) => state.user.is_prime);
-  console.log(prime, "prime");
-
   const [data, setData] = useState({});
   useEffect(() => {
     (async () => {

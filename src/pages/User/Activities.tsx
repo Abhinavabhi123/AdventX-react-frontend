@@ -5,6 +5,7 @@ import AllActivities from "../../components/User/AllActivities/AllActivities";
 import Footer from "../../components/User/Footer/Footer";
 
 function Activities() {
+  window.scrollTo(0, 0);
   return (
     <div className=" w-[99vw] h-[100vh] bg-white">
       <div className=" w-full h-20">

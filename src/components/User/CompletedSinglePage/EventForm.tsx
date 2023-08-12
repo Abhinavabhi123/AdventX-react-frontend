@@ -14,7 +14,8 @@ interface User {
     vehicleId: string;
   };
   eventParticipation:[{
-    eventId:string
+    eventId:string;
+    confirmed:string;
   }]
 }
 
@@ -37,7 +38,8 @@ function EventForm({ amount, eventName, eventId }: Props) {
       vehicleId: "",
     },
     eventParticipation:[{
-      eventId:""}
+      eventId:"",
+    confirmed:""}
     ]
   });
   const [vehicleData, setVehicleData] = useState([
@@ -72,7 +74,7 @@ function EventForm({ amount, eventName, eventId }: Props) {
   useEffect(() => {
     if (userData && eventId) {
       for (const event of userData.eventParticipation) {
-        if (event.eventId === eventId) {
+        if (event.eventId === eventId && event.confirmed==="confirmed") {
           setShowBtn(false);
           break;
         }
