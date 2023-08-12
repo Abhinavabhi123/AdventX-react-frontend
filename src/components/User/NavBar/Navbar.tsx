@@ -93,7 +93,7 @@ function NavBar() {
           </div>
           {!cookie ? (
             <button
-              className="w-14 h-6 bg-gray-400 text-white rounded-full text-xs"
+              className="w-14 h-6 bg-gray-400 border border-red-400 text-white rounded-full text-xs"
               onClick={() => navigate("/userLogin")}
             >
               Login
