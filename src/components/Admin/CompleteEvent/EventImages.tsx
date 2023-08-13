@@ -7,17 +7,18 @@ import "./Event.css";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
 import Loader from "../../Loader/Loader";
 import imagess from "/icons/images.png";
-
-
+import EventAllImages from "./EventAllImages";
 
 interface Props {
   id: string | undefined;
   data: {
     images: string[];
   };
+  change:boolean;
+  setChange:(value: React.SetStateAction<boolean>)=>void
 }
 
-function EventImages({ id, data }: Props) {
+function EventImages({ id, data,change,setChange }: Props) {
   const limit = 9 - data?.images.length;
 
   const navigate = useNavigate();
@@ -79,30 +80,22 @@ function EventImages({ id, data }: Props) {
           console.log("success");
           setLoading(false);
           showSuccessToast(response?.data?.message);
+          setChange(!change)
+          setImage([])
         }
       });
     }
   };
   if (showImages) {
     return (
-      <div className="w-full h-full flex flex-col items-center justify-center">
-        <div className="w-[90%] h-[90%]  rounded-md">
-          <div className=" w-full h-20 flex justify-between ps-5 items-center rounded-md bg-white">
-            <p>All images</p>
-            <img
-              className="w-10 me-3 cursor-pointer transform transition-transform duration-200 hover:scale-110"
-              src={close}
-              alt="close"
-              onClick={() => setShowImages(!showImages)}
-            />
-          </div>
-          <div className="w-full h-[28rem] grid grid-cols-3 gap-4 rounded-b-md p-4">
-            {data?.images.map((item, i) => {
-              return <img key={i} className="w-96 h-32 transform transition-transform duration-200 hover:scale-110" src={item} alt="" />;
-            })}
-          </div>
-        </div>
-      </div>
+      <EventAllImages
+        data={data}
+        showImages={showImages}
+        setShowImages={setShowImages}
+        id={id}
+        change={change}
+        setChange={setChange}
+      />
     );
   }
 
@@ -137,66 +130,75 @@ function EventImages({ id, data }: Props) {
       </div>
       <div className="w-full h-[80%] mt-4 bg-transparent flex flex-col justify-center items-center">
         <div className="grid grid-cols-3 gap-4 w-[90%] h-[90%] ">
-          {limit>0?
-          images.map((item, i) => {
-            return (
-              <div
-                key={i}
-                className="w-[10.85rem] h-36 bg-white  rounded-md transform transition-transform duration-200 hover:scale-110"
-              >
-                <div className="w-full h-[20%]  flex justify-end">
-                  <button>
+          {limit > 0 ? (
+            images.map((item, i) => {
+              return (
+                <div
+                  key={i}
+                  className="w-[10.85rem] h-36 bg-white  rounded-md transform transition-transform duration-200 hover:scale-110"
+                >
+                  <div className="w-full h-[20%]  flex justify-end">
+                    <button>
+                      <img
+                        src={close}
+                        alt="close btn"
+                        className="w-6"
+                        onClick={() => removeIMage(i)}
+                      />
+                    </button>
+                  </div>
+                  <div className="w-full h-[80%] rounded-md">
                     <img
-                      src={close}
-                      alt="close btn"
-                      className="w-6"
-                      onClick={() => removeIMage(i)}
+                      src={URL.createObjectURL(item)}
+                      className="w-full h-full rounded-b-md"
+                      alt="images"
                     />
-                  </button>
+                  </div>
                 </div>
-                <div className="w-full h-[80%] rounded-md">
-                  <img
-                    src={URL.createObjectURL(item)}
-                    className="w-full h-full rounded-b-md"
-                    alt="images"
-                  />
-                </div>
-              </div>
-            );
-          }):(
+              );
+            })
+          ) : (
             <div className="w-[30rem] h-full flex flex-col justify-center items-center">
-             <img className="w-[60%] h-[60%] " src="/bg/Data extraction-bro.png" alt="empty" />
-             <p className="text-gray-500">Image are already added </p>
+              <img
+                className="w-[60%] h-[60%] "
+                src="/bg/Data extraction-bro.png"
+                alt="empty"
+              />
+              <p className="text-gray-500">Image are already added </p>
             </div>
           )}
         </div>
         <div className="w-full h-10 flex mt-3 justify-center items-center ">
-          <div className="w-56 h-fit flex justify-around items-center">
-            {loading ? (
-              <button className="w-20 h-8 bg-red-300 rounded-md">Clear </button>
-            ) : (
-              <button
-                className="w-20 h-8 bg-red-500 rounded-md"
-                onClick={clearImage}
-              >
-                Clear{" "}
-              </button>
-            )}
-            {!loading && (
-              <button
-                className="w-20 h-8 bg-green-500 rounded-md"
-                onClick={uploadImage}
-              >
-                Save
-              </button>
-            )}
-            {loading && (
-              <>
-                <p className="text-xs">Image saving</p>
-                <Loader />
-              </>
-            )}
-          </div>
+          {limit > 0 && (
+            <div className="w-56 h-fit flex justify-around items-center">
+              {loading ? (
+                <button className="w-20 h-8 bg-red-300 rounded-md">
+                  Clear{" "}
+                </button>
+              ) : (
+                <button
+                  className="w-20 h-8 bg-red-500 rounded-md"
+                  onClick={clearImage}
+                >
+                  Clear{" "}
+                </button>
+              )}
+              {!loading && (
+                <button
+                  className="w-20 h-8 bg-green-500 rounded-md"
+                  onClick={uploadImage}
+                >
+                  Save
+                </button>
+              )}
+              {loading && (
+                <>
+                  <p className="text-xs">Image saving</p>
+                  <Loader />
+                </>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </>

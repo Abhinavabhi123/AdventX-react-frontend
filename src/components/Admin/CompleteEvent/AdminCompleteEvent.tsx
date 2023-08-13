@@ -172,6 +172,8 @@ function AdminCompleteEvent({ id }: Params) {
   
   const changeWinner=()=>{
     console.log("Addding");
+    console.log(firstImage,secondImage,thirdImage,"imagesss");
+    
     
   }
 
@@ -350,7 +352,7 @@ function AdminCompleteEvent({ id }: Params) {
           </div>
         </div>
         <div className="w-[50%] h-full bg-transparent">
-          <EventImages id={id} data={data} />
+          <EventImages id={id} data={data} change={change} setChange={setChange}/>
         </div>
       </div>
     </div>
