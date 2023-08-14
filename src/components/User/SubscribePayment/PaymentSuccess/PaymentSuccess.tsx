@@ -38,10 +38,11 @@ function PaymentSuccess() {
         <NavBar />
       </div>
       <div className="w-screen h-full flex justify-center items-center">
-        <div className="w-[60%] h-[70%] shadow-md shadow-gray-600 border border-gray-300 rounded-md flex flex-col justify-center items-center">
-          <div>Success</div>
+        <div className="w-[60%] h-[70%] shadow-md shadow-gray-600 border border-gray-300 rounded-md flex flex-col justify-around items-center">
+          <img className="absolute w-96" src="/gifs/done gifs.gif" alt="gif" />
+          <div className="relative">Success</div>
           <div>
-            <button className="w-36 h-10 rounded-md bg-green-400">
+            <button className="w-36 h-10 rounded-md bg-green-400 relative" onClick={()=>navigate("/")}>
               Continue
             </button>
           </div>

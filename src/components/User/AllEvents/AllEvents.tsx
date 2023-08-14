@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React,{useEffect,useState} from 'react'
-// import { UserApi } from '../../../Store/api';
+import { useNavigate } from 'react-router-dom';
 import AllEventCard from './AllEventCard';
 import"../UpcomingEvents/Event.css"
 
@@ -9,6 +9,7 @@ interface Data {
   }
 
 function AllEvents() {
+  const navigate = useNavigate()
     const [data,setData]= useState<Data[]>([])
     useEffect(()=>{
         (async()=>{
@@ -38,6 +39,7 @@ function AllEvents() {
         <div
           className="tooltip w-8 h-8 rounded-full flex justify-center items-center cursor-pointer mb-5 bg-white"
           style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
+           onClick={() => navigate("/activities")}
         >
           <img className="w-4" src="/icons/right_arrow.png" alt="right arrow" />
           <span className="tooltiptext">See All</span>

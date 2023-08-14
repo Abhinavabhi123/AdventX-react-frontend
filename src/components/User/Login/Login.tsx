@@ -20,7 +20,7 @@ function Login() {
         toast.error("Please remove the space before the event name");
         return
       }
-      if (email[0] === "") {
+      if (email[0] === " ") {
         toast.error("Please remove the space before the event name");
         return;
       }

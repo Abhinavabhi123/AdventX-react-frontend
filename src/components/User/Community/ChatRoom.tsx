@@ -46,7 +46,6 @@ function ChatRoom({ commId, change }: Props) {
   const socket = io(import.meta.env.VITE_USER_DOMAIN);
   useEffect(() => {
     socket.emit("joinRoom", { commId, userId });
-
     socket.on("message", ({ message: msg }) => {
       const newMessage: ChatMessage = { userId, message: msg };
       setMessages((prevMessages: any) => [...prevMessages, newMessage]);
@@ -89,7 +88,7 @@ function ChatRoom({ commId, change }: Props) {
         }
       });
     })();
-  }, [changed, change]);
+  }, [changed, change,commId,userId]);
   const scrollToLastMessage = () => {
     if (lastMessageRef.current) {
       // lastMessageRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -115,9 +114,9 @@ function ChatRoom({ commId, change }: Props) {
         .then((response) => {
           if (response?.data?.status === 200) {
             const message = msg;
-            socket.emit("chatMessage", { commId, userId, message });
-            setMsg("");
+            socket.emit("chatMessage", { commId, userId, message })
             setChanged(!changed);
+            setMsg("");
             setEmojiOpen(false);
             scrollToLastMessage();
           }
@@ -152,8 +151,8 @@ function ChatRoom({ commId, change }: Props) {
             </div>
           </div>
         </div>
-        <div className="w-[98%] h-[43.4rem] rounded-b-md bg-opacity-10 bg-gradient-to-r from-indigo-500 via-purple-500 to-purple-500">
-          <div className="w-full h-[93%] pt-3  overflow-y-scroll over ">
+        <div className="w-[100%] h-[43.4rem] rounded-b-md  bg-lime-100">
+          <div className="w-[99%] h-[93%] pt-3  overflow-y-scroll over ">
             {/* chat messages */}
             {messages.map((message, i) => {
              

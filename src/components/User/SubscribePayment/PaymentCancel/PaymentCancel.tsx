@@ -10,9 +10,11 @@ function PaymentCancel() {
       <NavBar />
     </div>
     <div className="w-screen h-full flex justify-center items-center">
-      <div className="w-[60%] h-[70%] shadow-md shadow-gray-600 border border-gray-300 rounded-md flex flex-col justify-center items-center">
-        <div>Payment Cancelled</div>
-        <div>
+      <div className="w-[60%] h-[70%] bg-gray-200 bg-opacity-60 shadow-md shadow-gray-600 border border-gray-300 rounded-md flex flex-col justify-center items-center">
+
+        <img className='absolute w-96' src="/gifs/paymentcancel.gif" alt="" />
+        <div className='relative'>Payment Cancelled</div>
+        <div className='relative'>
           <button className="w-36 h-10 rounded-md bg-red-400"
           onClick={()=>navigate("/")}
           >

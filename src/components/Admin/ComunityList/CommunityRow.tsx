@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-// import { AdminApi, ImgApi } from "../../../Store/api";
+import {  useNavigate } from "react-router-dom";
+
 import Swal from 'sweetalert2';
-import axios from "axios";
+
 import AdminAxios from "../../../Store/Axios/AdminConfig";
 interface Values {
   value: any;

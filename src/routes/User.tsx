@@ -2,29 +2,26 @@ import React, { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+import Authentication from "../Middleware/AuthMiddleware";
+
 import Home from "../pages/User/Home";
 import UserLogin from "../pages/User/UserLoing";
 import UserSignup from "../pages/User/userSignup";
 import ForgetPass from "../pages/User/ForgetPass";
 import Subscription from "../pages/User/Subscription";
-
-import Authentication from "../Middleware/AuthMiddleware";
-
 import CheckOut from "../components/User/SubscribePayment/CheckOut";
 import PaymentSuccess from "../components/User/SubscribePayment/PaymentSuccess/PaymentSuccess";
 import UserProfile from "../pages/User/UserProfile";
-
 import Communities from "../pages/User/Communities";
 import UserChangeContext from "../Store/Context/UserChangecontext";
 import AddUserVehicle from "../pages/User/AddUserVehicle";
 import CompletedEvent from "../components/User/CompletedSinglePage/CompletedEvent";
-import Error404 from "../components/Error/Error404";
 import Activities from "../pages/User/Activities";
 import About from "../pages/User/About";
 import PaymentCancel from "../components/User/SubscribePayment/PaymentCancel/PaymentCancel";
-import { Router } from "express";
 import EventPaymentSuccess from "../components/User/EventPayment/EventPaymentSuccess";
 import EventPaymentCancel from "../components/User/EventPayment/EventPaymentCancel";
+import Error404 from "../components/Error/Error404";
 
 function User() {
   const userData = useSelector((state: any) => state.user.email);
@@ -70,7 +67,7 @@ function User() {
             <Route
               path="/communities"
               element={
-                isPrime ? <Communities /> : <Navigate to={"/subscribe"} />
+               !isPrime ?   <Navigate to={"/subscribe"}/>:<Communities />
               }
             />
             <Route path="/addVehicle" element={<AddUserVehicle />} />
