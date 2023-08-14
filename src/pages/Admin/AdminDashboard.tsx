@@ -1,18 +1,23 @@
-
-import SideBar from '../../components/Admin/AdminSideBar/SideBar'
-import TopBar from '../../components/Admin/AdminTopBar/TopBar'
+import CardList from "../../components/Admin/AdminDashboard/CardList";
+import SideBar from "../../components/Admin/AdminSideBar/SideBar";
+import TopBar from "../../components/Admin/AdminTopBar/TopBar";
 
 function AdminDashboard() {
   return (
-    <div className='fle flex-row w-[99vw] '>
+    <div className="flex w-[99vw] h-screen flex-row bg-transparent justify-between">
       <div>
-      <SideBar/>
+        <SideBar />
       </div>
-      <div className=''>
-      <TopBar value="Dashboard"/>
+      <div className=" w-[89rem]  h-full flex flex-col">
+        <div>
+          <TopBar value="Dashboard" />
+        </div>
+        <div className="w-full h-[80rem] bg-yellow-300">
+          <CardList/>
+        </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default AdminDashboard
+export default AdminDashboard;

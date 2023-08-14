@@ -7,7 +7,7 @@ import twitter from "/icons/twitter.png";
 import linkedIn from "/icons/linkedIn.png";
 
 function Footer() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <div className="">
       <main className="grid h-[30rem] place-items-center bg-[#E3E3E3] ">
@@ -19,14 +19,29 @@ function Footer() {
             <div className="w-56 h-full ms-4">
               <ul className=" ps-3 mt-8">
                 <li className="font-semibold mb-2">Explore</li>
-                <li className="text-sm cursor-pointer" onClick={()=>navigate("/activities")}>Event Details</li>
-                <li className="text-sm cursor-pointer" onClick={()=>navigate("/")}>Participate Event</li>
+                <li
+                  className="text-sm cursor-pointer"
+                  onClick={() => navigate("/activities")}
+                >
+                  Event Details
+                </li>
+                <li
+                  className="text-sm cursor-pointer"
+                  onClick={() => navigate("/")}
+                >
+                  Participate Event
+                </li>
               </ul>
             </div>
             <div className="w-56 h-full ms-4">
               <ul className=" ps-3 mt-8">
                 <li className="font-semibold mb-2">Company</li>
-                <li className="text-sm cursor-pointer" onClick={()=>navigate("/about")}>About</li>
+                <li
+                  className="text-sm cursor-pointer"
+                  onClick={() => navigate("/about")}
+                >
+                  About
+                </li>
               </ul>
             </div>
             <div className="w-56 h-full ms-4">
@@ -42,29 +57,47 @@ function Footer() {
                 <p className="font-semibold">Contact with us</p>
               </div>
               <div className="w-full h-[60%] flex justify-around items-center">
-                <img
-                  className="w-8 h-8 cursor-pointer"
-                  src={instagram}
-                  alt="instagram"
-                />
-
-                <img
-                  className="w-7 h-7 cursor-pointer"
-                  src={facebook}
-                  alt="facebook"
-                />
-                <a href="https://twitter.com/AdventXoffroad">
+                <a
+                  href="https://www.instagram.com/adventx.dev/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img
+                    className="w-8 h-8 cursor-pointer"
+                    src={instagram}
+                    alt="instagram"
+                  />
+                </a>
+                <a
+                  href="https://www.facebook.com/profile.php?id=61550295959161"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img
+                    className="w-7 h-7 cursor-pointer"
+                    src={facebook}
+                    alt="facebook"
+                  />
+                </a>
+                <a
+                  href="https://twitter.com/AdventXoffroad"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <img
                     className="w-10 h-10 cursor-pointer"
                     src={twitter}
                     alt="twitter"
                   />
                 </a>
+                <a href="https://www.linkedin.com/in/adventx-offroad-35758a288" target="_blank" rel="noopener noreferrer">
+
                 <img
                   className="w-8 h-8 cursor-pointer"
                   src={linkedIn}
                   alt="linkedIn"
-                />
+                  />
+                  </a>
               </div>
             </div>
           </div>

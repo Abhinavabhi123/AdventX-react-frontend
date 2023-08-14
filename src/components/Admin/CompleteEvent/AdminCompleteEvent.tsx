@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, useEffect } from "react";
+import { useState, ChangeEvent, useEffect,useRef } from "react";
 import { showErrorToast, showSuccessToast } from "../../ToastMessage/Toast";
 import { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +10,7 @@ interface Params {
 
 function AdminCompleteEvent({ id }: Params) {
   console.log(id);
-  
+
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState<string>("");
   const [secondName, setSecondName] = useState<string>("");
@@ -21,6 +21,9 @@ function AdminCompleteEvent({ id }: Params) {
   const [secondPreview, setSecondPreview] = useState<string>("");
   const [thirdImage, setThirdImage] = useState<File | string>("");
   const [thirdPreview, setThirdPreview] = useState<string>("");
+  const firstRef = useRef<HTMLInputElement>(null)
+  const secondRef = useRef<HTMLInputElement>(null)
+  const thirdRef = useRef<HTMLInputElement>(null)
   const [data, setData] = useState({
     images: [],
     winners: [
@@ -139,7 +142,25 @@ function AdminCompleteEvent({ id }: Params) {
   };
   const saveWinner = async () => {
     try {
+      console.log(firstImage,secondImage,thirdImage,"iamgedd");
+      
       console.log("submitting");
+      if(!firstImage&&!secondImage&&!thirdImage){
+        showErrorToast("Please select three image")
+        return
+      }
+      if(firstName.length===0||firstName.trim()===""||firstName[0]===" "){
+        showErrorToast("Please fill the first winner name correctly")
+        return;
+      }
+      if(secondName.length===0||secondName.trim()===""||secondName[0]===" "){
+        showErrorToast("Please fill the second winner name correctly")
+        return;
+      }
+      if(thirdName.length===0||thirdName.trim()===""||thirdName[0]===" "){
+        showErrorToast("Please fill the third winner name correctly")
+        return;
+      }
       const array: any[] = [];
       array.push(firstImage);
       array.push(secondImage);
@@ -149,6 +170,7 @@ function AdminCompleteEvent({ id }: Params) {
       for (const image of array) {
         formData.append("file", image);
       }
+      
       formData.append("firstName", firstName);
       formData.append("secondName", secondName);
       formData.append("thirdName", thirdName);
@@ -169,13 +191,64 @@ function AdminCompleteEvent({ id }: Params) {
       console.error(error);
     }
   };
-  
-  const changeWinner=()=>{
-    console.log("Addding");
-    console.log(firstImage,secondImage,thirdImage,"imagesss");
-    
-    
-  }
+
+  const changeWinner = async() => {
+    try {
+      console.log("Addding");
+      const formData = new FormData()
+      if (firstImage !== "") {
+        formData.append("first",firstImage)
+      }else{
+        formData.append('first', '')
+      }
+      if (secondImage !== "") {
+        formData.append("second",secondImage)
+      }
+      if (thirdImage !== "") {
+        formData.append("third",thirdImage)
+      }
+      if(firstRef===undefined||secondRef===undefined||thirdRef===undefined){
+        return
+      }
+      const firstName:string =firstRef?.current?.value??""
+      const secondName =secondRef?.current?.value??""
+      const thirdName =thirdRef?.current?.value??""
+      if(firstName.length===0||firstName.trim()===""||firstName[0]===" "){
+        showErrorToast("Please fill the first winner name correctly")
+        return;
+      }
+      if(secondName.length===0||secondName.trim()===""||secondName[0]===" "){
+        showErrorToast("Please fill the second winner name correctly")
+        return;
+      }
+      if(thirdName.length===0||thirdName.trim()===""||thirdName[0]===" "){
+        showErrorToast("Please fill the third winner name correctly")
+        return;
+      }
+      formData.append("firstName",firstName)
+      formData.append("secondName",secondName)
+      formData.append("thirdName",thirdName)
+      console.log( formData.get("first"),"first image");
+      console.log( formData.get("second"),"secondImage");
+      console.log( formData.get("third"),"thirdIMage");
+      
+      await AdminAxios.post(`editWinner/${id}`,formData,{headers:{
+        "Content-Type":"multipart/formData"
+      }}).then((response)=>{
+        console.log(response);
+        if(response?.data?.status===200){
+          console.log("done");
+          showSuccessToast(response?.data?.message)
+          setChange(!change);
+        }
+      }).catch((error)=>{
+        showErrorToast(error?.response?.data?.error)
+      })
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
 
   return (
     <div className="w-full h-full ">
@@ -224,6 +297,7 @@ function AdminCompleteEvent({ id }: Params) {
                 </p>
                 <input
                   type="text"
+                  ref={firstRef}
                   placeholder="Enter the first winner name"
                   defaultValue={data?.winners[0]?.first?.name}
                   className="placeholder-gray-500 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
@@ -244,9 +318,9 @@ function AdminCompleteEvent({ id }: Params) {
                       className="absolute w-[9rem] h-24 rounded-md"
                     />
                   ) : (
-                    data?.winners[1]?.second?.image && (
+                    data?.winners[0]?.second?.image && (
                       <img
-                        src={data?.winners[1]?.second?.image}
+                        src={data?.winners[0]?.second?.image}
                         alt="img1"
                         className="absolute w-[9rem] h-24 rounded-md"
                       />
@@ -269,8 +343,9 @@ function AdminCompleteEvent({ id }: Params) {
                   </p>
                   <input
                     type="text"
+                    ref={secondRef}
                     placeholder="Enter the second winner name"
-                    defaultValue={data?.winners[1]?.second?.name}
+                    defaultValue={data?.winners[0]?.second?.name}
                     className="placeholder-gray-500 pl-2 text-xs w-[80%] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
                     onChange={(e) => setSecondName(e.target.value)}
                     required
@@ -288,9 +363,9 @@ function AdminCompleteEvent({ id }: Params) {
                       className="absolute w-[9rem] h-24 rounded-md"
                     />
                   ) : (
-                    data?.winners[2]?.third?.image && (
+                    data?.winners[0]?.third?.image && (
                       <img
-                        src={data?.winners[2]?.third?.image}
+                        src={data?.winners[0]?.third?.image}
                         alt="img1"
                         className="absolute w-[9rem] h-24 rounded-md"
                       />
@@ -313,8 +388,9 @@ function AdminCompleteEvent({ id }: Params) {
                   </p>
                   <input
                     type="text"
+                    ref={thirdRef}
                     placeholder="Enter the third winner name"
-                    defaultValue={data?.winners[2]?.third?.name}
+                    defaultValue={data?.winners[0]?.third?.name}
                     className="placeholder-gray-500 pl-2 text-xs w-[80%] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
                     onChange={(e) => setThirdName(e.target.value)}
                     required
@@ -331,7 +407,7 @@ function AdminCompleteEvent({ id }: Params) {
               >
                 Cancel
               </button>
-              {data?.winners ? (
+              {data?.winners.length>0 ? (
                 <button
                   className="w-24 rounded-md bg-green-500 b-5"
                   onClick={changeWinner}
@@ -352,7 +428,12 @@ function AdminCompleteEvent({ id }: Params) {
           </div>
         </div>
         <div className="w-[50%] h-full bg-transparent">
-          <EventImages id={id} data={data} change={change} setChange={setChange}/>
+          <EventImages
+            id={id}
+            data={data}
+            change={change}
+            setChange={setChange}
+          />
         </div>
       </div>
     </div>

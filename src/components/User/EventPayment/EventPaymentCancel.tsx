@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import NavBar from '../NavBar/Navbar'
 import  cancelGif from "/gifs/paymentcancel.gif"
+import Footer from '../Footer/Footer'
 
 function EventPaymentCancel() {
   const navigate = useNavigate()
@@ -16,8 +17,8 @@ function EventPaymentCancel() {
           Back to Home Page
         </button>
       </div>
-
     </div>
+    <Footer/>
     </div>
   )
 }
