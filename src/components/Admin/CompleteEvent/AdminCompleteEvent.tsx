@@ -1,6 +1,6 @@
 import { useState, ChangeEvent, useEffect,useRef } from "react";
 import { showErrorToast, showSuccessToast } from "../../ToastMessage/Toast";
-import { Toaster } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
 import EventImages from "./EventImages";
@@ -116,6 +116,7 @@ function AdminCompleteEvent({ id }: Params) {
     }
   };
 
+
   const uploadThirdImage = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setThirdImage("");
@@ -174,11 +175,12 @@ function AdminCompleteEvent({ id }: Params) {
       formData.append("firstName", firstName);
       formData.append("secondName", secondName);
       formData.append("thirdName", thirdName);
-
+      toast.loading("Saving details");
       await AdminAxios.post(`/addWinners/${id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       })
         .then((response) => {
+          toast.dismiss();
           if (response?.data?.status === 200) {
             showSuccessToast(response?.data?.message);
             setChange(!change);
@@ -231,11 +233,12 @@ function AdminCompleteEvent({ id }: Params) {
       console.log( formData.get("first"),"first image");
       console.log( formData.get("second"),"secondImage");
       console.log( formData.get("third"),"thirdIMage");
-      
+      toast.loading("Saving details");
       await AdminAxios.post(`editWinner/${id}`,formData,{headers:{
         "Content-Type":"multipart/formData"
       }}).then((response)=>{
         console.log(response);
+        toast.dismiss();
         if(response?.data?.status===200){
           console.log("done");
           showSuccessToast(response?.data?.message)

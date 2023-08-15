@@ -164,7 +164,7 @@ function EventImages({ id, data,change,setChange }: Props) {
                 src="/bg/Data extraction-bro.png"
                 alt="empty"
               />
-              <p className="text-gray-500">Image are already added </p>
+              <p className="text-gray-500">Image are ed </p>
             </div>
           )}
         </div>

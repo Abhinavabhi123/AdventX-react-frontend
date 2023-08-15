@@ -5,7 +5,7 @@ import "./EventDetails.css";
 import { uploadImage } from "../../../Store/Firebase/Firebase";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
 import { showErrorToast } from "../../ToastMessage/Toast";
-import { Toaster } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 
 function EventDetails() {
   const navigate = useNavigate();
@@ -122,7 +122,7 @@ function EventDetails() {
           showErrorToast("Please select status");
           return;
         }
-        
+        toast.loading("Saving details");
         await uploadImage(image).then(async (data) => {
           // setImageUrl(data);
           console.log(data, "kitty");
@@ -155,6 +155,7 @@ function EventDetails() {
                   result.status === 200 &&
                   result.message === "Data stored successfully"
                 ) {
+                  toast.dismiss();
                   console.log("Event Created");
                   navigate("/admin/eventManagement");
                 }
@@ -163,7 +164,6 @@ function EventDetails() {
           }
         });
 
-        // });
       } else {
         showErrorToast("Please fill all the fields")
         console.error("error");
