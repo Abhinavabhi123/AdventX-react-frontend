@@ -12,7 +12,7 @@ function Accounts() {
       </div>
       <div className="community_topBar">
         <div className="">
-          <TopBar value={"Community"} />
+          <TopBar value={"Accounts"} />
         </div>
         <div className="w-full h-[70%] container">
           <Account/>

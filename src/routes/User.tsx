@@ -44,37 +44,41 @@ function User() {
           path="/userSignup"
           element={userData ? <Navigate to={"/"} /> : <UserSignup />}
         />
-        <Route path="/about" element={<About/>}/>
+        <Route path="/about" element={<About />} />
       </Routes>
       <Authentication CookieName="jwtToken" Type="user">
-        <UserChangeContext>
-          <Routes>
-            <Route
-              path="/subscribe"
-              element={!isPrime ? <Subscription /> : <Navigate to={"/"} />}
-            />
-            <Route path="/subscribe/payment" element={<CheckOut />} />
-            <Route
-              path="/subscribe/success"
-              element={isPrime ? <Navigate to={"/"} /> : <PaymentSuccess />}
-            />
-            <Route
-              path="/subscribe/cancel"
-              element={isPrime ? <Navigate to={"/"} /> : <PaymentCancel />}
-            />
-            <Route path="/profile" element={<UserProfile />} />
-            <Route path="/eventSinglePage/:id" element={<CompletedEvent />} />
-            <Route
-              path="/communities"
-              element={
-               !isPrime ?   <Navigate to={"/subscribe"}/>:<Communities />
-              }
-            />
-            <Route path="/addVehicle" element={<AddUserVehicle />} />
-            <Route path={"/eventPayment/success"} element={<EventPaymentSuccess/>}/>
-            <Route path={"/eventPayment/cancel"} element={<EventPaymentCancel/>}/>
-          </Routes>
-        </UserChangeContext>
+        <Routes>
+          <Route
+            path="/subscribe"
+            element={!isPrime ? <Subscription /> : <Navigate to={"/"} />}
+          />
+          <Route path="/subscribe/payment" element={<CheckOut />} />
+          <Route
+            path="/subscribe/success"
+            element={isPrime ? <Navigate to={"/"} /> : <PaymentSuccess />}
+          />
+          <Route
+            path="/subscribe/cancel"
+            element={isPrime ? <Navigate to={"/"} /> : <PaymentCancel />}
+          />
+          <Route path="/profile" element={<UserProfile />} />
+          <Route path="/eventSinglePage/:id" element={<CompletedEvent />} />
+          <Route
+            path="/communities"
+            element={
+              !isPrime ? <Navigate to={"/subscribe"} /> : <Communities />
+            }
+          />
+          <Route path="/addVehicle" element={<AddUserVehicle />} />
+          <Route
+            path={"/eventPayment/success"}
+            element={<EventPaymentSuccess />}
+          />
+          <Route
+            path={"/eventPayment/cancel"}
+            element={<EventPaymentCancel />}
+          />
+        </Routes>
       </Authentication>
       {/* <Routes>
             <Route path="/*" element={<Error404/>}/>

@@ -203,7 +203,7 @@ function ChatRoom({ commId, change }: Props) {
                 <div>
                   <input
                     type="text"
-                    className="w-[34rem] h-10 ps-3 text-sm"
+                    className="w-[100%] h-10 ps-3 text-sm"
                     value={msg}
                     placeholder="Text here"
                     onChange={(e) => {

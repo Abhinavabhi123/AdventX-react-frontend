@@ -3,9 +3,35 @@ import AdminAxios from "../../../../Store/Axios/AdminConfig";
 import { showErrorToast } from "../../../ToastMessage/Toast";
 import { Toaster } from "react-hot-toast";
 import UserRow from "./UserRow";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Pie } from "react-chartjs-2";
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 function DashboardUsers() {
-  const [data, setData] = useState([]);
+  const data = {
+    labels: ["Users", "Prime", "Events", "Communities"],
+    datasets: [
+      {
+        label: "Data", 
+        data: [12, 19, 3, 5], 
+        backgroundColor: [
+          "rgb(255, 0, 55,0.7)",
+          "rgb(23, 148, 232,0.7)",
+          "rgb(255, 183, 0,0.8)",
+          "rgb(51, 204, 51)",
+        ],
+        borderColor: [
+          "rgb(0, 0, 0, 0.5)",
+          "rgb(0, 0, 0, 0.5)",
+          "rgb(0, 0, 0, 0.5)",
+          "rgb(0, 0, 0, 0.5)",
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+  
+  const [datas, setData] = useState([]);
   useEffect(() => {
     (async () => {
       await AdminAxios.get("primeMembers")
@@ -21,8 +47,8 @@ function DashboardUsers() {
   }, []);
   return (
     <div className="w-full h-[30rem] bg-transparent flex mb-10">
-      <div className="w-[40%] h-full bg-green-500 flex justify-center items-center">
-        data chart
+      <div className="w-[40%] h-full  flex justify-center items-center">
+      <Pie data={data} />
       </div>
       <div className="w-[60%] h-full bg-transparent  flex flex-col justify-center items-center">
         <div className="w-[80%] h-10 bg-blue-400 flex items-center ps-4">
@@ -39,8 +65,8 @@ function DashboardUsers() {
                 </tr>
               </thead>
               <tbody className="">
-                {data.map((item, i) => {
-                  return <UserRow key={i} i={i} data={item} />
+                {datas.map((item, i) => {
+                  return <UserRow key={i} i={i} data={item} />;
                 })}
               </tbody>
             </table>

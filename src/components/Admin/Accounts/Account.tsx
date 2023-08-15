@@ -6,9 +6,29 @@ import Event from "/icons/events.png";
 import Prime from "/icons/crown.png";
 import Members from "/icons/users.png";
 import EventTable from "./EventDetails/EventTable";
+import {
+  Chart as ChartJS,
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Radar } from 'react-chartjs-2';
+
+ChartJS.register(
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend
+);
+
 
 function Account() {
-  const [data, setData] = useState({
+  const [datas, setData] = useState({
     subAmount: 0,
     eventAmount: 0,
   });
@@ -17,13 +37,25 @@ function Account() {
     {
       image: Money,
       text: "Total Profit",
-      amount: data?.subAmount + data?.eventAmount,
+      amount: datas?.subAmount + datas?.eventAmount,
     },
-    { image: Event, text: "From Event", amount: data?.eventAmount },
-    { image: Prime, text: "Subscription", amount: data?.subAmount },
-    { image: Members, text: "Members", amount: data?.subAmount/2000 },
+    { image: Event, text: "From Event", amount: datas?.eventAmount },
+    { image: Prime, text: "Subscription", amount: datas?.subAmount },
+    { image: Members, text: "Members", amount: datas?.subAmount/2000 },
   ];
 
+   const data = {
+    labels: ['Total Profit', ' Event', 'Subscription'],
+    datasets: [
+      {
+        label: '# Values',
+        data: [  datas?.subAmount + datas?.eventAmount, datas?.eventAmount,  datas?.subAmount,""],
+        backgroundColor: 'rgb(26, 26, 255)',
+        borderColor: 'rgb(26, 26, 255)',
+        borderWidth: 1,
+      },
+    ],
+  };
   useEffect(() => {
     (async () => {
       await AdminAxios.get("accounts")
@@ -52,8 +84,8 @@ function Account() {
           <p>Subscription Amount : 2000/-</p>
         </div>
         <div className="w-full h-full  flex items-center ">
-          <div className="w-1/2 h-full flex justify-center items-center bg-blue-300">
-            <p>For chart</p>
+          <div className="w-1/2 h-full flex justify-center items-center ">
+            <Radar data={data} />
           </div>
           <div className="w-[0.1%] h-[80%] ms-1 bg-gray-400">
 

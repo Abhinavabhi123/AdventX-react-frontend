@@ -4,12 +4,14 @@ import App from "./App.tsx";
 import "./index.css";
 import { Provider } from "react-redux";
 import store from "./Store/redux/Store.ts";
-
+import UserChangeContext from "./Store/Context/UserChangecontext.tsx";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   // <React.StrictMode>
   <Provider store={store}>
-    <App />
+    <UserChangeContext>
+      <App />
+    </UserChangeContext>
   </Provider>
   // </React.StrictMode>
 );

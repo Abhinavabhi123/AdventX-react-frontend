@@ -7,7 +7,7 @@ interface ValueType {
 
 const ChangeContext = createContext<ValueType>({
   userChanges: false,
-  // ! dont remove the commented code  in this page it will cause type error
+  // ! don't remove the commented code  in this page it will cause type error
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setUserChanges: () => {} 
 });

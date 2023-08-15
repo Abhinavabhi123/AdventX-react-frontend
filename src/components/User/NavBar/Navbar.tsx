@@ -1,4 +1,4 @@
-import React, { useState, useEffect, } from "react";
+import React, { useState, useEffect,useContext } from "react";
 
 import "./NavBar.css";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,7 @@ import Cookies from "js-cookie";
 
 
 import UserAxios from "../../../Store/Axios/UserConfig";
+import UserChangeContext from "../../../Store/Context/UserChangecontext";
 
 function NavBar() {
   const [open, setOpen] = useState(false);

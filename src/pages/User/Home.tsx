@@ -5,6 +5,7 @@ import UpcomingEvent from "../../components/User/UpcomingEvents/UpcomingEvent";
 import AllEvents from "../../components/User/AllEvents/AllEvents";
 
 function Home() {
+  window.scrollTo(0, 0);
   return (
     <div className=" w-[100%] h-[100vh]">
       <div className=" w-full h-20 ">

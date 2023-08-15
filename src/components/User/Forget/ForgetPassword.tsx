@@ -76,6 +76,10 @@ function ForgetPassword() {
   };
   const changePass =async()=>{
     try {
+      if(password.length<6){
+        showErrorToast("Please enter at least 6 characters for password")
+        return
+      }
       if(password === confPassword){
         await axios.post(`${import.meta.env.VITE_USER_API}changePass`,{checkEmail,password}).then((response)=>{
           console.log(response);

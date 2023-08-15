@@ -16,6 +16,7 @@ interface TopBarProps {
     | "Banners"
     |"Add Banner"
     |"Complete Event"
+    |"Accounts"
 }
 
 function TopBar(props: TopBarProps) {
