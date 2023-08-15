@@ -32,7 +32,7 @@ function EventCard({event}:Props) {
             <p className='text-sm'>Amount Paid: {event?.fee}</p>
             <p className='text-sm'>Date: {event?.date}</p>
         </div>
-        <div className='w-[33.2%] h-full bg-red-500'></div>
+        {/* <div className='w-[33.2%] h-full bg-red-500'></div> */}
         </div>
     </div>
   )

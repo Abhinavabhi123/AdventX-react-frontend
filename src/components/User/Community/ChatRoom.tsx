@@ -130,7 +130,7 @@ function ChatRoom({ commId, change }: Props) {
   return (
     <div className="h-[97%] w-[97%] bg-gray-200 border bg-opacity-50 border-violet-500 rounded-md border-dashed flex ">
       <div className=" w-[60%] h-full bg-white rounded-t-md flex flex-col items-center">
-        <div className="w-full h-[4rem] border-b border-gray-400 bg-[#c4b5fd] rounded-t-md flex justify-between items-center pe-5 ps-5">
+        <div className="w-full h-[4rem]  border-b border-gray-400 bg-[#c4b5fd] rounded-t-md flex justify-between items-center pe-5 ps-5">
           <div>
             <p className=" text-xl">{communityData?.communityName}</p>
           </div>

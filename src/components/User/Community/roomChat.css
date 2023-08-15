@@ -5,14 +5,14 @@
 .charMessage {
   width: fit-content;
   max-width: 10rem;
-  background-color: rgb(163, 163, 163);
+  background-color: rgb(167, 159, 159);
   overflow: hidden;
   border-radius: 10%;
   height: fit-content;
   padding: 5px 15px 5px 15px;
 }
 .You {
-  margin:10px 10px 20px 0px;
+  margin:10px 10px 3.5rem 0px;
   display: flex;
   justify-content: end;
 }
@@ -21,5 +21,5 @@
   text-align: end;
 }
 .other{
-   margin:0px 10px 20px 10px;
+   margin:10px 10px 3.5rem 10px;
 }

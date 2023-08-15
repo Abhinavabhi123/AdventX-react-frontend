@@ -21,8 +21,9 @@ function Error404() {
           </div>
         </div>
       </main> */}
-      <img className='w-screen h-screen absolute' src="/icons/image_processing20190818-32750-8v6g4s.gif" alt="error" />
-      <p className='text-white'>hello</p>
+      <img className='w-[99vw] h-screen absolute' src="/icons/image_processing20190818-32750-8v6g4s.gif" alt="error" />
+     
+      <p className='text-white relative'>hello</p>
       </div>
   )
 }

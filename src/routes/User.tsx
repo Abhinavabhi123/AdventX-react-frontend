@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate  } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import Authentication from "../Middleware/AuthMiddleware";
@@ -79,10 +79,10 @@ function User() {
             element={<EventPaymentCancel />}
           />
         </Routes>
+      <Routes>
+            {/* <Route path="/*" element={<Error404/>}/> */}
+      </Routes>
       </Authentication>
-      {/* <Routes>
-            <Route path="/*" element={<Error404/>}/>
-      </Routes> */}
     </div>
   );
 }

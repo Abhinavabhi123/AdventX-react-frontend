@@ -20,6 +20,7 @@ import AddBanner from "../pages/Admin/AddBanner";
 import EditBanner from "../pages/Admin/EditBanner";
 import Accounts from "../pages/Admin/Accounts";
 import CompleteEvent from "../pages/Admin/CompleteEvent";
+import Error404 from "../components/Error/Error404";
 
 
 interface Admin {
@@ -59,6 +60,7 @@ function Admin() {
           <Route path="/editEvent/:id" element={<EditEvents/>}/>
           <Route path="/completeEvent/:id" element={<CompleteEvent/>} />
           <Route  path="/accounts" element={<Accounts/>}/>
+          <Route path="/*" element={<Error404/>}/>
         </Routes>
       </Authentication>
     </div>
