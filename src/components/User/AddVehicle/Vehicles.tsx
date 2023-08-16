@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import UserAxios from "../../../Store/Axios/UserConfig";
 import VehicleCard from "./VehicleCard";
+import { useNavigate } from "react-router-dom";
+import { showErrorToast } from "../../ToastMessage/Toast";
 
 interface Vehicle {
   _id: string;
@@ -15,6 +17,7 @@ interface Vehicle {
 }
 
 function Vehicles() {
+  const navigate = useNavigate();
   const id = useSelector((state: any) => state.user._id);
   const [vehicles, setVehicles] = useState<Vehicle[]>([
     {
@@ -31,11 +34,20 @@ function Vehicles() {
   useEffect(() => {
     if (id) {
       (async () => {
-        await UserAxios.get(`/getAllVehicles/${id}`).then((response) => {
-          if (response?.data?.status === 200) {
-            setVehicles(response?.data?.vehicleData);
-          }
-        });
+        await UserAxios.get(`/getAllVehicles/${id}`)
+          .then((response) => {
+            if (response?.data?.status === 200) {
+              setVehicles(response?.data?.vehicleData);
+            }
+          })
+          .catch((error) => {
+            if (error?.response?.data?.status !== 500) {
+              showErrorToast(error?.response?.data?.error);
+            } else {
+              console.error(error);
+              navigate("/error500");
+            }
+          });
       })();
     }
   }, [id]);

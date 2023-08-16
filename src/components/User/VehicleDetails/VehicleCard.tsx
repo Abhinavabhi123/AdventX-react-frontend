@@ -1,6 +1,8 @@
 import React,{Dispatch,SetStateAction} from "react";
 import UserAxios from "../../../Store/Axios/UserConfig";
-import { response } from "express";
+import { useNavigate } from "react-router-dom";
+import { showErrorToast } from "../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
 
 interface Vehicle {
   vehicle: any;
@@ -9,12 +11,18 @@ interface Vehicle {
 }
 
 function VehicleCard({ vehicle,setChanged,changed }: Vehicle) {
-
+const navigate = useNavigate()
   const deleteVehicle=async()=>{
     
     await UserAxios.delete(`/deleteVehicle/${vehicle._id}`).then((response)=>{
       if(response?.data?.status===200){
         changed?setChanged(false):setChanged(true)
+      }
+    }).catch((error)=>{
+      if(error?.response?.data.status!==500){
+        showErrorToast("Something error in the delete vehicle")
+      }else{
+        navigate("/error500")
       }
     })
     
@@ -51,6 +59,7 @@ function VehicleCard({ vehicle,setChanged,changed }: Vehicle) {
             <img src='/icons/delete1.png' className="w-5" alt="vehicle image" onClick={deleteVehicle}/>
         </button>
       </div>
+      <Toaster/>
     </div>
   );
 }

@@ -2,8 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ActiveEventCard from "./ActiveEventCard";
 import searchGif from "/gifs/search-not-found.gif";
+import { useNavigate } from "react-router-dom";
+import { showErrorToast } from "../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
 
 function AllActivities() {
+  const navigate = useNavigate();
   const [eventData, setEventData] = useState([
     {
       _id: "",
@@ -31,13 +35,21 @@ function AllActivities() {
             setEventData(response?.data?.eventData);
             setSearchedData(response?.data?.eventData);
           }
+        })
+        .catch((error) => {
+          if (error?.response?.data?.status !== 500) {
+            showErrorToast(error?.response?.data?.error);
+          } else {
+            console.error(error);
+            navigate("/error500");
+          }
         });
     })();
   }, []);
   const submitSearch = () => {
-   const input = document.getElementById("searchInput")as HTMLInputElement
-    input.value=""
-  setEventData(searchedData)
+    const input = document.getElementById("searchInput") as HTMLInputElement;
+    input.value = "";
+    setEventData(searchedData);
   };
 
   function searchData(e: React.ChangeEvent<HTMLInputElement>) {
@@ -69,12 +81,12 @@ function AllActivities() {
               searchData(e);
             }}
           />
-          <button type="reset" className="w-7 h-7 bg-slate-300 rounded-full flex justify-center items-center hover:rotate-90 transition-transform duration-300" onClick={submitSearch}>
-            <img
-              src="/icons/closeBtn.png"
-              alt="arrow"
-              className="w-4"
-            />
+          <button
+            type="reset"
+            className="w-7 h-7 bg-slate-300 rounded-full flex justify-center items-center hover:rotate-90 transition-transform duration-300"
+            onClick={submitSearch}
+          >
+            <img src="/icons/closeBtn.png" alt="arrow" className="w-4" />
           </button>
         </div>
         {/* </div> */}
@@ -92,6 +104,7 @@ function AllActivities() {
           </div>
         )}
       </div>
+      <Toaster/>
     </div>
   );
 }

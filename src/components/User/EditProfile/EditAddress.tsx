@@ -1,7 +1,7 @@
-import axios from "axios";
-import React, { useRef, useEffect, useContext, useState, Dispatch, SetStateAction } from "react";
+import React, { useRef, useEffect, useContext, useState } from "react";
 import UserIdContext from "../../../Store/Context/UserContext";
 import UserAxios from "../../../Store/Axios/UserConfig";
+import { useNavigate } from "react-router-dom";
 import { showErrorToast, showSuccessToast } from "../../ToastMessage/Toast";
 import { Toaster } from "react-hot-toast";
 
@@ -16,7 +16,7 @@ interface Data{
 
 function EditAddress() {
     const userId = useContext(UserIdContext);
-    
+    const navigate =useNavigate()
     const [changed,setChanged]=useState<boolean>(false)
     const [data,setData]=useState<Data>({
         area:"",
@@ -34,6 +34,9 @@ function EditAddress() {
                 if(response?.data?.status===200){
                     setData(response?.data?.userData?.address)
                 }
+            }) .catch((error)=>{
+              console.error(error);
+              navigate("/error500")
             })
         }
         })()
@@ -148,7 +151,11 @@ function EditAddress() {
                 showSuccessToast(response?.data?.message)
               }
             }).catch((error)=>{
-              showErrorToast(error?.response?.data?.error)
+              if(error?.response?.data?.status===500){
+                navigate("/error500")
+              }else{
+                showErrorToast(error?.response?.data?.error)
+              }
             })
         } else {
           showErrorToast("Please fill all the field")

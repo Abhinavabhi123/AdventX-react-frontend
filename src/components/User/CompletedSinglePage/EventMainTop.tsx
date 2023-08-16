@@ -1,30 +1,33 @@
 import axios from "axios";
+import { response } from "express";
 import React, { useEffect, useState } from "react";
-// import { UserApi } from "../../../Store/api";
+import { useNavigate } from "react-router-dom";
+import { showErrorToast } from "../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
 
 interface EventMainTopProps {
   id: string | undefined;
 }
-interface Event{
-    subName:string;
-    location:string;
-    date:string;
-    eventType:string;
-    description:string;
-    eventName:string;
-    primaryImage:string;
+interface Event {
+  subName: string;
+  location: string;
+  date: string;
+  eventType: string;
+  description: string;
+  eventName: string;
+  primaryImage: string;
 }
 
 function EventMainTop({ id }: EventMainTopProps) {
-   
+  const navigate = useNavigate();
   const [eventData, setEventData] = useState<Event>({
-    subName:"",
-    location:"",
-    date:"",
-    eventType:"",
-    description:"",
-    eventName:"",
-    primaryImage:""
+    subName: "",
+    location: "",
+    date: "",
+    eventType: "",
+    description: "",
+    eventName: "",
+    primaryImage: "",
   });
   useEffect(() => {
     (async () => {
@@ -37,19 +40,21 @@ function EventMainTop({ id }: EventMainTopProps) {
             withCredentials: true,
           })
           .then((response) => {
-
             if (response?.data?.status === 200) {
               setEventData(response?.data?.eventData);
             }
           })
-          .catch((err) => {
-            console.error(err);
+          .catch((error) => {
+            console.error(error);
+            if (error?.response?.data?.status !== 500) {
+              showErrorToast(error?.response?.data?.error);
+            } else {
+              navigate("/error500");
+            }
           });
       }
     })();
   }, [id]);
-  
-  
 
   return (
     <div className="w-full h-[27rem]  pb-5 bg-white">
@@ -82,6 +87,7 @@ function EventMainTop({ id }: EventMainTopProps) {
             </div>
           </div>
         </div>
+        <Toaster/>
       </div>
     </div>
   );

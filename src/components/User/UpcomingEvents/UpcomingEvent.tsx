@@ -3,6 +3,8 @@ import "./Event.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import EventCard from "./EventCard";
+import { showErrorToast } from "../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
 
 interface Data {
   _id: string;
@@ -16,7 +18,13 @@ function UpcomingEvent() {
         .get(`${import.meta.env.VITE_USER_API}getAllUpEvents`)
         .then((response) => {
           setData(response?.data.eventData);
-        });
+        }).catch((error)=>{
+          if(error?.response?.data?.status!==500){
+            showErrorToast("something wrong in this page")
+          }else{
+            navigate("/error500")
+          }
+        })
     })();
   }, []);
   return (
@@ -45,6 +53,7 @@ function UpcomingEvent() {
           </div>
         </div>
       </div>
+      <Toaster/>
     </div>
   );
 }

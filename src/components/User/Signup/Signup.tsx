@@ -4,8 +4,8 @@ import axios from "axios";
 // import { UserApi } from "../../../Store/api";
 import OTP from "../OTP/OTP";
 import UserEmailContext from "../../../Store/Context/Context";
-import { showErrorToast } from "../../ToastMessage/Toast";
-import { Toaster } from "react-hot-toast";
+import { showErrorToast, showSuccessToast, styledToast } from "../../ToastMessage/Toast";
+import { Toaster, toast } from "react-hot-toast";
 type userDataType = {
   fName: string;
   lName: string;
@@ -115,14 +115,18 @@ function Signup() {
         showErrorToast("Password is not matching to the confirm password ")
         return
       }
-      
+      toast.loading("Please wait")
       await axios.post(`${import.meta.env.VITE_USER_API}sendOpt`, { email }).then((response) => {
+        toast.dismiss()
         if (response.data.message) {
+          styledToast("OTP is sended to your email")
           setShowOtp(true);
         }
       }).catch((error)=>{
-        if(error?.response?.data?.status!==200){
+        if(error?.response?.data?.status!==500){
           showErrorToast(error?.response?.data?.error)
+        }else{
+          navigate("/error500")
         }
       })
     } catch (error) {

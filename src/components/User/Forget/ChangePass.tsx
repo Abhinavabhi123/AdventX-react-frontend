@@ -23,8 +23,13 @@ function ChangePass(props:Value) {
 
         try {
            await axios.post(`${import.meta.env.VITE_USER_API}changePass`,{confMail,password}).then((response)=>{ 
-            navigate("/userLogin")
-           })
+            if(response?.data?.status===200){
+              navigate("/userLogin")
+            }
+           }) .catch((error)=>{
+            console.error(error);
+            navigate("/error500")
+          })
            
         } catch (error) {
             console.error(error);

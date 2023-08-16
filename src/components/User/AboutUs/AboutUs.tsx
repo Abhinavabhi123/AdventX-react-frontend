@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 interface Data{
     communityCount: number,
     eventCount:number,
@@ -7,6 +8,7 @@ interface Data{
 }
 
 function AboutUs() {
+  const navigate =useNavigate()
   const [data, setData] = useState<Data>({
     communityCount:0,
     eventCount:0,
@@ -21,7 +23,11 @@ function AboutUs() {
           if (response?.data?.status === 200) {
             setData(response?.data?.data);
           }
-        });
+        }).catch((error)=>{
+          console.error(error);
+          navigate("/error500")
+        })
+
     })();
   }, []);
 

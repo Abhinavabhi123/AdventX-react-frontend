@@ -49,6 +49,10 @@ const  Authentication = ({
           navigate("/")
           return
         }
+        if(location.pathname ==="/error500"){
+          navigate("/error500")
+          return
+        }
         if(location.pathname ==="/forgetPass" && userData._id ===""){
           navigate("/forgetPass")
           return

@@ -5,10 +5,9 @@ import { useSelector } from "react-redux";
 import { showErrorToast } from "../../ToastMessage/Toast";
 import { Toaster } from "react-hot-toast";
 
-
 function AddVehicle() {
   const navigate = useNavigate();
-  const _id = useSelector((state:any)=>state.user._id)
+  const _id = useSelector((state: any) => state.user._id);
   const [vNumber, setVNumber] = useState<string>("");
   const [vType, setVType] = useState<string>("");
   const [fuelType, setFuelType] = useState<string>("");
@@ -21,7 +20,6 @@ function AddVehicle() {
   const [imgUrl3, setImgUrl3] = useState<string>("");
   const [error, setError] = useState("");
   const [openError, setErrorOpen] = useState<boolean>(false);
-
 
   const uploadImage = (e: ChangeEvent<HTMLInputElement>, i: number) => {
     if (e.target.files && e.target.files[0] && i >= 0) {
@@ -70,126 +68,134 @@ function AddVehicle() {
     }
   };
 
-
-
-  const submitData =async () => {
+  const submitData = async () => {
     try {
-
       const symbols = /[!"#$%&'()*+,./:;<=>?@[\\\]^`{|}~]/;
-      if(vNumber.length<=0){
-        showErrorToast('Please enter the vehicle name')
-        return
+      if (vNumber.length <= 0) {
+        showErrorToast("Please enter the vehicle name");
+        return;
       }
-      if(vNumber[0]===" "){
-        showErrorToast('Please remove the space before vehicle number')
-        return
+      if (vNumber[0] === " ") {
+        showErrorToast("Please remove the space before vehicle number");
+        return;
       }
-      if(vNumber.trim()===""){
-        showErrorToast('Please remove the space before vehicle number')
-        return
+      if (vNumber.trim() === "") {
+        showErrorToast("Please remove the space before vehicle number");
+        return;
       }
-      if(symbols.test(vNumber)){
-        showErrorToast('Please remove the symbol in vehicle number')
-        return
+      if (symbols.test(vNumber)) {
+        showErrorToast("Please remove the symbol in vehicle number");
+        return;
       }
-      // 
+      //
       const allSymbols = /[-!"#$%&'()*+,./:;<=>?@[\\\]^_`{|}~]/;
-      if(vType.length<=0){
-        showErrorToast('Please enter the vehicle type')
-        return
+      if (vType.length <= 0) {
+        showErrorToast("Please enter the vehicle type");
+        return;
       }
-      if(vType[0]===" "){
-        showErrorToast('Please remove the space before vehicle type')
-        return
+      if (vType[0] === " ") {
+        showErrorToast("Please remove the space before vehicle type");
+        return;
       }
-      if(vType.trim()===""){
-        showErrorToast('Please remove the space before vehicle type')
-        return
+      if (vType.trim() === "") {
+        showErrorToast("Please remove the space before vehicle type");
+        return;
       }
-      if(allSymbols.test(vType)){
-        showErrorToast('Please remove the symbol in vehicle type')
-        return
+      if (allSymbols.test(vType)) {
+        showErrorToast("Please remove the symbol in vehicle type");
+        return;
       }
-      // 
-      if(fuelType.length<=0){
-        showErrorToast('Please enter the fuel type')
-        return
+      //
+      if (fuelType.length <= 0) {
+        showErrorToast("Please enter the fuel type");
+        return;
       }
-      if(fuelType[0]===" "){
-        showErrorToast('Please remove the space before fuel type')
-        return
+      if (fuelType[0] === " ") {
+        showErrorToast("Please remove the space before fuel type");
+        return;
       }
-      if(fuelType.trim()===""){
-      showErrorToast('Please remove the space before fuel type')
-        return
+      if (fuelType.trim() === "") {
+        showErrorToast("Please remove the space before fuel type");
+        return;
       }
-      if(symbols.test(fuelType)){
-        showErrorToast('Please remove the symbol in fuel type')
-        return
+      if (symbols.test(fuelType)) {
+        showErrorToast("Please remove the symbol in fuel type");
+        return;
       }
-      // 
-      if(vName.length<=0){
-        showErrorToast('Please enter the vehicle name')
-        return
+      //
+      if (vName.length <= 0) {
+        showErrorToast("Please enter the vehicle name");
+        return;
       }
-      if(vName[0]===" "){
-        showErrorToast('Please remove the space before vehicle name')
-        return
+      if (vName[0] === " ") {
+        showErrorToast("Please remove the space before vehicle name");
+        return;
       }
-      if(vName.trim()===""){
-        showErrorToast('Please remove the space before vehicle name')
-        return
+      if (vName.trim() === "") {
+        showErrorToast("Please remove the space before vehicle name");
+        return;
       }
-      if(symbols.test(vName)){
-        showErrorToast('Please remove the symbol in vehicle name')
-        return
+      if (symbols.test(vName)) {
+        showErrorToast("Please remove the symbol in vehicle name");
+        return;
       }
-      
-      // 
-      if(vWheels<=0){
-        showErrorToast('Please enter the wheel count')
-        return
-      }
-      // 
-      
-      if(vOwner.length<=1){
-        showErrorToast('Please enter the vehicle owner name')
-        return
-      }
-      if(vOwner[0]===" "){
-        showErrorToast('Please remove the space before vehicle owner name')
-        return
-      }
-      if(vOwner.trim()===""){
-        showErrorToast('Please remove the space before vehicle owner name')
-        return
-      }
-      if(symbols.test(vOwner)){
-        showErrorToast('Please remove the symbol in vehicle owner name')
-        return
-      }
-      if(image.length!==3){
-        showErrorToast('Please select 3 images')
-        return
-      }
-      const formData = new FormData()
-      formData.append('id',_id);
-      formData.append('vNumber', vNumber);
-      formData.append('vType', vType);
-      formData.append('fuelType', fuelType);
-      formData.append('vName', vName);
-      formData.append('vWheels', String(vWheels));
-      formData.append('vOwner', vOwner);
-      for (const img of image) {
-        formData.append('image', img);
-      }
-   
-      await UserAxios.post("/addVehicle",formData,{headers:{"Content-Type":"multipart/form-data"},withCredentials:true}).then((response)=>{
-        if(response?.data?.status===200){
-          navigate('/profile')
-        }
-      })
 
+      //
+      if (vWheels <= 0) {
+        showErrorToast("Please enter the wheel count");
+        return;
+      }
+      //
+
+      if (vOwner.length <= 1) {
+        showErrorToast("Please enter the vehicle owner name");
+        return;
+      }
+      if (vOwner[0] === " ") {
+        showErrorToast("Please remove the space before vehicle owner name");
+        return;
+      }
+      if (vOwner.trim() === "") {
+        showErrorToast("Please remove the space before vehicle owner name");
+        return;
+      }
+      if (symbols.test(vOwner)) {
+        showErrorToast("Please remove the symbol in vehicle owner name");
+        return;
+      }
+      if (image.length !== 3) {
+        showErrorToast("Please select 3 images");
+        return;
+      }
+      const formData = new FormData();
+      formData.append("id", _id);
+      formData.append("vNumber", vNumber);
+      formData.append("vType", vType);
+      formData.append("fuelType", fuelType);
+      formData.append("vName", vName);
+      formData.append("vWheels", String(vWheels));
+      formData.append("vOwner", vOwner);
+      for (const img of image) {
+        formData.append("image", img);
+      }
+
+      await UserAxios.post("/addVehicle", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+        withCredentials: true,
+      })
+        .then((response) => {
+          if (response?.data?.status === 200) {
+            navigate("/profile");
+          }
+        })
+        .catch((error) => {
+          if (error?.response?.data?.status !== 500) {
+            showErrorToast(error?.response?.data?.error)
+          } else {
+            console.error(error);
+            navigate("/error500");
+          }
+        });
     } catch (error) {
       console.error(error);
     }
@@ -389,16 +395,12 @@ function AddVehicle() {
               </div>
             </div>
             <div className="w-full h-[30%] bg-transparent flex justify-center">
-              {
-                openError&&(
-                  <p className="text-red-500 text-sm">{error}</p>
-                )
-              }
+              {openError && <p className="text-red-500 text-sm">{error}</p>}
             </div>
           </div>
-          <Toaster/>
+          <Toaster />
         </div>
-      </div>
+      T</div>
     </div>
   );
 }

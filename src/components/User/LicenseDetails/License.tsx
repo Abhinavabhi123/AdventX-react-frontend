@@ -1,9 +1,12 @@
 import React, { useState, useRef, ChangeEvent, useEffect } from "react";
 import UserAxios from "../../../Store/Axios/UserConfig";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { showErrorToast } from "../../ToastMessage/Toast";
 
 
 function License() {
+  const navigate =useNavigate()
   const userId: string = useSelector((state: any) => state?.user?._id);
   const [openEdit, setOpenEdit] = useState<boolean>(false);
   const [image, setImage] = useState<File>();
@@ -25,7 +28,10 @@ function License() {
               setUserData(response?.data?.userData?.license);
             }
           }
-        );
+        ) .catch((error)=>{
+          console.error(error);
+          navigate("/error500")
+        })
       }
     })();
   }, [changed, userId]);
@@ -44,13 +50,16 @@ function License() {
       const lExpiry = expiry?.current?.value;
       
       if (lNumber === undefined || expiry === undefined) {
+        showErrorToast("something wrong here")
         return;
       }
 
       if (lNumber.length < 10 && lNumber?.length > 18) {
+        showErrorToast("Please enter the license number correctly")
         return;
       }
       if (!image) {
+        showErrorToast("Please select the image")
         return;
       }
       const Number: string = lNumber.toUpperCase();
@@ -69,7 +78,9 @@ function License() {
             setOpenEdit(false)
             changed ? setChange(false) : setChange(true);
           }
-        });
+        }).catch((error)=>{
+          showErrorToast(error?.response?.data?.error)
+        })
       
       }else{  
 
@@ -88,7 +99,9 @@ function License() {
             setOpenEdit(false)
             changed ? setChange(false) : setChange(true);
           }
-        });
+        }).catch((error)=>{
+          showErrorToast(error?.response?.data?.error)
+        })
       }
       
     } catch (error) {

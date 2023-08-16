@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import UserAxios from "../../../Store/Axios/UserConfig";
+import { showErrorToast } from "../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
 
 interface User {
   firstName: string;
@@ -13,10 +15,12 @@ interface User {
   vehicles: {
     vehicleId: string;
   };
-  eventParticipation:[{
-    eventId:string;
-    confirmed:string;
-  }]
+  eventParticipation: [
+    {
+      eventId: string;
+      confirmed: string;
+    }
+  ];
 }
 
 interface Props {
@@ -37,36 +41,52 @@ function EventForm({ amount, eventName, eventId }: Props) {
     vehicles: {
       vehicleId: "",
     },
-    eventParticipation:[{
-      eventId:"",
-    confirmed:""}
-    ]
+    eventParticipation: [
+      {
+        eventId: "",
+        confirmed: "",
+      },
+    ],
   });
   const [vehicleData, setVehicleData] = useState([
     {
       vehicleName: "",
       vehicleNumber: "",
-      _id:""
+      _id: "",
     },
   ]);
   const vehicleRef = useRef<HTMLSelectElement>(null);
   const licenseRef = useRef<HTMLSelectElement>(null);
-  const [showBtn,setShowBtn]=useState<boolean>(true);
+  const [showBtn, setShowBtn] = useState<boolean>(true);
   const userId: string = useSelector((state: any) => state?.user?._id);
   const isPrime = useSelector((state: any) => state.user.is_prime);
   useEffect(() => {
     (async () => {
       if (userId) {
-        await UserAxios.get(`/getUserProfile/${userId}`).then((response) => {
-          if (response?.data?.status === 200) {
-            setUserData(response?.data?.userData);
-          }
-        });
-        await UserAxios.get(`/getAllVehicles/${userId}`).then((response) => {
-          if (response?.data?.status === 200) {
-            setVehicleData(response?.data?.vehicleData);
-          }
-        });
+        await UserAxios.get(`/getUserProfile/${userId}`)
+          .then((response) => {
+            if (response?.data?.status === 200) {
+              setUserData(response?.data?.userData);
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+            navigate("/error500");
+          });
+        await UserAxios.get(`/getAllVehicles/${userId}`)
+          .then((response) => {
+            if (response?.data?.status === 200) {
+              setVehicleData(response?.data?.vehicleData);
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+            if (error?.response?.data?.status !== 500) {
+              showErrorToast(error?.response?.data?.message);
+            } else {
+              navigate("/error500");
+            }
+          });
       }
     })();
   }, [userId]);
@@ -74,14 +94,13 @@ function EventForm({ amount, eventName, eventId }: Props) {
   useEffect(() => {
     if (userData && eventId) {
       for (const event of userData.eventParticipation) {
-        if (event.eventId === eventId && event.confirmed==="confirmed") {
+        if (event.eventId === eventId && event.confirmed === "confirmed") {
           setShowBtn(false);
           break;
         }
       }
     }
   }, [userData, eventId]);
-  
 
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -101,14 +120,18 @@ function EventForm({ amount, eventName, eventId }: Props) {
         vehicle,
       })
         .then((response) => {
-
           if (response?.data?.url) {
             const url = response?.data?.url;
             window.location = url;
           }
         })
         .catch((error) => {
-          console.error(error);
+          if (error?.response?.data?.status !== 500) {
+            showErrorToast(error?.response?.data?.error);
+          } else {
+            console.error(error);
+            navigate("/error500");
+          }
         });
     } catch (error) {
       console.error(error);
@@ -224,40 +247,36 @@ function EventForm({ amount, eventName, eventId }: Props) {
               </div>
             </div>
             <div className="w-full h-[20%] flex flex-col items-end pe-5">
-              {
-                showBtn?(
-                  
-              <div className="w-52 h-6  flex justify-between">
-                <button
-                  type="reset"
-                  className="w-20 h-6 bg-red-400 rounded-md"
-                  onClick={() => navigate("/")}
-                >
-                  Cancel
-                </button>
-                {isPrime ? (
+              {showBtn ? (
+                <div className="w-52 h-6  flex justify-between">
                   <button
-                    type="submit"
-                    className="w-28 h-6 bg-green-500 rounded-md"
+                    type="reset"
+                    className="w-20 h-6 bg-red-400 rounded-md"
+                    onClick={() => navigate("/")}
                   >
-                    Pay & Submit
+                    Cancel
                   </button>
-                ) : (
-                  <button
-                    className="w-28 h-6 bg-green-500 rounded-md"
-                    onClick={() => navigate("/subscribe")}
-                  >
-                    Subscribe
-                  </button>
-                )}
-              </div>
-              
-              ):(
+                  {isPrime ? (
+                    <button
+                      type="submit"
+                      className="w-28 h-6 bg-green-500 rounded-md"
+                    >
+                      Pay & Submit
+                    </button>
+                  ) : (
+                    <button
+                      className="w-28 h-6 bg-green-500 rounded-md"
+                      onClick={() => navigate("/subscribe")}
+                    >
+                      Subscribe
+                    </button>
+                  )}
+                </div>
+              ) : (
                 <div className="w-52 h-8 rounded-md flex justify-center items-center bg-opacity-50 bg-green-400">
                   <p className="text-green-900">successfully participated</p>
                 </div>
-              )
-            }
+              )}
               {isPrime !== true && (
                 <p className="text-xs text-yellow-500 hover:text-red-500 cursor-default mt-2">
                   Get the membership and you can add license and vehicle details{" "}
@@ -266,6 +285,7 @@ function EventForm({ amount, eventName, eventId }: Props) {
             </div>
           </form>
         </div>
+        <Toaster />
       </div>
     </div>
   );

@@ -2,8 +2,10 @@ import React, { useEffect, useState, useRef } from "react";
 import UserAxios from "../../../Store/Axios/UserConfig";
 import io, { Socket } from "socket.io-client";
 import Picker, { EmojiClickData } from "emoji-picker-react";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "./roomChat.css";
+import { showErrorToast } from "../../ToastMessage/Toast";
 
 interface Props {
   commId: string | number;
@@ -19,6 +21,7 @@ interface ChatMessage {
 }
 
 function ChatRoom({ commId, change }: Props) {
+  const navigate = useNavigate();
   const userId = useSelector((state: any) => state.user._id);
   const [communityData, setCommunityData] = useState<Community>({
     communityName: "",
@@ -50,7 +53,7 @@ function ChatRoom({ commId, change }: Props) {
       const newMessage: ChatMessage = { userId, message: msg };
       setMessages((prevMessages: any) => [...prevMessages, newMessage]);
     });
-        
+
     return () => {
       socket.disconnect();
     };
@@ -64,9 +67,15 @@ function ChatRoom({ commId, change }: Props) {
             setCommunityData(response?.data?.communityData);
           }
         })
-        .catch((err) => {
-          console.error(err);
+        .catch((error) => {
+          if (error?.response?.data?.status !== 500) {
+            showErrorToast(error?.response?.data?.error);
+          } else {
+            console.error(error);
+            navigate("/error500");
+          }
         });
+
       await UserAxios.get("/communityUsers", { params: { commId } })
         .then((response) => {
           if (response?.data?.status === 200) {
@@ -74,7 +83,12 @@ function ChatRoom({ commId, change }: Props) {
           }
         })
         .catch((err) => {
-          console.error(err);
+          if(err?.response?.data?.status!==500){
+            showErrorToast(err?.response?.data?.error)
+          }else{
+            navigate("/error500")
+            console.error(err);
+          }
         });
     })();
   }, [commId]);
@@ -88,7 +102,7 @@ function ChatRoom({ commId, change }: Props) {
         }
       });
     })();
-  }, [changed, change,commId,userId]);
+  }, [changed, change, commId, userId]);
   const scrollToLastMessage = () => {
     if (lastMessageRef.current) {
       // lastMessageRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -114,7 +128,7 @@ function ChatRoom({ commId, change }: Props) {
         .then((response) => {
           if (response?.data?.status === 200) {
             const message = msg;
-            socket.emit("chatMessage", { commId, userId, message })
+            socket.emit("chatMessage", { commId, userId, message });
             setChanged(!changed);
             setMsg("");
             setEmojiOpen(false);
@@ -155,18 +169,19 @@ function ChatRoom({ commId, change }: Props) {
           <div className="w-[99%] h-[93%] pt-3  overflow-y-scroll over ">
             {/* chat messages */}
             {messages.map((message, i) => {
-             
               const isLastMessage = i === messages.length - 1;
-              
+
               return (
                 <div
-                  
                   key={i}
                   className={`w-full h-12 ${
                     message?.userId === userId ? "You" : "other"
                   }`}
                 >
-                  <div className={`charMessage`} ref={isLastMessage ? lastMessageRef : null}>
+                  <div
+                    className={`charMessage`}
+                    ref={isLastMessage ? lastMessageRef : null}
+                  >
                     <p className="text-[10px] italic">
                       {message?.userId === userId ? "You" : message?.userName}
                     </p>

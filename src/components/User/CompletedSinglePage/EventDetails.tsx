@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-// import { UserApi } from "../../../Store/api";
+import { useNavigate } from "react-router-dom";
+import { showErrorToast } from "../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
 
 interface Props {
   id: string | undefined;
@@ -13,6 +15,7 @@ interface Event {
 }
 
 function EventDetails({ id }: Props) {
+  const navigate = useNavigate();
   const [eventData, setEventData] = useState<Event>({
     firstPrice: 0,
     secondPrice: 0,
@@ -30,13 +33,17 @@ function EventDetails({ id }: Props) {
             withCredentials: true,
           })
           .then((response) => {
-
             if (response?.data?.status === 200) {
               setEventData(response?.data?.eventData);
             }
           })
-          .catch((err) => {
-            console.error(err);
+          .catch((error) => {
+            console.error(error);
+            if (error?.response?.data?.status !== 500) {
+              showErrorToast(error?.response?.data?.error);
+            } else {
+              navigate("/error500");
+            }
           });
       }
     })();
@@ -59,6 +66,7 @@ function EventDetails({ id }: Props) {
           Participation Fee:- {eventData?.fee}
         </div>
       </div>
+      <Toaster/>
     </div>
   );
 }

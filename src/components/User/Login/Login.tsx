@@ -42,7 +42,6 @@ function Login() {
           { withCredentials: true }
         )
         .then((response) => {
-
           const result = response?.data;
           if (result.message === "Access granted" && result.status === 200) {
             Cookies.set("jwtToken", result.jwtToken);
@@ -51,9 +50,11 @@ function Login() {
           }
          
         }).catch((error)=>{
-          if(error?.response?.data?.status!==200){
+          if(error?.response?.data?.status!==500){
             toast.error(error?.response?.data?.error)
             return
+          }else{
+            navigate("/error500")
           }
         })
     } catch (error){

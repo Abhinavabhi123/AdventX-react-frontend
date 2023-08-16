@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-// import { UserApi } from "../../../Store/api";
+import { useNavigate } from "react-router-dom";
+import { showErrorToast } from "../../ToastMessage/Toast";
 interface Banner {
   _id: string;
   image: string;
@@ -11,6 +12,7 @@ interface Banner {
 }
 
 function Banner() {
+  const navigate = useNavigate();
   const [bannerData, setBannerData] = useState<Banner[]>([
     {
       _id: "",
@@ -30,10 +32,18 @@ function Banner() {
           if (response?.data?.status === 200) {
             setBannerData(response?.data?.bannerData);
           }
+        })
+        .catch((error) => {
+          if (error?.response?.data?.status !== 500) {
+            showErrorToast(error?.response?.data?.error);
+          } else {
+            console.error(error);
+            navigate("/error500");
+          }
         });
     })();
-  }, [])
-  
+  }, []);
+
   const id = Math.floor(Math.random() * bannerData.length);
 
   return (
@@ -48,7 +58,9 @@ function Banner() {
           <p className="text-[2.5rem] ms-5 font-semibold text-white relative">
             {bannerData[id].title}
           </p>
-          <p className="text-2xl font-serif text-white ">{bannerData[id].subTitle}</p>
+          <p className="text-2xl font-serif text-white ">
+            {bannerData[id].subTitle}
+          </p>
         </div>
       </div>
     </div>

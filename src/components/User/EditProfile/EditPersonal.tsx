@@ -3,9 +3,10 @@ import UserIdContext from "../../../Store/Context/UserContext";
 import UserAxios from "../../../Store/Axios/UserConfig";
 import { showErrorToast, showSuccessToast } from "../../ToastMessage/Toast";
 import { Toaster } from "react-hot-toast";
-
+import { useNavigate } from "react-router-dom";
 
 function EditPersonal() {
+  const navigate =useNavigate()
   const userId = useContext(UserIdContext);
   const firstNameRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
@@ -31,7 +32,10 @@ function EditPersonal() {
           .get(`getUserProfile/${userId?.id}`)
           .then((response) => {
             setData(response?.data?.userData);
-          });
+          }) .catch((error)=>{
+            console.error(error);
+            navigate("/error500")
+          })
       })();
     }
   }, [userId,changed]);
@@ -135,7 +139,11 @@ function EditPersonal() {
               showSuccessToast(response?.data?.message)
             }
           }).catch((error)=>{
-            showErrorToast(error?.response?.data?.error)
+            if(error?.response?.data?.status===500){
+              navigate("/error500")
+            }else{
+              showErrorToast(error?.response?.data?.error)
+            }
           })
       }
     } catch (error) {

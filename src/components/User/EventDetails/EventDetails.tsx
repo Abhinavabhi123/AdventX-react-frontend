@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import UserAxios from "../../../Store/Axios/UserConfig";
 import { useSelector } from "react-redux";
 import EventCard from "./EventCard";
+import { useNavigate } from "react-router-dom";
 
 interface Data {
   _id: string;
@@ -15,6 +16,7 @@ interface Data {
 }
 
 function EventDetails() {
+  const navigate =useNavigate()
   const userId: string = useSelector((state: any) => state?.user?._id);
   const [data, setData] = useState<Data[]>([
     {
@@ -37,9 +39,10 @@ function EventDetails() {
               setData(response?.data?.eventList);
             }
           })
-          .catch((error) => {
+          .catch((error)=>{
             console.error(error);
-          });
+            navigate("/error500")
+          })
       })();
     }
   }, [userId]);

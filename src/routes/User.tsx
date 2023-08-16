@@ -21,6 +21,7 @@ import PaymentCancel from "../components/User/SubscribePayment/PaymentCancel/Pay
 import EventPaymentSuccess from "../components/User/EventPayment/EventPaymentSuccess";
 import EventPaymentCancel from "../components/User/EventPayment/EventPaymentCancel";
 import Error404 from "../components/Error/Error404";
+import Error500 from "../components/Error/Error500";
 
 function User() {
   const userData = useSelector((state: any) => state.user.email);
@@ -80,6 +81,7 @@ function User() {
         </Routes>
       <Routes>
             {/* <Route path="/*" element={<Error404/>}/> */}
+            <Route path="/error500"  element={<Error500 />}/>
       </Routes>
       </Authentication>
     </div>

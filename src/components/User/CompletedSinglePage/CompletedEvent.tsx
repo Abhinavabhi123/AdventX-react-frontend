@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import NavBar from "../NavBar/Navbar";
 import HomeBtn from "../Button/HomeBtn";
@@ -12,15 +12,18 @@ import WinnerDetails from "./WinnerDetails";
 import EventImages from "./EventImages";
 import JoinClub from "../JoinClub/JoinClub";
 import Footer from "../Footer/Footer";
+import { showErrorToast } from "../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
 
 function CompletedEvent() {
+  const navigate = useNavigate();
   window.scrollTo(0, 0);
   const { id } = useParams();
   const [data, setData] = useState({
-    _id:'',
-    is_completed:false,
-    about:"",
-    fee:0,
+    _id: "",
+    is_completed: false,
+    about: "",
+    fee: 0,
     winners: [
       {
         first: {
@@ -37,8 +40,8 @@ function CompletedEvent() {
         },
       },
     ],
-    images:[],
-    eventName:''
+    images: [],
+    eventName: "",
   });
 
   useEffect(() => {
@@ -56,14 +59,17 @@ function CompletedEvent() {
               setData(response?.data?.eventData);
             }
           })
-          .catch((err) => {
-            console.error(err);
+          .catch((error) => {
+            if (error?.response?.data?.status !== 500) {
+              showErrorToast(error?.response?.data?.error);
+            } else {
+              console.error(error);
+              navigate("/error500");
+            }
           });
       })();
     }
   }, [id]);
-
-
 
   return (
     <div className="w-[99vw] h-[100vh] bg-white">
@@ -77,20 +83,24 @@ function CompletedEvent() {
         <EventMainTop id={id} />
         {data?.is_completed ? (
           <>
-          <WinnerDetails winners={data?.winners}/>
-          <EventImages images={data?.images} about={data?.about}/>
+            <WinnerDetails winners={data?.winners} />
+            <EventImages images={data?.images} about={data?.about} />
           </>
-          
         ) : (
           <>
             <EventDetails id={id} />
-            <EventForm amount={data?.fee} eventName={data?.eventName} eventId={data?._id}/>
+            <EventForm
+              amount={data?.fee}
+              eventName={data?.eventName}
+              eventId={data?._id}
+            />
             <Rules />
           </>
         )}
-        <JoinClub/>
-        <Footer/>
+        <JoinClub />
+        <Footer />
       </div>
+      <Toaster/>
     </div>
   );
 }

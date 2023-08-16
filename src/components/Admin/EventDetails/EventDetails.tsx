@@ -157,11 +157,13 @@ function EventDetails() {
               });
             }, 1500);
           }
-        });
+        }).catch((error)=>{
+          console.error(error);
+          navigate("/admin/error500")
+        })
 
       } else {
         showErrorToast("Please fill all the fields")
-        console.error("error");
       }
     } catch (error) {
       console.error(error);

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { showErrorToast } from "../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
 
 interface Props {
   value: { _id: string };
@@ -37,7 +39,13 @@ function EventCard({ value }: Props) {
         })
         .then((response) => {
           setData(response?.data?.data);
-        });
+        }).catch((error)=>{
+          if(error?.response?.data?.status!==500){
+            showErrorToast("something wrong")
+          }else{
+            navigate("/error500")
+          }
+        })
     })();
   }, []);
 
@@ -70,6 +78,7 @@ function EventCard({ value }: Props) {
             <p className=" text-xs overflow-hidden ml-1">Date:- {data?.date}</p>
           </div>
         </div>
+        <Toaster/>
       </div>
     </div>
   );

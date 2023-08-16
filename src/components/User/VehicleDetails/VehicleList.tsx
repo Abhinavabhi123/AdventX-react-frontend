@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import UserAxios from "../../../Store/Axios/UserConfig";
 import { useSelector } from "react-redux";
 import VehicleCard from "./VehicleCard";
+import { showErrorToast } from "../../ToastMessage/Toast";
 
 function VehicleList() {
   const navigate = useNavigate();
@@ -20,7 +21,13 @@ function VehicleList() {
         if (response?.data?.status === 200) {
           setVehicles(response?.data?.vehicleData);
         }
-      });
+      }).catch((error)=>{
+        if(error?.response?.data?.status!==500){
+          showErrorToast("Error while getting the vehicles")
+        }else{
+          navigate("/error500")
+        }
+      })
     })();
   }, [id,changed]);
   

@@ -9,6 +9,7 @@ import Cookies from "js-cookie";
 
 import UserAxios from "../../../Store/Axios/UserConfig";
 import UserChangeContext from "../../../Store/Context/UserChangecontext";
+import { showErrorToast } from "../../ToastMessage/Toast";
 
 function NavBar() {
   const [open, setOpen] = useState(false);
@@ -32,7 +33,13 @@ function NavBar() {
           if (response?.data?.status === 200) {
             setUserImage(response?.data?.userData?.image);
           }
-        });
+        }).catch((error)=>{
+          if(error?.response?.data?.status!==500){
+            showErrorToast("Profile is not available")
+          }else{
+            navigate("/error500")
+          }
+        })
       }
     })();
   }, [userId]);

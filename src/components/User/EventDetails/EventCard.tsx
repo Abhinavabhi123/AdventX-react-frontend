@@ -19,8 +19,6 @@ function EventCard({event}:Props) {
   return (
     <div className='w-full h-32  mt-2 flex justify-center' onClick={()=>navigate(`/eventSinglePage/${event?._id}`)}>
         <div className='w-[95%] border shadow-lg h-[95%] flex'>
-
-       
         <div className='w-[33.2%] h-full flex items-center justify-center'>
             <img className='h-[90%] rounded-md' src={event?.primaryImage} alt="" />
         </div>

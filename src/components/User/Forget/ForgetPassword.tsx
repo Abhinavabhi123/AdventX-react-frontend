@@ -23,7 +23,6 @@ function ForgetPassword() {
   const [confPassword,setConfPassword]=useState('')
   const [checkEmail, setCheckEmail] = useState("");
   useEffect(()=>{
-
     const inputElement = document.getElementById('password1') as HTMLInputElement
 
   if (inputElement) {
@@ -63,9 +62,13 @@ function ForgetPassword() {
           setOpen(true);
         }
       }).catch ((error)=> {
-        toast.dismiss();
-        showErrorToast(error?.response?.data?.error)
-        setOtpSend(false)
+        if(error?.response?.data?.status===500){
+          navigate("/error500")
+        }else{
+          toast.dismiss();
+          showErrorToast(error?.response?.data?.error)
+          setOtpSend(false)
+        }
        })
     }
     catch(error){
@@ -89,8 +92,12 @@ function ForgetPassword() {
           setOpt("")
         }
       }).catch((error)=>{
-        toast.dismiss();
-        showErrorToast(error?.response?.data?.error)
+        if(error?.response?.data?.status===500){
+          navigate("/error500")
+        }else{
+          toast.dismiss();
+          showErrorToast(error?.response?.data?.error)
+        }
       })
     } catch (error) {
       console.error(error);
@@ -107,7 +114,12 @@ function ForgetPassword() {
           if(response.data.message === "Password Changed"){
             navigate("/userLogin")
           }
-          
+        }).catch((error)=>{
+          if(error?.response?.data?.status===500){
+            navigate("/error500")
+          }else{
+            showErrorToast(error?.response?.data?.error)
+          }
         })
       }else{
         showErrorToast("Password is not matching to confirm password")

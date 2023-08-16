@@ -8,6 +8,7 @@ import UserIdContext from "../../../Store/Context/UserContext";
 import ProfileDetails from "../ProfileDetails/ProfileDetails";
 import { userActions } from "../../../Store/redux/UserAuth";
 import UserAxios from "../../../Store/Axios/UserConfig";
+import { showErrorToast } from "../../ToastMessage/Toast";
 
 interface User {
   firstName: string;
@@ -97,7 +98,13 @@ function Profile() {
             imgChange ? setImgChange(false) : setImgChange(true);
             setImgOpen(false);
           }
-        });
+        }).catch((error)=>{
+          if(error?.response?.data?.status!==500){
+            showErrorToast("Something wrong")
+          }else{
+            navigate("/error500")
+          }
+        })
     } catch (error) {
       console.error(error);
     }
