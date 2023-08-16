@@ -92,8 +92,6 @@ function CreateCommunity() {
       console.error(error);
     }
   }, []);
-  console.log(cName, status, cMembers, image);
-
   const submitCommunity = async () => {
     try {
       if (!image) {
@@ -163,7 +161,6 @@ function CreateCommunity() {
           }
         )
         .then((response) => {
-          console.log(response, "response Here");
           navigate("/admin/community");
         });
       

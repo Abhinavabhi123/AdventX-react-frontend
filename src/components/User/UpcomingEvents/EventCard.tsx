@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import { UserApi } from "../../../Store/api";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -37,7 +36,6 @@ function EventCard({ value }: Props) {
           },
         })
         .then((response) => {
-          console.log(response);
           setData(response?.data?.data);
         });
     })();

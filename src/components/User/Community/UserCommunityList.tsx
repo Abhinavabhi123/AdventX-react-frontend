@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useSelector } from "react-redux";
-// import io from 'socket.io-client';
 import UserAxios from "../../../Store/Axios/UserConfig";
 
 import ChatRoom from "./ChatRoom";
@@ -33,22 +32,12 @@ function UserCommunityList() {
         });
         await UserAxios.get(`/userCommunities/${id}`).then((response) => {
           if (response?.data?.status === 200) {
-            console.log(response, "opopopo");
-
             setCommunities(response?.data?.array);
           }
         });
       }
     })();
   }, [id]);
-
-  // useEffect(()=>{
-  //   const socket = io(import.meta.env.VITE_USER_DOMAIN);
-  //   socket.on("connection",()=>{
-  //     console.log("connected to the server");
-  //   })
-    
-  // },[])
 
   return (
     <div className="flex w-full h-full">

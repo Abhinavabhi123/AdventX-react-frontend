@@ -11,12 +11,9 @@ interface Vehicle {
 function VehicleCard({ vehicle,setChanged,changed }: Vehicle) {
 
   const deleteVehicle=async()=>{
-    console.log("deleting vehicle");
-    console.log(vehicle._id);
     
     await UserAxios.delete(`/deleteVehicle/${vehicle._id}`).then((response)=>{
       if(response?.data?.status===200){
-        console.log("deleted");
         changed?setChanged(false):setChanged(true)
       }
     })

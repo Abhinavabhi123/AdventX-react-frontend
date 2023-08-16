@@ -8,7 +8,6 @@ import AdminAxios from "../../../Store/Axios/AdminConfig";
 function EditBanner() {
   const navigate = useNavigate();
   const { id } = useParams();
-  console.log(id);
   const [bannerData, setBannerData] = useState({
     status: "",
     title: "",
@@ -17,8 +16,6 @@ function EditBanner() {
   });
   const [image, setImage] = useState<File | string>();
   const [previewUrl, setPreviewUrl] = useState("");
-  //   const [title, setTitle] = useState<string>("");
-  //   const [subTitle, setSubTitle] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [openError, setErrorOpen] = useState<boolean>(false);
   const [succOpen, setSuccOpen] = useState<boolean>(false);
@@ -31,19 +28,17 @@ function EditBanner() {
     (async () => {
       await AdminAxios.get("getBanner", { params: { id } })
         .then((response) => {
-          console.log(response);
           if (response?.data?.status === 200) {
             setBannerData(response?.data?.bannerData);
           }
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     })();
   }, []);
 
   const addImage = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log("add Image");
     setImage("");
     setPreviewUrl("");
     if (event.target.files && event.target.files[0]) {
@@ -83,12 +78,6 @@ function EditBanner() {
   const saveData = async () => {
     try {
       const symbols = /[-!"#$%&'()*+,./:;<=>?@[\\\]^_`{|}~]/;
-      console.log(
-        titleRef?.current?.value,
-        subTitleRef.current?.value,
-        statusRef?.current?.value,
-        image
-      );
       const title = titleRef?.current?.value;
       const subTitle = subTitleRef?.current?.value;
       const status = statusRef?.current?.value;
@@ -175,16 +164,15 @@ function EditBanner() {
         }
       )
         .then((response) => {
-          console.log(response);
           if(response?.data?.status===200){
             navigate("/admin/bannerManagement")
           }
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   return (

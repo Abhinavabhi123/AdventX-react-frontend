@@ -70,7 +70,7 @@ function EventForm({ amount, eventName, eventId }: Props) {
       }
     })();
   }, [userId]);
-  console.log(userData,"lolilili");
+
   useEffect(() => {
     if (userData && eventId) {
       for (const event of userData.eventParticipation) {
@@ -101,14 +101,14 @@ function EventForm({ amount, eventName, eventId }: Props) {
         vehicle,
       })
         .then((response) => {
-          console.log(response);
+
           if (response?.data?.url) {
             const url = response?.data?.url;
             window.location = url;
           }
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     } catch (error) {
       console.error(error);

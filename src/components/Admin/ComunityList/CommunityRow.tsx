@@ -11,7 +11,6 @@ interface Values {
   deleted:boolean
 }
 const CommunityRow = (props: Values) => {
-  console.log(props, "values");
 
   const navigate = useNavigate();
   const [open, setOpen] = useState(true);
@@ -58,7 +57,6 @@ const CommunityRow = (props: Values) => {
               'Your file has been deleted.',
               'success'
               ).then((result)=>{
-                console.log(result,"result");
                 deleted ?setDeleted(false):setDeleted(true)
               })
             }
@@ -67,7 +65,6 @@ const CommunityRow = (props: Values) => {
           Swal.fire('Cancelled', 'Your file is safe :)', 'error');
         }
     })
-    console.log("deleting");
   };
 
   return (

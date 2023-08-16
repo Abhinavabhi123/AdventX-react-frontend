@@ -15,7 +15,6 @@ function Add_Banner() {
   const [imageSuccess, setImageSuccess] = useState<string>("");
 
   const addImage = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log("add Image");
     setImage("");
     setPreviewUrl("");
     if (event.target.files && event.target.files[0]) {
@@ -52,7 +51,6 @@ function Add_Banner() {
     }
   };
   const saveData = async () => {
-    console.log(image, title, subTitle, "oooo");
     const symbols = /[-!"#$%&'()*+,./:;<=>?@[\\\]^_`{|}~]/;
     if (!image) {
       setError("Please select an image");
@@ -113,8 +111,6 @@ function Add_Banner() {
       }, 1500);
       return;
     }
-    console.log("ok");
-    console.log(image);
 
     await AdminAxios.post(
       `addBanner`,
@@ -125,12 +121,10 @@ function Add_Banner() {
         },
       }
     ).then((response) => {
-      console.log(response);
       if (response?.data.status === 200) {
-        console.log("success");
         navigate("/admin/bannerManagement")
       } else {
-        console.log("error");
+        console.error("error");
       }
     });
   };

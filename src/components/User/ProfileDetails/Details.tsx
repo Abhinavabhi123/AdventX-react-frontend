@@ -22,8 +22,7 @@ function Details({ data }: any) {
     about:string;
     address: { [key: string]: any } | undefined;
   } = data;
-  console.log(data,"data");
-  
+ 
   
 
   return (

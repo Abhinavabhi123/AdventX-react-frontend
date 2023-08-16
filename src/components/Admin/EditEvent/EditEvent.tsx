@@ -187,9 +187,6 @@ function EditEvent() {
         showErrorToast("Not a valid date");
         return;
       }
-      console.log(today);
-      console.log(result);
-
       // ......................
       if (type?.length <= 0) {
         showErrorToast("Please enter the event type");
@@ -264,13 +261,10 @@ function EditEvent() {
         return;
       }
       if (image) {
-        console.log("image uploading");
 
-        console.log(image, "imageee");
         toast.loading("Please Wait image is uploading");
         await uploadImage(image).then(async (data) => {
           if (data) {
-            console.log(data, "hjksgh");
 
             setTimeout(async () => {
               await AdminAxios.post(`/editEventImage/${id}`, {
@@ -323,7 +317,7 @@ function EditEvent() {
               }
             })
             .catch((error) => {
-              console.log(error);
+              console.error(error);
             });
         }, 1500);
       }

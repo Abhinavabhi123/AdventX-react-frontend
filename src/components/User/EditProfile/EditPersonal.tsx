@@ -102,7 +102,7 @@ function EditPersonal() {
           showErrorToast("Please remove the space before the about text")
           return;
         }
-        console.log(height.length,'length');
+
         
         if (height.length <= 0 || height.length>3) {
           showErrorToast("Please enter the height properly")
@@ -122,8 +122,7 @@ function EditPersonal() {
           showErrorToast("Invalid selected date")
           return;
         }
-        console.log(firstName,lastName,number,about,height,weight,date);
-        
+       
         const formData ={
           userId,firstName,lastName,number,about,height,weight,date
         }

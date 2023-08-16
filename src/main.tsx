@@ -7,11 +7,9 @@ import store from "./Store/redux/Store.ts";
 import UserChangeContext from "./Store/Context/UserChangecontext.tsx";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  // <React.StrictMode>
   <Provider store={store}>
     <UserChangeContext>
       <App />
     </UserChangeContext>
   </Provider>
-  // </React.StrictMode>
 );

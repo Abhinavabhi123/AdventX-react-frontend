@@ -18,7 +18,6 @@ function BannerDetails() {
   useEffect(() => {
     (async () => {
       await AdminAxios.get("banners").then((response) => {
-        console.log(response);
         if (response?.data?.status === 200) {
           setBannerData(response?.data?.bannerData);
         }
@@ -28,7 +27,6 @@ function BannerDetails() {
 
   const deleteBanner = async (id: string) => {
     try {
-      console.log("deleting");
       Swal.fire({
         title: "Are you sure?",
         text: "You won't to delete this community",
@@ -41,7 +39,6 @@ function BannerDetails() {
         if (result.isConfirmed) {
           await AdminAxios.delete("deleteBanner", { params: { id } })
             .then((response) => {
-              console.log(response);
               if (response?.data?.status === 200) {
                 deleted ? setDeleted(false) : setDeleted(true);
                 Swal.fire(
@@ -49,13 +46,13 @@ function BannerDetails() {
                   "Your file has been deleted.",
                   "success"
                 ).then((result) => {
-                  console.log(result, "result");
+                  console.error(result, "result");
                   deleted ? setDeleted(false) : setDeleted(true);
                 });
               }
             })
             .catch((error) => {
-              console.log(error);
+              console.error(error);
             });
         } else if (
           result.isDismissed &&

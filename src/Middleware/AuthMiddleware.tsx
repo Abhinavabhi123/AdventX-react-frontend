@@ -72,7 +72,6 @@ const  Authentication = ({
     }
     if (Type === "user") {
       const cookieData = jwtDecode(cookie) as DecodedToken;
-      console.log(cookieData, "user Cookie");
       dispatch(
         userActions.userAddDetails({
           userName: cookieData?.name,

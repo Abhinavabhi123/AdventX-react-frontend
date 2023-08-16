@@ -57,12 +57,12 @@ function CompletedEvent() {
             }
           })
           .catch((err) => {
-            console.log(err);
+            console.error(err);
           });
       })();
     }
   }, [id]);
-console.log(data,"event");
+
 
 
   return (

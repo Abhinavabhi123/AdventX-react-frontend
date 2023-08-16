@@ -5,13 +5,8 @@ interface Event {
     _id: string;
     eventName: string;
     eventType: string;
-    // fee:number;
-    // firstPrice:number;
     location: string;
     primaryImage: string;
-    // secondPrice:number;
-    // subName:string;
-    // thirdPrice:number
   };
 }
 

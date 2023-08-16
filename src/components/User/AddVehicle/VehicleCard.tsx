@@ -14,8 +14,7 @@ interface Vehicle{
 }
 
 function VehicleCard({vehicle}:Vehicle) {
-    console.log(vehicle,"ddddddd");
-    
+
   return (
     <div className='w-[95%] h-36 rounded-md bg-white flex border mb-2 shadow-md'>
         <div className='w-[60%] h-full bg-transparent rounded-s-md flex items-center justify-center'>

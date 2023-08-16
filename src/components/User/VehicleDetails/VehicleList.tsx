@@ -23,7 +23,6 @@ function VehicleList() {
       });
     })();
   }, [id,changed]);
-  console.log(vehicles,"dgjkgdfkjh");
   
   return (
     <div className="w-full h-[34.5rem]">

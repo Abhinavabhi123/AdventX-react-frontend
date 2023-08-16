@@ -49,7 +49,7 @@ function Signup() {
         showErrorToast("Please  remove the special symbols in first name");
         return;
       }
-      console.log("submitting");
+
       if(lName.length===0){
         showErrorToast("Please Enter last name")
         return
@@ -115,10 +115,8 @@ function Signup() {
         showErrorToast("Password is not matching to the confirm password ")
         return
       }
-      console.log("posting");
       
       await axios.post(`${import.meta.env.VITE_USER_API}sendOpt`, { email }).then((response) => {
-        console.log(response);
         if (response.data.message) {
           setShowOtp(true);
         }

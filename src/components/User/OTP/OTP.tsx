@@ -9,7 +9,6 @@ function OTP() {
   const userEmail = useContext(UserEmailContext);
   const [seconds, setSeconds] = useState(30);
   const [resend,setResend]=useState(false)
-  console.log(typeof userEmail);
   const { fName, lName, Mobile, email, password } = userEmail || {};
 
   const navigate = useNavigate();
@@ -50,7 +49,6 @@ function OTP() {
             otp,
           })
           .then((response) => {
-            console.log(response);
             if (response.data?.status === 200 && response.data?.message) {
               navigate("/userLogin");
             }
@@ -66,7 +64,6 @@ function OTP() {
 
   const handleButtonClick=async():Promise<void>=>{
     try {
-        console.log("hello");
         setSeconds(30)
         await axios.post(`${import.meta.env.VITE_USER_API}sendOpt`, { email }).then((response) => {
             console.log(response);

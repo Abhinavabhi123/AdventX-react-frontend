@@ -48,7 +48,6 @@ function EventImages({ id, data,change,setChange }: Props) {
     }
   };
   const removeIMage = (index: number) => {
-    console.log("clicked", index);
     const fileInput = document.getElementById("fileInput") as HTMLInputElement;
     for (let i = 0; i < images.length; i++) {
       if (index === i) {
@@ -67,7 +66,6 @@ function EventImages({ id, data,change,setChange }: Props) {
 
   const uploadImage = async () => {
     if (images.length > 0) {
-      console.log(images, "imagesss");
       const formData = new FormData();
       for (const img of images) {
         formData.append("image", img);
@@ -77,7 +75,6 @@ function EventImages({ id, data,change,setChange }: Props) {
         headers: { "Content-Type": "multipart/form-data" },
       }).then((response) => {
         if (response?.data?.status === 200) {
-          console.log("success");
           setLoading(false);
           showSuccessToast(response?.data?.message);
           setChange(!change)

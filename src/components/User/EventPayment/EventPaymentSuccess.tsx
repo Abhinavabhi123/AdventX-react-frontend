@@ -14,17 +14,12 @@ function EventPaymentSuccess() {
   const vehicle = urlParams.get("veh")
   const eventId = urlParams.get("eveId");
   const userId = useSelector((state: any) => state.user._id);
-  console.log(license,"popopopopo");
-  console.log(vehicle,"veveve");
-  
   
   useEffect(() => {
     if (_id&&eventId&&userId&&license&&vehicle) {
       (async () => {
         await UserAxios.post("addParticipation",{_id,eventId,userId,vehicle,license}).then((response)=>{
             if(response?.data?.status===200){
-                console.log(response);
-                
                 setTimeout(()=>{
                     navigate("/")
                 },2000)

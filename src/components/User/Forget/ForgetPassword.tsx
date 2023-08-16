@@ -1,9 +1,9 @@
-import React, { useState,useRef } from "react";
+import React, { useState,useRef,useEffect } from "react";
 import "./ForgetPassword.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { showErrorToast } from "../../ToastMessage/Toast";
-import { Toaster } from "react-hot-toast";
+import { showErrorToast, showSuccessToast, styledToast } from "../../ToastMessage/Toast";
+import { Toaster, toast } from "react-hot-toast";
 
 
 function ForgetPassword() {
@@ -16,15 +16,25 @@ function ForgetPassword() {
   // * checking otp
   const [change, setChange] = useState(false);
   const [otp, setOpt] = useState("");
+  const [otpSend,setOtpSend]=useState<boolean>(false)
 
   // *Changing password
   const [password,setPassword]=useState('')
   const [confPassword,setConfPassword]=useState('')
   const [checkEmail, setCheckEmail] = useState("");
+  useEffect(()=>{
+
+    const inputElement = document.getElementById('password1') as HTMLInputElement
+
+  if (inputElement) {
+    inputElement.focus();
+    inputElement.value = ''; 
+  }
+  },[])
 
   const SubmitForget = async () => {
     try {
-      console.log("submitting");const validDomains = [
+     const validDomains = [
         "gmail.com",
         "yahoo.com",
         "hotmail.com",
@@ -43,15 +53,22 @@ function ForgetPassword() {
         showErrorToast("enter valid email")
         return;
     }
-
+      toast.loading("Please wait..")
+      setOtpSend(true)
       await axios.post(`${import.meta.env.VITE_USER_API}postForget`, { email }).then((response) => {
-        console.log(response);
+        toast.dismiss();
         if (response.data.message === "Success") {
+          styledToast("OTP sended to your email")
           setCheckEmail(response.data.email);
           setOpen(true);
         }
-      });
-    } catch (error) {
+      }).catch ((error)=> {
+        toast.dismiss();
+        showErrorToast(error?.response?.data?.error)
+        setOtpSend(false)
+       })
+    }
+    catch(error){
       console.error(error);
     }
   };
@@ -63,13 +80,18 @@ function ForgetPassword() {
         return
       }
       const enteredOtp = Number(otp);
+      toast.loading("Please wait..")
       await axios.post(`${import.meta.env.VITE_USER_API}postOtp`, { enteredOtp }).then((response) => {
-        console.log(response);
+        toast.dismiss();
         if (response.data.message === "Otp matching") {
+          showSuccessToast("OPT is matching")
           setChange(true);
           setOpt("")
         }
-      });
+      }).catch((error)=>{
+        toast.dismiss();
+        showErrorToast(error?.response?.data?.error)
+      })
     } catch (error) {
       console.error(error);
     }
@@ -82,7 +104,6 @@ function ForgetPassword() {
       }
       if(password === confPassword){
         await axios.post(`${import.meta.env.VITE_USER_API}changePass`,{checkEmail,password}).then((response)=>{
-          console.log(response);
           if(response.data.message === "Password Changed"){
             navigate("/userLogin")
           }
@@ -114,13 +135,21 @@ function ForgetPassword() {
                 className="pl-2 text-xs border border-gray-600 rounded-md w-64 h-8"
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <button
+              {
+                !otpSend?(<button
+                  type="button"
+                  onClick={SubmitForget}
+                  className="bg-blue-500 w-36 h-8 rounded-md text-sm"
+                >
+                  Send Email
+                </button>):(<button
                 type="button"
-                onClick={SubmitForget}
-                className="bg-blue-500 w-36 h-8 rounded-md text-sm"
+                className="bg-blue-200 w-36 h-8 rounded-md text-sm"
               >
                 Send Email
-              </button>
+              </button>)
+              }
+              
             </>
           ) : (
             <>
@@ -144,14 +173,15 @@ function ForgetPassword() {
                
                    <>
                   <input
-                    type="number"
+                    type="text"
                     placeholder="Enter Password here"
+                    id="password1"
                     ref={ref}
                     className="pl-2 text-xs border border-gray-600 rounded-md w-64 h-8 spin-button-none"
                     onChange={(e) => setPassword(e.target.value)}
                   />
                   <input
-                    type="number"
+                    type="text"
                     placeholder="Enter the confirm Password"
                     className="pl-2 text-xs border border-gray-600 rounded-md w-64 h-8 spin-button-none"
                     onChange={(e) => setConfPassword(e.target.value)}
@@ -170,7 +200,7 @@ function ForgetPassword() {
           )}
         </div>
         <div className="w-full h-36 rounded-b-md  flex flex-col items-center">
-          <p className="text-sm font-medium mt-3">Back to sign in</p>
+          <p className="text-sm font-medium mt-3 cursor-pointer" onClick={()=>navigate('/userLogin')}>Back to Log in</p>
           <p className="text-center text-xs p-2 text-gray-500 mt-3">
             Note: The password reset email may take a few minutes. If you are
             resubmitting this form, please note that any previous password reset

@@ -42,7 +42,6 @@ function License() {
     try {
       const lNumber: string | undefined = number?.current?.value;
       const lExpiry = expiry?.current?.value;
-      console.log(lNumber,lExpiry);
       
       if (lNumber === undefined || expiry === undefined) {
         return;
@@ -96,7 +95,6 @@ function License() {
       console.error(error);
     }
   };
-  console.log(userData, "oooo");
 
   return (
     <div className="w-full h-[34.5em]  rounded-md">

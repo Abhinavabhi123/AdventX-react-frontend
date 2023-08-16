@@ -22,8 +22,7 @@ function ChangePass(props:Value) {
       }
 
         try {
-           await axios.post(`${import.meta.env.VITE_USER_API}changePass`,{confMail,password}).then((response)=>{
-            console.log(response); 
+           await axios.post(`${import.meta.env.VITE_USER_API}changePass`,{confMail,password}).then((response)=>{ 
             navigate("/userLogin")
            })
            

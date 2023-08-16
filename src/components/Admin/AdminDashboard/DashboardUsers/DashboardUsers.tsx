@@ -8,12 +8,18 @@ import { Pie } from "react-chartjs-2";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 function DashboardUsers() {
+  const [userData,setUserData]=useState({
+    userData:0,
+    primeMembers:0,
+    events:0,
+    communityCount:0
+  })
   const data = {
     labels: ["Users", "Prime", "Events", "Communities"],
     datasets: [
       {
         label: "Data", 
-        data: [12, 19, 3, 5], 
+        data: [userData?.userData, userData?.primeMembers, userData?.events, userData?.communityCount], 
         backgroundColor: [
           "rgb(255, 0, 55,0.7)",
           "rgb(23, 148, 232,0.7)",
@@ -30,8 +36,8 @@ function DashboardUsers() {
       },
     ],
   };
-  
   const [datas, setData] = useState([]);
+
   useEffect(() => {
     (async () => {
       await AdminAxios.get("primeMembers")
@@ -43,8 +49,17 @@ function DashboardUsers() {
         .catch((error) => {
           showErrorToast(error?.response?.data?.error);
         });
+        await AdminAxios.get("dashboardCardValues").then((response)=>{
+          if(response?.data?.status===200){
+            setUserData(response?.data)
+          }
+        }).catch((error)=>{
+          showErrorToast(error?.response?.data?.message)
+        })
     })();
   }, []);
+  
+  
   return (
     <div className="w-full h-[30rem] bg-transparent flex mb-10">
       <div className="w-[40%] h-full  flex justify-center items-center">

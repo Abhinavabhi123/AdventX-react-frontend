@@ -57,7 +57,7 @@ function EventCard({ value, deleted, setDeleted }: Props) {
           setData(response?.data?.data);
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     })();
   }, [changed, value]);
@@ -94,8 +94,6 @@ function EventCard({ value, deleted, setDeleted }: Props) {
             },
           })
             .then(async (response) => {
-              console.log(response);
-
               if (response.data.status === 200) {
                 await deleteImage(response?.data?.image);
                 Swal.fire(
@@ -138,7 +136,6 @@ function EventCard({ value, deleted, setDeleted }: Props) {
   const changeStatus = async () => {
     await AdminAxios.post("/changeEventStatus", { _id, selected })
       .then((response) => {
-        console.log(response);
         if (response?.data?.status === 200) {
           showSuccessToast(response?.data?.message);
           setChange(false);

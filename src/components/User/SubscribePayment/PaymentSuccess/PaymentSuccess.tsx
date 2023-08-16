@@ -16,10 +16,8 @@ function PaymentSuccess() {
       (async () => {
         await UserAxios.post("addPrimeUser", { _id, userId }).then(
           (response) => {
-            console.log(response?.data);
 
             if (response?.data?.status === 200) {
-              console.log("Success");
 
               Cookies.remove("jwtToken");
               Cookies.set("jwtToken", response?.data?.jwtToken);

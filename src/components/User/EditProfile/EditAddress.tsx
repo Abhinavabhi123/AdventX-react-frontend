@@ -16,7 +16,6 @@ interface Data{
 
 function EditAddress() {
     const userId = useContext(UserIdContext);
-    console.log(userId);
     
     const [changed,setChanged]=useState<boolean>(false)
     const [data,setData]=useState<Data>({
@@ -33,8 +32,6 @@ function EditAddress() {
 
             await UserAxios.get(`getUserProfile/${userId?.id}`).then((response)=>{
                 if(response?.data?.status===200){
-                    console.log(response,"details");
-                
                     setData(response?.data?.userData?.address)
                 }
             })
@@ -57,7 +54,7 @@ function EditAddress() {
       const district = districtRef?.current?.value;
       const state = stateRef?.current?.value;
       const zip = zipRef?.current?.value;
-      console.log(houseName, locality, area, district, state, zip);
+
       if (
         houseName === undefined ||
         locality == undefined ||
@@ -68,7 +65,7 @@ function EditAddress() {
       ) {
         return;
       } else {
-        console.log("dataa");
+
         if (
           houseName.length > 0 &&
           locality.length > 0 &&
@@ -141,12 +138,10 @@ function EditAddress() {
             zip,
             userId,
           };
-          console.log("success");
           
           await UserAxios
             .post(`postAddress`, formData)
             .then((response) => {
-              console.log(response);
 
               if (response.data.status === 200) {
                 changed?setChanged(false):setChanged(true)

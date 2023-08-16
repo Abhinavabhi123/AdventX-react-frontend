@@ -65,7 +65,7 @@ function ChatRoom({ commId, change }: Props) {
           }
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
         });
       await UserAxios.get("/communityUsers", { params: { commId } })
         .then((response) => {

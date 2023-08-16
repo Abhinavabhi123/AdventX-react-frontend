@@ -50,7 +50,7 @@ function WinnerDetails({ winners }: Props) {
       win.push(obj);
     }
   }
-  console.log(win.length);
+
 
   return (
     <div className="w-full h-[17rem]  flex justify-center items-center border-b border-gray bg-gray-100 ">

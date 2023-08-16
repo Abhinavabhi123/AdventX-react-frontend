@@ -23,7 +23,11 @@ function UserRow({ data,i }: Props) {
             alt="image"
           />
         ) : (
-          <div className="w-8 me-2"></div>
+          <img
+          className=" rounded-full w-8 h-8 me-2 "
+          src={`/icons/person.png`}
+          alt="image"
+        />
         )}
         {`${firstName} ${lastName}`}
       </td>

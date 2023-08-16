@@ -25,7 +25,6 @@ function AddVehicle() {
 
   const uploadImage = (e: ChangeEvent<HTMLInputElement>, i: number) => {
     if (e.target.files && e.target.files[0] && i >= 0) {
-      console.log("ethiiiii");
       const file = e.target.files[0];
       const allowedType = ["image/jpeg", "image/jpeg", "image/png"];
       if (!allowedType.includes(file.type)) {
@@ -75,9 +74,7 @@ function AddVehicle() {
 
   const submitData =async () => {
     try {
-      console.log(vNumber, vType, fuelType, vName, vWheels, vOwner);
-      console.log(image, "inimage");
-      console.log(image.length, "legjjgj");
+
       const symbols = /[!"#$%&'()*+,./:;<=>?@[\\\]^`{|}~]/;
       if(vNumber.length<=0){
         showErrorToast('Please enter the vehicle name')
@@ -175,7 +172,6 @@ function AddVehicle() {
         showErrorToast('Please select 3 images')
         return
       }
-      console.log("ok ethi");
       const formData = new FormData()
       formData.append('id',_id);
       formData.append('vNumber', vNumber);
@@ -190,13 +186,12 @@ function AddVehicle() {
    
       await UserAxios.post("/addVehicle",formData,{headers:{"Content-Type":"multipart/form-data"},withCredentials:true}).then((response)=>{
         if(response?.data?.status===200){
-          console.log("success"); 
           navigate('/profile')
         }
       })
 
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -245,8 +240,6 @@ function AddVehicle() {
                   className="placeholder-gray-500 pl-2 text-xs w-[18rem] h-9 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md spin-button-none"
                   onChange={(e) => {
                     const Value: string = e.target.value.toUpperCase();
-                    console.log(Value);
-
                     setVNumber(Value);
                   }}
                   required

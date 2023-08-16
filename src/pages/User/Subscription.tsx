@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./Subscription.css";
 import NavBar from "../../components/User/NavBar/Navbar";
 import UserAxios from "../../Store/Axios/UserConfig";
-import { UseSelector, useSelector } from "react-redux/es/hooks/useSelector";
-import { response } from "express";
+import { useSelector } from "react-redux/es/hooks/useSelector";
 
 function Subscription() {
   const data = [
@@ -33,14 +32,13 @@ function Subscription() {
           },
         }
       ).then((response) => {
-        console.log(response);
         if (response?.data?.url) {
           const url = response?.data?.url;
           window.location = url;
         }
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

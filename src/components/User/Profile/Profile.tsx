@@ -20,7 +20,6 @@ interface User {
 function Profile() {
   const navigate = useNavigate();
   const value = useContext(UserIdContext);
-  console.log(useContext(UserIdContext), "helloo");
   const isPrime = useSelector((state: any) => state.user.is_prime);
   const id = value?.id;
   const dispatch = useDispatch();
@@ -40,7 +39,6 @@ function Profile() {
     (async () => {
       if (id) {        
         await UserAxios.get(`getUserProfile/${id}`).then((response) => {
-          console.log(response);
           if (response?.data?.status === 200) {
             setUserData(response?.data?.userData);
           }
@@ -69,7 +67,6 @@ function Profile() {
           setImgOpen(false);
           return;
         }
-        console.log("success");
         setImage(file);
         setPreview(URL.createObjectURL(file));
         setImgOpen(true);

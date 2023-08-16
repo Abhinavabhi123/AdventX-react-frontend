@@ -37,14 +37,13 @@ function EventMainTop({ id }: EventMainTopProps) {
             withCredentials: true,
           })
           .then((response) => {
-            console.log(response,"ngkj");
-            
+
             if (response?.data?.status === 200) {
               setEventData(response?.data?.eventData);
             }
           })
           .catch((err) => {
-            console.log(err);
+            console.error(err);
           });
       }
     })();

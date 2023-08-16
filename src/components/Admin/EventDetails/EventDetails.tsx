@@ -48,8 +48,7 @@ function EventDetails() {
 
   const submitDetails = async () => {
     try {
-      console.log(image);
-
+      
       if (
         eventName.length > 0 &&
         subTitle.length > 0 &&
@@ -124,8 +123,6 @@ function EventDetails() {
         }
         toast.loading("Saving details");
         await uploadImage(image).then(async (data) => {
-          // setImageUrl(data);
-          console.log(data, "kitty");
           if (data) {
             setTimeout(async () => {
               await AdminAxios.post(
@@ -149,14 +146,12 @@ function EventDetails() {
                   withCredentials: true,
                 }
               ).then((response) => {
-                console.log(response.data);
                 const result = response.data;
                 if (
                   result.status === 200 &&
                   result.message === "Data stored successfully"
                 ) {
                   toast.dismiss();
-                  console.log("Event Created");
                   navigate("/admin/eventManagement");
                 }
               });

@@ -38,9 +38,6 @@ function EventAllImages({
       );
     }
   };
-  console.log(data, "valuess");
-
-
 
   function saveImages() {
     console.log("ethi");
@@ -83,7 +80,6 @@ function EventAllImages({
           },
         })
           .then((response) => {
-            console.log(response);
             if (response?.data?.status === 200) {
               setChange(!change);
               showSuccessToast(response?.data?.message)

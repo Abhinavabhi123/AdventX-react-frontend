@@ -9,8 +9,6 @@ interface Params {
 }
 
 function AdminCompleteEvent({ id }: Params) {
-  console.log(id);
-
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState<string>("");
   const [secondName, setSecondName] = useState<string>("");
@@ -54,17 +52,14 @@ function AdminCompleteEvent({ id }: Params) {
           },
         })
           .then((response) => {
-            console.log(response, "klklk");
-
             setData(response?.data?.data);
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
           });
       })();
     }
   }, [id, change]);
-  console.log(data, "adfsafsdnf");
 
   const uploadFirstImage = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -143,9 +138,6 @@ function AdminCompleteEvent({ id }: Params) {
   };
   const saveWinner = async () => {
     try {
-      console.log(firstImage,secondImage,thirdImage,"iamgedd");
-      
-      console.log("submitting");
       if(!firstImage&&!secondImage&&!thirdImage){
         showErrorToast("Please select three image")
         return
@@ -196,7 +188,6 @@ function AdminCompleteEvent({ id }: Params) {
 
   const changeWinner = async() => {
     try {
-      console.log("Addding");
       const formData = new FormData()
       if (firstImage !== "") {
         formData.append("first",firstImage)
@@ -230,17 +221,12 @@ function AdminCompleteEvent({ id }: Params) {
       formData.append("firstName",firstName)
       formData.append("secondName",secondName)
       formData.append("thirdName",thirdName)
-      console.log( formData.get("first"),"first image");
-      console.log( formData.get("second"),"secondImage");
-      console.log( formData.get("third"),"thirdIMage");
       toast.loading("Saving details");
       await AdminAxios.post(`editWinner/${id}`,formData,{headers:{
         "Content-Type":"multipart/formData"
       }}).then((response)=>{
-        console.log(response);
         toast.dismiss();
         if(response?.data?.status===200){
-          console.log("done");
           showSuccessToast(response?.data?.message)
           setChange(!change);
         }

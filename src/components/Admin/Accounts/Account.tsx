@@ -16,6 +16,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Radar } from 'react-chartjs-2';
+import { showErrorToast } from "../../ToastMessage/Toast";
 
 ChartJS.register(
   RadialLinearScale,
@@ -65,7 +66,7 @@ function Account() {
           }
         })
         .catch((error) => {
-          console.log(error);
+          showErrorToast(error?.response?.data?.error)
         });
     })();
   }, []);

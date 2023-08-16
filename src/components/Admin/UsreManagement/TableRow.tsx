@@ -39,7 +39,6 @@ const TableRow: React.FC<TableRowProps> = ({ value }) => {
 
   const blockUser = async () => {
     try {
-      console.log("Clicked");
       await AdminAxios.post(`blockUser`, { _id }).then((response) => {
         setUser(response.data);
       });

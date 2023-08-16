@@ -24,10 +24,6 @@ function TopBar(props: TopBarProps) {
   const navigate = useNavigate();
 
   const AdminLogout = () => {
-    console.log();
-    Cookies.remove("adminJwt");
-    console.log("logging out");
-
     dispatch(AdminAction.AdminLogout({ email: "" }));
     navigate("/admin/login");
   };

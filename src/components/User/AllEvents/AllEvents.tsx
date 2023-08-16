@@ -14,12 +14,11 @@ function AllEvents() {
     useEffect(()=>{
         (async()=>{
             await axios.get(`${import.meta.env.VITE_USER_API}getAllEvents`).then((response)=>{
-                console.log(response);
                 setData(response?.data?.data)
             })
         })()
     },[])
-    console.log(data);
+
     
   return (
     <div className="ml-2 ">
