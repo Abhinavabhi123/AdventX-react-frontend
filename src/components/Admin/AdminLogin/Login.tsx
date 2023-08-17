@@ -1,35 +1,37 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"
+import axios from "axios";
 // import { AdminApi } from "../../../Store/api";
 import Cookies from "js-cookie";
 import { showErrorToast } from "../../ToastMessage/Toast";
 import { Toaster } from "react-hot-toast";
 
-
 function Login() {
-  const navigate =useNavigate()
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setpassword] = useState("");
 
-  const formSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+  const formSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      
-
-      
-     await axios.post(`${import.meta.env.VITE_ADMIN_API}AdminLogin`,{email,password},{withCredentials:true}).then((response)=>{
-      if(response.data?.access === true){
-        Cookies.set("adminJwt",response?.data?.token)
-        navigate("/admin/dashboard")
-      }
-      
-     }).catch((error)=>{
-      if(error?.response?.data?.status!==200){
-        showErrorToast(error?.response?.data?.error)
-        return
-      } 
-     })
+      await axios
+        .post(
+          `${import.meta.env.VITE_ADMIN_API}AdminLogin`,
+          { email, password },
+          { withCredentials: true }
+        )
+        .then((response) => {
+          if (response.data?.access === true) {
+            Cookies.set("adminJwt", response?.data?.token);
+            navigate("/admin/dashboard");
+          }
+        })
+        .catch((error) => {
+          if (error?.response?.data?.status !== 200) {
+            showErrorToast(error?.response?.data?.error);
+            return;
+          }
+        });
     } catch (error) {
       console.error(error);
     }
@@ -43,8 +45,7 @@ function Login() {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <Toaster/>
-      <div className="w-96 h-96 bg-white  bg-opacity-25 flex flex-col justify-center rounded-md  items-center">
+      <div className="w-96 h-96 bg-white  bg-opacity-25 flex flex-col justify-center rounded-md items-center">
         <div className=" flex flex-col items-center ">
           <p className="text-xl">Welcome Back</p>
           <p className="text-xl">Login and Make it Perfect</p>
@@ -70,6 +71,7 @@ function Login() {
           </form>
         </div>
       </div>
+      <Toaster />
     </div>
   );
 }

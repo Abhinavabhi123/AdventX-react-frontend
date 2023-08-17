@@ -80,7 +80,7 @@ function User() {
           />
         </Routes>
       <Routes>
-            {/* <Route path="/*" element={<Error404/>}/> */}
+            {/* <Route path="/*" element={<Error404 data={"/"}/>}/> */}
             <Route path="/error500"  element={<Error500 />}/>
       </Routes>
       </Authentication>

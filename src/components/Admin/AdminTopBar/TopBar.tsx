@@ -24,6 +24,7 @@ function TopBar(props: TopBarProps) {
   const navigate = useNavigate();
 
   const AdminLogout = () => {
+    Cookies.remove("adminJwt");
     dispatch(AdminAction.AdminLogout({ email: "" }));
     navigate("/admin/login");
   };

@@ -43,7 +43,7 @@ function Admin() {
           <Route path="/editEvent/:id" element={<EditEvents/>}/>
           <Route path="/completeEvent/:id" element={<CompleteEvent/>} />
           <Route  path="/accounts" element={<Accounts/>}/>
-          <Route path="/*" element={<Error404/>}/>
+          <Route path="/*" element={<Error404 data={"/admin/dashboard"}/>}/>
         </Routes>
       </Authentication>
     </div>
