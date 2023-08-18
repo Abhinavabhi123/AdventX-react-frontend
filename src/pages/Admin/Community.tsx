@@ -1,14 +1,11 @@
-import React, { useState } from "react";
 import "./Community.css";
 import SideBar from "../../components/Admin/AdminSideBar/SideBar";
 import TopBar from "../../components/Admin/AdminTopBar/TopBar";
 import CommunityList from "../../components/Admin/ComunityList/CommunityList";
 import { useNavigate } from "react-router-dom"; "react-router-dom"
-import CreateCommunity from "../../components/Admin/CreateCommunity/CreateCommunity";
 
 function Community() {
   const navigate = useNavigate();
-  const [openAdd, setOpenAdd] = useState(false);
 
   return (
     <div className="communityBody">

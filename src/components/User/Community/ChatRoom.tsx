@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import UserAxios from "../../../Store/Axios/UserConfig";
-import io, { Socket } from "socket.io-client";
+import io from "socket.io-client";
 import Picker, { EmojiClickData } from "emoji-picker-react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -114,7 +114,7 @@ function ChatRoom({ commId, change }: Props) {
     setEmojiOpen(!emojiOpen);
   };
 
-  const handleEmojiClick = (emoji: EmojiClickData, event: any) => {
+  const handleEmojiClick = (emoji: EmojiClickData) => {
     let message = msg;
     message += emoji.emoji;
 
@@ -221,7 +221,7 @@ function ChatRoom({ commId, change }: Props) {
                     </div>
                   )}
                 </div>
-                <div>
+                <div className="w-full">
                   <input
                     type="text"
                     className="w-[100%] h-10 ps-3 text-sm"

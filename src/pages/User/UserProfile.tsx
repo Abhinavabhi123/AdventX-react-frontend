@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import Profile from "../../components/User/Profile/Profile";
 import NavBar from "../../components/User/NavBar/Navbar";

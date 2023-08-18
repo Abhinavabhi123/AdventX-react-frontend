@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { showErrorToast } from "../../ToastMessage/Toast";
 import { Toaster } from "react-hot-toast";
@@ -50,10 +50,11 @@ function Banner() {
   return (
     <div className="w-[100%]  h-[43rem]">
       <div className=" w-full h-full ">
-        <img
-          className="w-[100%] h-[43rem] object-cover absolute "
-          src={`${import.meta.env.VITE_BANNER_API}${bannerData[id].image}`}
-          alt="banner"
+        {
+          bannerData.length>0&&<><img
+        className="w-[100%] h-[43rem] object-cover absolute "
+        src={`${import.meta.env.VITE_BANNER_API}${bannerData[id].image}`}
+        alt="banner"
         />
         <div className=" w-[28rem] h-48 relative items-center flex flex-col justify-center">
           <p className="text-[2.5rem] ms-5 font-semibold text-white relative">
@@ -63,6 +64,8 @@ function Banner() {
             {bannerData[id].subTitle}
           </p>
         </div>
+        </>
+        }
       </div>
       <Toaster/>
     </div>

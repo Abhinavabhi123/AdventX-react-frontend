@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useEffect, useRef } from "react";
+import { useState, ChangeEvent, useEffect, useRef } from "react";
 import "./Banner.css";
 import { useNavigate, useParams } from "react-router-dom";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
@@ -22,7 +22,7 @@ function EditBanner() {
   const [openError, setErrorOpen] = useState<boolean>(false);
   const [succOpen, setSuccOpen] = useState<boolean>(false);
   const [imageSuccess, setImageSuccess] = useState<string>("");
-  const [imgopen, setImgOpen] = useState<boolean>(false);
+  // const [imgopen, setImgOpen] = useState<boolean>(false);
   const titleRef = useRef<HTMLInputElement>(null);
   const subTitleRef = useRef<HTMLInputElement>(null);
   const statusRef = useRef<HTMLSelectElement>(null);

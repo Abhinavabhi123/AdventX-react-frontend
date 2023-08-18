@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { Routes, Route, Navigate  } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -20,7 +19,7 @@ import About from "../pages/User/About";
 import PaymentCancel from "../components/User/SubscribePayment/PaymentCancel/PaymentCancel";
 import EventPaymentSuccess from "../components/User/EventPayment/EventPaymentSuccess";
 import EventPaymentCancel from "../components/User/EventPayment/EventPaymentCancel";
-import Error404 from "../components/Error/Error404";
+// import Error404 from "../components/Error/Error404";
 import Error500 from "../components/Error/Error500";
 
 function User() {

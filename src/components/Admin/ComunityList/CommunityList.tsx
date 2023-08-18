@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import CommunityRow from "./CommunityRow";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
 import { showErrorToast } from "../../ToastMessage/Toast";

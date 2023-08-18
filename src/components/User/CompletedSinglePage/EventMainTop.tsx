@@ -1,6 +1,5 @@
 import axios from "axios";
-import { response } from "express";
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { showErrorToast } from "../../ToastMessage/Toast";
 import { Toaster } from "react-hot-toast";

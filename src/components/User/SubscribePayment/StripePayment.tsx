@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { PaymentIntentResult } from "@stripe/stripe-js";
 import {
   PaymentElement,
-  LinkAuthenticationElement,
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";

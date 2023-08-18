@@ -1,4 +1,3 @@
-import React from "react";
 import NavBar from "../../components/User/NavBar/Navbar";
 import HomeBtn from "../../components/User/Button/HomeBtn";
 import AllActivities from "../../components/User/AllActivities/AllActivities";

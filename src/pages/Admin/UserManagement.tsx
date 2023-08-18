@@ -1,4 +1,3 @@
-import React from "react";
 import SideBar from "../../components/Admin/AdminSideBar/SideBar";
 import TopBar from "../../components/Admin/AdminTopBar/TopBar";
 import UserList from "../../components/Admin/UsreManagement/UserList";

@@ -1,4 +1,3 @@
-import React from "react";
 import SideBar from "../../components/Admin/AdminSideBar/SideBar";
 import TopBar from "../../components/Admin/AdminTopBar/TopBar";
 import Add_Banner from "../../components/Admin/Banners/Add_Banner";

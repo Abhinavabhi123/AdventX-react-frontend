@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from "react";
+import { useState, useEffect } from "react";
 
 import "./NavBar.css";
 import { useNavigate } from "react-router-dom";
@@ -8,11 +8,9 @@ import Cookies from "js-cookie";
 
 
 import UserAxios from "../../../Store/Axios/UserConfig";
-import UserChangeContext from "../../../Store/Context/UserChangecontext";
 import { showErrorToast } from "../../ToastMessage/Toast";
 
 function NavBar() {
-  const [open, setOpen] = useState(false);
   const [userImage, setUserImage] = useState<string>("");
   const navigate = useNavigate();
   const cookie = Cookies.get("jwtToken");

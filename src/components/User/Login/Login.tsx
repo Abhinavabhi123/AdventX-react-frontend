@@ -45,7 +45,7 @@ function Login() {
           const result = response?.data;
           if (result.message === "Access granted" && result.status === 200) {
             Cookies.set("jwtToken", result.jwtToken);
-            const userName = `${result.userData?.firstName} ${result.userData?.lastName}`;
+            // const userName = `${result.userData?.firstName} ${result.userData?.lastName}`;
             navigate("/");
           }
          

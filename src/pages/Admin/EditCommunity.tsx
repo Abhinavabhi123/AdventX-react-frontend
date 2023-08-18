@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent, useRef } from "react";
+import  { useState, useEffect, ChangeEvent, useRef } from "react";
 import { useParams } from "react-router-dom";
 import "./Community.css";
 import { useNavigate } from "react-router-dom";
@@ -7,7 +7,6 @@ import SideBar from "../../components/Admin/AdminSideBar/SideBar";
 import TopBar from "../../components/Admin/AdminTopBar/TopBar";
 // import { ImgApi } from "../../Store/api";
 import AdminAxios from "../../Store/Axios/AdminConfig";
-import { response } from "express";
 
 interface Community {
   communityName: string;
@@ -28,14 +27,13 @@ interface UserData {
 function EditCommunity() {
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
-  const selectRef = useRef<HTMLSelectElement>(null);
   const { id } = useParams();
   const [change, setChange] = useState(false);
   const [imgOpen, setImgOpen] = useState(false);
   const [actMembers, setActMember] = useState({}) as ActMembers | any;
   const [allMember, setAllMember] = useState<UserData[]>([]);
   const [selectedOption, setSelectedOption] = useState("");
-  const [commName, setCommName] = useState("");
+  // const [commName, setCommName] = useState("");
   const [errorOpen, setErrorOpen] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [cMembers, setCMembers] = useState<{ _id: string }[]>([]);
@@ -75,7 +73,6 @@ function EditCommunity() {
   });
   const {
     communityName,
-    createdAt,
     logo,
   }: {
     communityName: string;
@@ -324,7 +321,7 @@ function EditCommunity() {
                         defaultValue={communityName}
                         ref={inputRef}
                         className="placeholder-gray-500 ml-5 pl-2 text-xs w-[15rem] h-7 flex-shrink-0 border-2 border-solid border-gray-500 rounded-md"
-                        onChange={(e) => setCommName(e.target.value)}
+                        // onChange={(e) => setCommName(e.target.value)}
                       />
                     </div>
                     <div className="w-[18rem] flex flex-col pt-2">

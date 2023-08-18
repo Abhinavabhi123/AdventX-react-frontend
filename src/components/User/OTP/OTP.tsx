@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useState, useContext } from "react";
+import { FormEvent, useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import UserEmailContext from "../../../Store/Context/Context";
 import axios from "axios";
@@ -8,7 +8,7 @@ import { Toaster } from "react-hot-toast";
 function OTP() {
   const userEmail = useContext(UserEmailContext);
   const [seconds, setSeconds] = useState(30);
-  const [resend,setResend]=useState(false)
+  // const [resend,setResend]=useState(false)
   const { fName, lName, Mobile, email, password } = userEmail || {};
 
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ function OTP() {
     return () => {
       clearInterval(timer);
     };
-  }, [seconds,resend]);
+  }, [seconds]);
 
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;

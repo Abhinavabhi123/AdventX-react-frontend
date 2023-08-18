@@ -48,7 +48,7 @@ function EventImages({ id, data,change,setChange }: Props) {
     }
   };
   const removeIMage = (index: number) => {
-    const fileInput = document.getElementById("fileInput") as HTMLInputElement;
+    // const fileInput = document.getElementById("fileInput") as HTMLInputElement;
     for (let i = 0; i < images.length; i++) {
       if (index === i) {
         // fileInput.parentNode.removeChild(images[i]);

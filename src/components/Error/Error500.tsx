@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import "./500.css";
 
 

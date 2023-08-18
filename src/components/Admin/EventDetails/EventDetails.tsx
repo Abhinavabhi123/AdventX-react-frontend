@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from "react";
+import  { useState, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import "./EventDetails.css";
 
@@ -22,7 +22,7 @@ function EventDetails() {
   const [about, setAbout] = useState<string>("");
   const [status, setStatus] = useState<string>("");
   const [image, setImage] = useState<File | undefined>();
-  const [imageUrl, setImageUrl] = useState<string>("");
+  // const [imageUrl, setImageUrl] = useState<string>("");
   const [preview, setPreview] = useState<string>("");
   const [imgOpen, setImgOpen] = useState<boolean>(false);
 

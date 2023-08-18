@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { showErrorToast } from "../../ToastMessage/Toast";
 import { Toaster } from "react-hot-toast";
 interface Data{
@@ -10,7 +9,6 @@ interface Data{
 }
 
 function AboutUs() {
-  const navigate =useNavigate()
   const [data, setData] = useState<Data>({
     communityCount:0,
     eventCount:0,

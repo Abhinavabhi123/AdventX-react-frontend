@@ -1,4 +1,3 @@
-import React from "react";
 import NavBar from "../../components/User/NavBar/Navbar";
 import Vehicles from "../../components/User/AddVehicle/Vehicles";
 import AddVehicle from "../../components/User/AddVehicle/AddVehicle";

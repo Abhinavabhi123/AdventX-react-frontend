@@ -1,5 +1,3 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
 import "./Subscription.css";
 import NavBar from "../../components/User/NavBar/Navbar";
 import UserAxios from "../../Store/Axios/UserConfig";
@@ -18,7 +16,7 @@ function Subscription() {
     { value: "Add License", free: "No" },
     { value: "Create blog", free: "No", feature: "yes" },
   ];
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const userId = useSelector((state: any) => state.user._id);
 
   const payment = async () => {

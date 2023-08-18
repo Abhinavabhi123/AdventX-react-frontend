@@ -1,4 +1,3 @@
-import React from 'react'
 import NavBar from '../../components/User/NavBar/Navbar'
 import ForgetPassword from '../../components/User/Forget/ForgetPassword'
 

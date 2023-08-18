@@ -1,4 +1,4 @@
-import React, { useState,useRef,useEffect } from "react";
+import  { useState,useRef,useEffect } from "react";
 import "./ForgetPassword.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";

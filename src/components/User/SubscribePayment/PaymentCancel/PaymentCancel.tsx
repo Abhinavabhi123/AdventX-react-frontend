@@ -1,4 +1,3 @@
-import React from 'react'
 import NavBar from '../../NavBar/Navbar'
 import { useNavigate } from 'react-router-dom'
 

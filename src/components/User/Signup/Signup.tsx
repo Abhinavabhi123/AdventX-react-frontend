@@ -4,7 +4,7 @@ import axios from "axios";
 // import { UserApi } from "../../../Store/api";
 import OTP from "../OTP/OTP";
 import UserEmailContext from "../../../Store/Context/Context";
-import { showErrorToast, showSuccessToast, styledToast } from "../../ToastMessage/Toast";
+import { showErrorToast, styledToast } from "../../ToastMessage/Toast";
 import { Toaster, toast } from "react-hot-toast";
 type userDataType = {
   fName: string;

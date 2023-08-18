@@ -16,7 +16,7 @@ const CommunityRow = (props: Values) => {
 
   const navigate = useNavigate();
   const [open, setOpen] = useState(true);
-  const [confirm, setConfirm] = useState(false);
+  // const [confirm, setConfirm] = useState(false);
   const {
     _id,
     communityName,
@@ -58,7 +58,7 @@ const CommunityRow = (props: Values) => {
               'Deleted!',
               'Your file has been deleted.',
               'success'
-              ).then((result)=>{
+              ).then(()=>{
                 deleted ?setDeleted(false):setDeleted(true)
               })
             }

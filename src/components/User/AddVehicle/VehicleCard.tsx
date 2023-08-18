@@ -1,5 +1,3 @@
-import React from 'react'
-
 interface Vehicle{
     vehicle:{
         _id:string;

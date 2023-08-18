@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import EventCard from "./EventCard";
 import { useNavigate } from "react-router-dom";
 import { showErrorToast } from "../../ToastMessage/Toast";
-import { Toaster } from "react-hot-toast";
+// import { Toaster } from "react-hot-toast";
 
 interface Data {
   _id: string;
@@ -15,6 +15,8 @@ interface Data {
   subName: string;
   fee: number;
   date: string;
+  is_completed:boolean;
+  participants:[{userId:string,confirmed:string}]
 }
 
 function EventDetails() {
@@ -30,6 +32,8 @@ function EventDetails() {
       subName: "",
       fee: 0,
       date: "",
+      is_completed:false,
+      participants:[{userId:"",confirmed:""}],
     },
   ]);
   useEffect(() => {
@@ -60,7 +64,7 @@ function EventDetails() {
           return <EventCard key={i} event={event} />;
         })}
       </div>
-      <Toaster/>
+      {/* <Toaster/> */}
     </div>
   );
 }

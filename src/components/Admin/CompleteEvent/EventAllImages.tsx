@@ -39,22 +39,22 @@ function EventAllImages({
     }
   };
 
-  function saveImages() {
-    console.log("ethi");
-  }
+  // function saveImages() {
+  //   console.log("ethi");
+  // }
 
-  function clearImages() {
-    const fileInput = document.getElementById("fileInput") as HTMLInputElement;
-    const checkboxes = document.querySelectorAll<HTMLInputElement>(
-      "input[type='checkbox"
-    );
-    checkboxes.forEach((checkbox) => {
-      checkbox.checked = false;
-    });
-    setImage([]);
-    setSelectedValues([]);
-    fileInput.value = "";
-  }
+  // function clearImages() {
+  //   const fileInput = document.getElementById("fileInput") as HTMLInputElement;
+  //   const checkboxes = document.querySelectorAll<HTMLInputElement>(
+  //     "input[type='checkbox"
+  //   );
+  //   checkboxes.forEach((checkbox) => {
+  //     checkbox.checked = false;
+  //   });
+  //   setImage([]);
+  //   setSelectedValues([]);
+  //   fileInput.value = "";
+  // }
 
   function deleteImage() {
     if (images.length > 0) {

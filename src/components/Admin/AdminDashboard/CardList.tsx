@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
 import { showErrorToast } from "../../ToastMessage/Toast";
 import { useNavigate } from "react-router-dom";
@@ -26,10 +26,7 @@ interface Obj {
   count?: number;
   size: number;
 }
-interface Value {
-  user: number;
-  prime: number;
-}
+
 
 
 function CardList() {

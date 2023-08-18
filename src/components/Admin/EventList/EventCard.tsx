@@ -1,11 +1,9 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
 import Swal from "sweetalert2";
 import { deleteImage } from "../../../Store/Firebase/Firebase";
 import changeLogo from "/icons/changeLogo.png";
-import { response } from "express";
 import { showErrorToast, showSuccessToast } from "../../ToastMessage/Toast";
 import { Toaster } from "react-hot-toast";
 interface Props {

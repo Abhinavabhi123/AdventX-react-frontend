@@ -1,5 +1,4 @@
-import axios from "axios";
-import React, { useState, useEffect, ChangeEvent, useRef } from "react";
+import { useState, useEffect, ChangeEvent, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
 import { showErrorToast } from "../../ToastMessage/Toast";
@@ -26,7 +25,7 @@ function EditEvent() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [image, setImage] = useState<File | undefined>();
-  const [imageUrl, setImageUrl] = useState<string>("");
+  // const [imageUrl, setImageUrl] = useState<string>("");
   const [preview, setPreview] = useState<string>("");
   const [imgOpen, setImgOpen] = useState<boolean>(false);
   const [data, setData] = useState<DataState | undefined>();
@@ -91,7 +90,7 @@ function EditEvent() {
         return;
       }
       setImage(file);
-      setImageUrl(URL.createObjectURL(file));
+      // setImageUrl(URL.createObjectURL(file));
       setImage(file);
       setPreview(URL.createObjectURL(file));
       setImgOpen(true);

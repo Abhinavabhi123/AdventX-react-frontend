@@ -1,4 +1,3 @@
-import React from "react";
 import { useParams } from "react-router-dom";
 import SideBar from "../../components/Admin/AdminSideBar/SideBar";
 import TopBar from "../../components/Admin/AdminTopBar/TopBar";

@@ -165,7 +165,7 @@ function CreateCommunity() {
           },
           withCredentials: true,
         }
-      ).then((response) => {
+      ).then(() => {
         navigate("/admin/community");
       });
     } catch (error) {

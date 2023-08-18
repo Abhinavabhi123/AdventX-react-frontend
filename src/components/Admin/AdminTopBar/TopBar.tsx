@@ -1,4 +1,3 @@
-import React from "react";
 import "./TopBar.css";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";

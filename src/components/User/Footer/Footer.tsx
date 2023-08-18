@@ -10,12 +10,12 @@ function Footer() {
   const navigate = useNavigate();
   return (
     <div className="">
-      <main className="grid h-[30rem] place-items-center bg-[#E3E3E3] ">
+      <main className="grid h-[20rem] place-items-center bg-[#E3E3E3] ">
         <div className="w-[80%] h-[80%] ">
           <div className="w-full h-[10%] bg-transparent flex items-center justify-start ps-4">
             <img src={logo} alt="logo" className="w-24" />
           </div>
-          <div className="w-full h-[30%] bg-transparent flex">
+          <div className="w-full h-[40%] bg-transparent flex">
             <div className="w-56 h-full ms-4">
               <ul className=" ps-3 mt-8">
                 <li className="font-semibold mb-2">Explore</li>
@@ -51,7 +51,7 @@ function Footer() {
               </ul>
             </div>
           </div>
-          <div className="w-full h-[20%] bg-transparent flex justify-end">
+          <div className="w-full h-[30%] bg-transparent flex justify-end">
             <div className="w-64 h-18 bg-transparent">
               <div className="w-full h-[30%] flex justify-center">
                 <p className="font-semibold">Contact with us</p>
@@ -102,7 +102,7 @@ function Footer() {
             </div>
           </div>
           <div className="w-full h-[1px] bg-black"></div>
-          <div className="w-full h-[40%] "></div>
+          {/* <div className="w-full h-[40%] "></div> */}
         </div>
       </main>
     </div>

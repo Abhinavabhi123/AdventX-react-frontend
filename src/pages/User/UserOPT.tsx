@@ -1,4 +1,3 @@
-import React from "react";
 import OTP from "../../components/User/OTP/OTP";
 import NavBar from "../../components/User/NavBar/Navbar";
 

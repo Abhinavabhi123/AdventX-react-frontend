@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent } from "react";
 import "./Banner.css";
 import { useNavigate } from "react-router-dom";
 import AdminAxios from "../../../Store/Axios/AdminConfig";

@@ -1,8 +1,7 @@
-import React, { useState, useContext, useEffect } from "react";
+import  { useState, useContext, useEffect } from "react";
 import "./ProfileDetails.css";
 import Details from "./Details";
 import UserIdContext from "../../../Store/Context/UserContext";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import EditProfile from "../EditProfile/EditProfile";
 import { useSelector } from "react-redux";
