@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
 import { showErrorToast } from "../../ToastMessage/Toast";
+import { useNavigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import users from "/icons/users.png";
 import prime from "/icons/crown.png";
@@ -32,6 +33,7 @@ interface Value {
 
 
 function CardList() {
+  const navigate = useNavigate()
   const [data, setData] = useState<Data>({
     userData: 0,
     primeMembers: 0,
@@ -79,7 +81,12 @@ function CardList() {
           }
         })
         .catch((error) => {
-          showErrorToast(error?.response?.data?.error);
+          console.error(error);
+          if(error?.response?.data?.status!==500){
+            showErrorToast("something wrong")
+          }else{
+            navigate("/admin/error500")
+          }
         });
     })();
   }, []);

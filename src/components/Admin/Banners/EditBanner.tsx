@@ -2,6 +2,8 @@ import React, { useState, ChangeEvent, useEffect, useRef } from "react";
 import "./Banner.css";
 import { useNavigate, useParams } from "react-router-dom";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
+import { showErrorToast } from "../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
 
 
 
@@ -34,6 +36,11 @@ function EditBanner() {
         })
         .catch((error) => {
           console.error(error);
+          if(error?.response?.data?.status!==500){
+            showErrorToast("something wrong")
+          }else{
+            navigate("/admin/error500")
+          }
         });
     })();
   }, []);
@@ -170,6 +177,11 @@ function EditBanner() {
         })
         .catch((error) => {
           console.error(error);
+          if(error?.response?.data?.status!==500){
+            showErrorToast("something wrong")
+          }else{
+            navigate("/admin/error500")
+          }
         });
     } catch (error) {
       console.error(error);
@@ -227,20 +239,6 @@ function EditBanner() {
           </div>
         </div>
         <div className="w-[50%] h-full bg-transparent flex flex-col justify-center items-center">
-          {/* image div */}
-          {/* <div
-            id="form-file-upload"
-            onDragOver={handleOndragOver}
-            onDrop={handleOnDrop}
-          >
-            <input type="file" id="input-file-upload" multiple={false} />
-            <label id="label-file-upload" htmlFor="input-file-upload">
-              <div>
-                <p>Drag and drop your file here or click here </p>
-                
-              </div>
-            </label>
-          </div> */}
           <div className="w-[18rem] flex flex-col h-14  m-0 justify-center ">
             <p className="text-xs ml-5">
               Banner Image
@@ -289,6 +287,7 @@ function EditBanner() {
           </button>
         </div>
       </div>
+      <Toaster/>
     </div>
   );
 }

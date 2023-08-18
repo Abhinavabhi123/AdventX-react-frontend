@@ -1,15 +1,26 @@
 import React, { useEffect, useState } from "react";
 import EventCard from "./EventCard";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
+import { showErrorToast } from "../../ToastMessage/Toast";
+import { useNavigate } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 function EventList() {
+  const navigate =useNavigate()
   const [events, setEvents] = useState<string[]>([]);
   const [deleted, setDeleted] = useState<boolean>(false);
   useEffect(() => {
     (async () => {
       await AdminAxios.get(`getAllEvent`).then((response) => {
         setEvents(response.data.eventData);
-      });
+      }).catch((error)=>{
+        console.error(error);
+        if(error?.response?.data?.status!==500){
+          showErrorToast("something wrong")
+        }else{
+          navigate("/admin/error500")
+        }
+      })
     })();
   }, [deleted]);
 
@@ -32,6 +43,7 @@ function EventList() {
           })}
         </div>
       </div>
+      <Toaster/>
     </div>
   );
 }

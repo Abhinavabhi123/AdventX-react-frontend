@@ -3,6 +3,8 @@ import UserAxios from "../../../Store/Axios/UserConfig";
 import { useSelector } from "react-redux";
 import EventCard from "./EventCard";
 import { useNavigate } from "react-router-dom";
+import { showErrorToast } from "../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
 
 interface Data {
   _id: string;
@@ -41,7 +43,11 @@ function EventDetails() {
           })
           .catch((error)=>{
             console.error(error);
-            navigate("/error500")
+            if(error?.response?.data?.status!==500){
+              showErrorToast("something wrong")
+            }else{
+              navigate("/error500")
+            }
           })
       })();
     }
@@ -54,6 +60,7 @@ function EventDetails() {
           return <EventCard key={i} event={event} />;
         })}
       </div>
+      <Toaster/>
     </div>
   );
 }

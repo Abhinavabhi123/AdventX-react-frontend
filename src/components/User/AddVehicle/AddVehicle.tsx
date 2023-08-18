@@ -189,10 +189,10 @@ function AddVehicle() {
           }
         })
         .catch((error) => {
+          console.error(error);
           if (error?.response?.data?.status !== 500) {
             showErrorToast(error?.response?.data?.error)
           } else {
-            console.error(error);
             navigate("/error500");
           }
         });

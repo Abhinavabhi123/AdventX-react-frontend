@@ -4,6 +4,7 @@ import UserAxios from "../../../Store/Axios/UserConfig";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { showErrorToast } from "../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
 
 
 function EventPaymentSuccess() {
@@ -25,7 +26,12 @@ function EventPaymentSuccess() {
                 },2000)
             }
         }).catch((error)=>{
-            showErrorToast(error?.response?.data?.error)
+          console.error(error);
+          if(error?.response?.data?.status!==500){
+            showErrorToast("something wrong")
+          }else{
+            navigate("/error500")
+          }
         })
       })();
     }
@@ -46,6 +52,7 @@ function EventPaymentSuccess() {
           />
         </div>
       </div>
+      <Toaster/>
     </div>
   );
 }

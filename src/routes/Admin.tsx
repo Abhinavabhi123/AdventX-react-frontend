@@ -17,6 +17,7 @@ import EditBanner from "../pages/Admin/EditBanner";
 import Accounts from "../pages/Admin/Accounts";
 import CompleteEvent from "../pages/Admin/CompleteEvent";
 import Error404 from "../components/Error/Error404";
+import Error500 from "../components/Error/Error500";
 
 
 interface Admin {
@@ -44,6 +45,7 @@ function Admin() {
           <Route path="/completeEvent/:id" element={<CompleteEvent/>} />
           <Route  path="/accounts" element={<Accounts/>}/>
           <Route path="/*" element={<Error404 data={"/admin/dashboard"}/>}/>
+          <Route path="/error500"  element={<Error500 />}/>
         </Routes>
       </Authentication>
     </div>

@@ -27,9 +27,11 @@ function Login() {
           }
         })
         .catch((error) => {
-          if (error?.response?.data?.status !== 200) {
-            showErrorToast(error?.response?.data?.error);
-            return;
+          console.error(error);
+          if(error?.response?.data?.status!==500){
+            showErrorToast("something wrong")
+          }else{
+            navigate("/admin/error500")
           }
         });
     } catch (error) {

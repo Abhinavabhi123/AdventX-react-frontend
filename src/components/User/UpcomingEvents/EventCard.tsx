@@ -40,6 +40,7 @@ function EventCard({ value }: Props) {
         .then((response) => {
           setData(response?.data?.data);
         }).catch((error)=>{
+          console.error(error);
           if(error?.response?.data?.status!==500){
             showErrorToast("something wrong")
           }else{

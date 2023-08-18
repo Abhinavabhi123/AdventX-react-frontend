@@ -56,6 +56,11 @@ function AdminCompleteEvent({ id }: Params) {
           })
           .catch((error) => {
             console.error(error);
+            if(error?.response?.data?.status!==500){
+              showErrorToast("something wrong")
+            }else{
+              navigate("/admin/error500")
+            }
           });
       })();
     }
@@ -179,7 +184,12 @@ function AdminCompleteEvent({ id }: Params) {
           }
         })
         .catch((error) => {
-          showErrorToast(error?.response?.data?.error);
+          console.error(error);
+          if(error?.response?.data?.status!==500){
+            showErrorToast("something wrong")
+          }else{
+            navigate("/admin/error500")
+          }
         });
     } catch (error) {
       console.error(error);
@@ -231,7 +241,12 @@ function AdminCompleteEvent({ id }: Params) {
           setChange(!change);
         }
       }).catch((error)=>{
-        showErrorToast(error?.response?.data?.error)
+        console.error(error);
+        if(error?.response?.data?.status!==500){
+          showErrorToast("something wrong")
+        }else{
+          navigate("/admin/error500")
+        }
       })
     } catch (error) {
       console.error(error);

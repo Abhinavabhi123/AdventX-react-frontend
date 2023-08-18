@@ -14,9 +14,9 @@ interface TopBarProps {
     | "Create Event"
     | "Edit Event"
     | "Banners"
-    |"Add Banner"
-    |"Complete Event"
-    |"Accounts"
+    | "Add Banner"
+    | "Complete Event"
+    | "Accounts"
 }
 
 function TopBar(props: TopBarProps) {

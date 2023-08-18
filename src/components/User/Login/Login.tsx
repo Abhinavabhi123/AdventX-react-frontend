@@ -50,6 +50,7 @@ function Login() {
           }
          
         }).catch((error)=>{
+          console.error(error);
           if(error?.response?.data?.status!==500){
             toast.error(error?.response?.data?.error)
             return

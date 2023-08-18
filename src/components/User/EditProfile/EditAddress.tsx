@@ -151,6 +151,7 @@ function EditAddress() {
                 showSuccessToast(response?.data?.message)
               }
             }).catch((error)=>{
+              console.error(error);
               if(error?.response?.data?.status===500){
                 navigate("/error500")
               }else{

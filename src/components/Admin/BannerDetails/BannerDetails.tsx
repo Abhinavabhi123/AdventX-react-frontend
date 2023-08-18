@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { showErrorToast } from "../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
 
 function BannerDetails() {
   const navigate = useNavigate();
@@ -21,7 +23,14 @@ function BannerDetails() {
         if (response?.data?.status === 200) {
           setBannerData(response?.data?.bannerData);
         }
-      });
+      }).catch((error)=>{
+        console.error(error);
+        if(error?.response?.data?.status!==500){
+          showErrorToast("something wrong")
+        }else{
+          navigate("/admin/error500")
+        }
+      })
     })();
   }, [deleted]);
 
@@ -122,6 +131,7 @@ function BannerDetails() {
           })}
         </tbody>
       </table>
+      <Toaster/>
     </div>
   );
 }

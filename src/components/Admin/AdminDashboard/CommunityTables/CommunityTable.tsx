@@ -1,14 +1,25 @@
 import React, { useState, useEffect } from "react";
 import AdminAxios from "../../../../Store/Axios/AdminConfig";
 import TableRow from "./TableRow";
+import { showErrorToast } from "../../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 function CommunityTable() {
+  const navigate = useNavigate()
   const [data, setData] = useState([]);
   useEffect(() => {
     (async () => {
       await AdminAxios.get(`communities`).then((response) => {
         setData(response.data.community);
-      });
+      }).catch((error)=>{
+        console.error(error);
+        if(error?.response?.data?.status!==500){
+          showErrorToast("something wrong")
+        }else{
+          navigate("/admin/error500")
+        }
+      })
     })();
   }, []);
 
@@ -33,6 +44,7 @@ function CommunityTable() {
           </tbody>
         </table>
       </div>
+      <Toaster/>
     </div>
   );
 }

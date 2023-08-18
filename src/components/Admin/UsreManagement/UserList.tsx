@@ -1,15 +1,25 @@
 import React, { useEffect, useState } from "react";
 import TableRow from "./TableRow";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
+import { showErrorToast } from "../../ToastMessage/Toast";
+import { useNavigate } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 function UserList() {
   const [users, setUsers] = useState([]);
-
+  const navigate = useNavigate()
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
       await AdminAxios.get(`getAllUser`).then((response) => {
         setUsers(response.data);
-      });
+      }).catch((error)=>{
+        console.error(error);
+        if(error?.response?.data?.status!==500){
+          showErrorToast("something wrong")
+        }else{
+          navigate("/admin/error500")
+        }
+      })
     };
     fetchData();
   }, []);
@@ -33,6 +43,7 @@ function UserList() {
           })}
         </tbody>
       </table>
+      <Toaster/>
     </div>
   );
 }

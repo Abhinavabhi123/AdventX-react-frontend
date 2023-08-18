@@ -22,6 +22,7 @@ function VehicleList() {
           setVehicles(response?.data?.vehicleData);
         }
       }).catch((error)=>{
+        console.error(error);
         if(error?.response?.data?.status!==500){
           showErrorToast("Error while getting the vehicles")
         }else{

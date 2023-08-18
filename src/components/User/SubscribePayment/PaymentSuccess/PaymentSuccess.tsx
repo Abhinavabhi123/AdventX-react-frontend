@@ -5,6 +5,8 @@ import Cookies from "js-cookie";
 
 import NavBar from "../../NavBar/Navbar";
 import UserAxios from "../../../../Store/Axios/UserConfig";
+import { showErrorToast } from "../../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
 
 function PaymentSuccess() {
   const navigate = useNavigate();
@@ -26,7 +28,14 @@ function PaymentSuccess() {
               }, 4000);
             }
           }
-        );
+        ).catch((error)=>{
+          console.error(error);
+          if(error?.response?.data?.status!==500){
+            showErrorToast("something wrong")
+          }else{
+            navigate("/error500")
+          }
+        })
       })();
     }
   }, [_id, userId]);
@@ -46,6 +55,7 @@ function PaymentSuccess() {
           </div>
         </div>
       </div>
+      <Toaster/>
     </div>
   );
 }

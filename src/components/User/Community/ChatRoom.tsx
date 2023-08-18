@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "./roomChat.css";
 import { showErrorToast } from "../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
 
 interface Props {
   commId: string | number;
@@ -68,10 +69,10 @@ function ChatRoom({ commId, change }: Props) {
           }
         })
         .catch((error) => {
+          console.error(error);
           if (error?.response?.data?.status !== 500) {
             showErrorToast(error?.response?.data?.error);
           } else {
-            console.error(error);
             navigate("/error500");
           }
         });
@@ -83,11 +84,11 @@ function ChatRoom({ commId, change }: Props) {
           }
         })
         .catch((err) => {
+          console.error(err);
           if(err?.response?.data?.status!==500){
             showErrorToast(err?.response?.data?.error)
           }else{
             navigate("/error500")
-            console.error(err);
           }
         });
     })();
@@ -135,8 +136,13 @@ function ChatRoom({ commId, change }: Props) {
             scrollToLastMessage();
           }
         })
-        .catch((err) => {
-          console.error(err);
+        .catch((error) => {
+          console.error(error);
+          if(error?.response?.data?.status!==500){
+            showErrorToast("something wrong")
+          }else{
+            navigate("/error500")
+          }
         });
     }
   };
@@ -271,6 +277,7 @@ function ChatRoom({ commId, change }: Props) {
               );
             })}
           </div>
+          <Toaster/>
         </div>
       )}
     </div>

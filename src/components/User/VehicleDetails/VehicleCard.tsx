@@ -19,6 +19,7 @@ const navigate = useNavigate()
         changed?setChanged(false):setChanged(true)
       }
     }).catch((error)=>{
+      console.error(error);
       if(error?.response?.data.status!==500){
         showErrorToast("Something error in the delete vehicle")
       }else{

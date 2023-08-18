@@ -34,6 +34,7 @@ function NavBar() {
             setUserImage(response?.data?.userData?.image);
           }
         }).catch((error)=>{
+          console.error(error);
           if(error?.response?.data?.status!==500){
             showErrorToast("Profile is not available")
           }else{

@@ -3,15 +3,17 @@ import "./ProfileDetails.css";
 import Details from "./Details";
 import UserIdContext from "../../../Store/Context/UserContext";
 import axios from "axios";
-// import { UserApi } from "../../../Store/api";
+import { useNavigate } from "react-router-dom";
 import EditProfile from "../EditProfile/EditProfile";
 import { useSelector } from "react-redux";
 import UserAxios from "../../../Store/Axios/UserConfig";
 import VehicleList from "../VehicleDetails/VehicleList";
 import License from "../LicenseDetails/License";
 import EventDetails from "../EventDetails/EventDetails";
+import { showErrorToast } from "../../ToastMessage/Toast";
 
 function ProfileDetails() {
+  const navigate =useNavigate()
   const userId = useContext(UserIdContext);
   const prime = useSelector((state: any) => state.user.is_prime);
   const [data, setData] = useState({});
@@ -24,7 +26,14 @@ function ProfileDetails() {
             if (response?.data?.status === 200) {
               setData(response?.data?.userData);
             }
-          });
+          }).catch((error)=>{
+            console.error(error);
+            if(error?.response?.data?.status!==500){
+              showErrorToast("something wrong")
+            }else{
+              navigate("/error500")
+            }
+          })
       }
     })();
   }, [userId]);

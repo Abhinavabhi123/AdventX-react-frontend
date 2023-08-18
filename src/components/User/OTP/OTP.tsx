@@ -52,7 +52,14 @@ function OTP() {
             if (response.data?.status === 200 && response.data?.message) {
               navigate("/userLogin");
             }
-          });
+          }).catch((error)=>{
+            console.error(error);
+            if(error?.response?.data?.status!==500){
+              showErrorToast("something wrong")
+            }else{
+              navigate("/error500")
+            }
+          })
       }else{
         showErrorToast("OTP must containing 6 digit")
         return
@@ -68,8 +75,11 @@ function OTP() {
         await axios.post(`${import.meta.env.VITE_USER_API}sendOpt`, { email }).then((response) => {
             console.log(response);
         }).catch((error)=>{
-          if(error?.response?.data?.status!==200){
-            showErrorToast(error?.response?.data?.error)
+          console.error(error);
+          if(error?.response?.data?.status!==500){
+            showErrorToast("something wrong")
+          }else{
+            navigate("/error500")
           }
         })
     } catch (error) {

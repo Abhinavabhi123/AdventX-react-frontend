@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
+import { showErrorToast } from "../../ToastMessage/Toast";
+import { useNavigate } from "react-router-dom";
 
 interface TableRowProps {
   value: any;
@@ -13,6 +15,7 @@ interface User {
 }
 
 const TableRow: React.FC<TableRowProps> = ({ value }) => {
+  const navigate = useNavigate()
   const { _id } = value;
   const [user, setUser] = useState<User>({
     firstName: "",
@@ -30,7 +33,14 @@ const TableRow: React.FC<TableRowProps> = ({ value }) => {
         params: { id },
       }).then((response) => {
         setUser(response.data);
-      });
+      }).catch((error)=>{
+        console.error(error);
+        if(error?.response?.data?.status!==500){
+          showErrorToast("something wrong")
+        }else{
+          navigate("/admin/error500")
+        }
+      })
     };
     fetchSingleUser();
   }, []);

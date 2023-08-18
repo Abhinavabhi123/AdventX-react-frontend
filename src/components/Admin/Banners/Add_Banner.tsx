@@ -2,6 +2,8 @@ import React, { useState, ChangeEvent } from "react";
 import "./Banner.css";
 import { useNavigate } from "react-router-dom";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
+import { showErrorToast } from "../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
 
 function Add_Banner() {
     const navigate = useNavigate()
@@ -123,10 +125,16 @@ function Add_Banner() {
     ).then((response) => {
       if (response?.data.status === 200) {
         navigate("/admin/bannerManagement")
-      } else {
-        console.error("error");
+      } 
+      
+    }).catch((error)=>{
+      console.error(error);
+      if(error?.response?.data?.status!==500){
+        showErrorToast("something wrong")
+      }else{
+        navigate("/admin/error500")
       }
-    });
+    })
   };
 
   return (
@@ -164,20 +172,6 @@ function Add_Banner() {
           </div>
         </div>
         <div className="w-[50%] h-full bg-transparent flex flex-col justify-center items-center">
-          {/* image div */}
-          {/* <div
-            id="form-file-upload"
-            onDragOver={handleOndragOver}
-            onDrop={handleOnDrop}
-          >
-            <input type="file" id="input-file-upload" multiple={false} />
-            <label id="label-file-upload" htmlFor="input-file-upload">
-              <div>
-                <p>Drag and drop your file here or click here </p>
-                
-              </div>
-            </label>
-          </div> */}
           <div className="w-[18rem] flex flex-col h-14  m-0 justify-center ">
             <p className="text-xs ml-5">
               Banner Image
@@ -216,6 +210,7 @@ function Add_Banner() {
           </button>
         </div>
       </div>
+      <Toaster/>
     </div>
   );
 }

@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import UserIdContext from "../../../Store/Context/UserContext";
-// import { UserApi, userImgApi } from "../../../Store/api";
 import ProfileDetails from "../ProfileDetails/ProfileDetails";
 import { userActions } from "../../../Store/redux/UserAuth";
 import UserAxios from "../../../Store/Axios/UserConfig";
@@ -43,7 +42,14 @@ function Profile() {
           if (response?.data?.status === 200) {
             setUserData(response?.data?.userData);
           }
-        });
+        }).catch((error)=>{
+          console.error(error);
+          if(error?.response?.data?.status!==500){
+            showErrorToast("something wrong")
+          }else{
+            navigate("/error500")
+          }
+        })
       }
     })();
   }, [id, imgChange]);
@@ -99,6 +105,7 @@ function Profile() {
             setImgOpen(false);
           }
         }).catch((error)=>{
+          console.error(error);
           if(error?.response?.data?.status!==500){
             showErrorToast("Something wrong")
           }else{

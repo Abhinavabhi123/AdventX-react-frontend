@@ -58,6 +58,11 @@ function EditEvent() {
         })
         .catch((error) => {
           console.error(error);
+          if(error?.response?.data?.status!==500){
+            showErrorToast("something wrong")
+          }else{
+            navigate("/admin/error500")
+          }
         });
     })();
   }, []);
@@ -288,7 +293,14 @@ function EditEvent() {
                   ).then(() => {
                     toast.dismiss();
                     navigate("/admin/eventManagement");
-                  });
+                  }).catch((error)=>{
+                    console.error(error);
+                    if(error?.response?.data?.status!==500){
+                      showErrorToast("something wrong")
+                    }else{
+                      navigate("/admin/error500")
+                    }
+                  })
                 }
               });
             }, 1500);

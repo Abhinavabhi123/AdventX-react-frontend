@@ -4,6 +4,8 @@ import {  useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 
 import AdminAxios from "../../../Store/Axios/AdminConfig";
+import { showErrorToast } from "../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
 interface Values {
   value: any;
   i: number;
@@ -60,6 +62,13 @@ const CommunityRow = (props: Values) => {
                 deleted ?setDeleted(false):setDeleted(true)
               })
             }
+          }).catch((error)=>{
+            console.error(error);
+            if(error?.response?.data?.status!==500){
+              showErrorToast("something wrong")
+            }else{
+              navigate("/admin/error500")
+            }
           })
         } else if (result.isDismissed && result.dismiss === Swal.DismissReason.cancel) {
           Swal.fire('Cancelled', 'Your file is safe :)', 'error');
@@ -111,7 +120,7 @@ const CommunityRow = (props: Values) => {
             </button>
           </td>
         </tr>
-      
+      <Toaster/>
     </>
   );
 };

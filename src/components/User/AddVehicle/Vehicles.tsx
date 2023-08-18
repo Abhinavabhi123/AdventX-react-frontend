@@ -4,6 +4,7 @@ import UserAxios from "../../../Store/Axios/UserConfig";
 import VehicleCard from "./VehicleCard";
 import { useNavigate } from "react-router-dom";
 import { showErrorToast } from "../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
 
 interface Vehicle {
   _id: string;
@@ -41,10 +42,10 @@ function Vehicles() {
             }
           })
           .catch((error) => {
+            console.error(error);
             if (error?.response?.data?.status !== 500) {
               showErrorToast(error?.response?.data?.error);
             } else {
-              console.error(error);
               navigate("/error500");
             }
           });
@@ -70,6 +71,7 @@ function Vehicles() {
           })}
         </div>
       </div>
+      <Toaster/>
     </div>
   );
 }

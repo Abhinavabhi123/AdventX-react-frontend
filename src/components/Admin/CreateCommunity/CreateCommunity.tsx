@@ -2,6 +2,8 @@ import "./CreateCommunity.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState, ChangeEvent } from "react";
 import AdminAxios from "../../../Store/Axios/AdminConfig";
+import { showErrorToast } from "../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
 // import UsersRow from "./UsersRow";
 
 type User = {
@@ -27,17 +29,13 @@ function CreateCommunity() {
   const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
     const selectedValue = event.target.value;
 
-    // Check if the checkbox is checked
     if (event.target.checked) {
-      // Create a new object with the selected value and assign a unique ID to it
       const newItem = {
         _id: selectedValue,
       };
 
-      // Update the state variable by adding the new object to the existing array
       setCMembers((prevMembers) => [...prevMembers, newItem]);
     } else {
-      // Update the state variable by filtering out the unchecked item
       setCMembers((prevMembers) =>
         prevMembers.filter((member) => member._id !== selectedValue)
       );
@@ -85,7 +83,14 @@ function CreateCommunity() {
       const fetchData = async () => {
         await AdminAxios.get(`getCommunityUsers`).then((response) => {
           setUser(response.data);
-        });
+        }).catch((error)=>{
+          console.error(error);
+          if(error?.response?.data?.status!==500){
+            showErrorToast("something wrong")
+          }else{
+            navigate("/admin/error500")
+          }
+        })
       };
       fetchData();
     } catch (error) {
@@ -146,24 +151,23 @@ function CreateCommunity() {
         }, 1500);
         return;
       }
-      await AdminAxios.post(`createCommunity`,
-          {
-            image,
-            cName,
-            cMembers,
-            status,
+      await AdminAxios.post(
+        `createCommunity`,
+        {
+          image,
+          cName,
+          cMembers,
+          status,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
           },
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-            withCredentials: true,
-          }
-        )
-        .then((response) => {
-          navigate("/admin/community");
-        });
-      
+          withCredentials: true,
+        }
+      ).then((response) => {
+        navigate("/admin/community");
+      });
     } catch (error) {
       console.error(error);
     }
@@ -234,7 +238,7 @@ function CreateCommunity() {
                       className="w-[15rem] ml-5  text-xs h-6 pl-3 rounded-md"
                       onChange={(e) => setStatus(e.target.value)}
                     >
-                     <option> select</option>
+                      <option> select</option>
                       <option value="Active" className="">
                         Active
                       </option>
@@ -305,6 +309,7 @@ function CreateCommunity() {
           </div>
         </div>
       </div>
+      <Toaster/>
     </div>
   );
 }

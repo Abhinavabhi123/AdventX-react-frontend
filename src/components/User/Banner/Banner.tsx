@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { showErrorToast } from "../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
 interface Banner {
   _id: string;
   image: string;
@@ -34,10 +35,10 @@ function Banner() {
           }
         })
         .catch((error) => {
+            console.error(error);
           if (error?.response?.data?.status !== 500) {
             showErrorToast(error?.response?.data?.error);
           } else {
-            console.error(error);
             navigate("/error500");
           }
         });
@@ -63,6 +64,7 @@ function Banner() {
           </p>
         </div>
       </div>
+      <Toaster/>
     </div>
   );
 }

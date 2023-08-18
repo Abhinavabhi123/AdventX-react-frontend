@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import AdminAxios from "../../../../Store/Axios/AdminConfig";
+import { showErrorToast } from "../../../ToastMessage/Toast";
+import { useNavigate } from "react-router-dom";
 
 interface Data {
   eventName: string;
@@ -8,6 +10,7 @@ interface Data {
 }
 
 function EventTable() {
+  const navigate = useNavigate()
   const [data, setData] = useState<Data[]>([
     {
       eventName: "",
@@ -24,7 +27,12 @@ function EventTable() {
           }
         })
         .catch((error) => {
-          console.log("error", error);
+          console.error(error);
+          if(error?.response?.data?.status!==500){
+            showErrorToast("something wrong")
+          }else{
+            navigate("/admin/error500")
+          }
         });
     })();
   }, []);

@@ -113,7 +113,6 @@ function EventAllImages({
                 <img
                   key={i}
                   className="w-96 h-32  absolute"
-                  //   transform transition-transform duration-200 hover:scale-110
                   src={item}
                   alt=""
                 />

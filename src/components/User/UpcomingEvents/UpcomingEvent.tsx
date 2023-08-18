@@ -19,6 +19,7 @@ function UpcomingEvent() {
         .then((response) => {
           setData(response?.data.eventData);
         }).catch((error)=>{
+          console.error(error);
           if(error?.response?.data?.status!==500){
             showErrorToast("something wrong in this page")
           }else{

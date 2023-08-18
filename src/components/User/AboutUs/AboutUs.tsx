@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { showErrorToast } from "../../ToastMessage/Toast";
+import { Toaster } from "react-hot-toast";
 interface Data{
     communityCount: number,
     eventCount:number,
@@ -25,7 +27,7 @@ function AboutUs() {
           }
         }).catch((error)=>{
           console.error(error);
-          navigate("/error500")
+          showErrorToast("Something went wrong!")
         })
 
     })();
@@ -77,6 +79,7 @@ function AboutUs() {
           </div>
         </div>
       </div>
+      <Toaster/>
     </div>
   );
 }

@@ -34,7 +34,11 @@ function EditPersonal() {
             setData(response?.data?.userData);
           }) .catch((error)=>{
             console.error(error);
-            navigate("/error500")
+            if(error?.response?.data?.status!==500){
+              showErrorToast("something wrong")
+            }else{
+              navigate("/error500")
+            }
           })
       })();
     }

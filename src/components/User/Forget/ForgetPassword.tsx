@@ -115,6 +115,7 @@ function ForgetPassword() {
             navigate("/userLogin")
           }
         }).catch((error)=>{
+          console.error(error);
           if(error?.response?.data?.status===500){
             navigate("/error500")
           }else{

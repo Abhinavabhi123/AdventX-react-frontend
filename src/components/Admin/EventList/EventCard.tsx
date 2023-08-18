@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import { deleteImage } from "../../../Store/Firebase/Firebase";
 import changeLogo from "/icons/changeLogo.png";
 import { response } from "express";
-import { showSuccessToast } from "../../ToastMessage/Toast";
+import { showErrorToast, showSuccessToast } from "../../ToastMessage/Toast";
 import { Toaster } from "react-hot-toast";
 interface Props {
   value: string;
@@ -58,6 +58,11 @@ function EventCard({ value, deleted, setDeleted }: Props) {
         })
         .catch((error) => {
           console.error(error);
+          if(error?.response?.data?.status!==500){
+            showErrorToast("something wrong")
+          }else{
+            navigate("/admin/error500")
+          }
         });
     })();
   }, [changed, value]);
@@ -107,6 +112,11 @@ function EventCard({ value, deleted, setDeleted }: Props) {
             })
             .catch((error) => {
               console.error(error);
+              if(error?.response?.data?.status!==500){
+                showErrorToast("something wrong")
+              }else{
+                navigate("/admin/error500")
+              }
             });
         } else if (
           result.isDismissed &&
@@ -142,8 +152,13 @@ function EventCard({ value, deleted, setDeleted }: Props) {
           setChanged(!changed);
         }
       })
-      .catch((err) => {
-        console.error("error", err);
+      .catch((error) => {
+        console.error(error);
+        if(error?.response?.data?.status!==500){
+          showErrorToast("something wrong")
+        }else{
+          navigate("/admin/error500")
+        }
       });
   };
 
