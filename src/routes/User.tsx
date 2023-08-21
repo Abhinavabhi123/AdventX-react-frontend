@@ -19,7 +19,7 @@ import About from "../pages/User/About";
 import PaymentCancel from "../components/User/SubscribePayment/PaymentCancel/PaymentCancel";
 import EventPaymentSuccess from "../components/User/EventPayment/EventPaymentSuccess";
 import EventPaymentCancel from "../components/User/EventPayment/EventPaymentCancel";
-// import Error404 from "../components/Error/Error404";
+import Error404 from "../components/Error/Error404";
 import Error500 from "../components/Error/Error500";
 
 function User() {
@@ -79,7 +79,7 @@ function User() {
           />
         </Routes>
       <Routes>
-            {/* <Route path="/*" element={<Error404 data={"/"}/>}/> */}
+            <Route path="/*" element={<Error404 data={"/"}/>}/>
             <Route path="/error500"  element={<Error500 />}/>
       </Routes>
       </Authentication>

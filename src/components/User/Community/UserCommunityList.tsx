@@ -125,7 +125,7 @@ function UserCommunityList() {
             })}
           </div>
         </div>
-      toa</div>
+      </div>
       <div className="w-[80%] h-[50rem] bg-white flex justify-center items-center">
         <div className="w-[98%] h-[98%] bg-transparent rounded-md flex justify-center items-center">
           {chatOpen ? (
